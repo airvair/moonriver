@@ -12,40 +12,24 @@ import {
 } from "@/components/ui/navigation-menu"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { AuroraText } from "@/components/ui/aurora-text"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export function SiteHeader() {
   const [visible, setVisible] = React.useState(true)
   const [prevScrollPos, setPrevScrollPos] = React.useState(0)
-  const [isAtTop, setIsAtTop] = React.useState(true)
-  const wasAtTopRef = React.useRef(true)
 
   React.useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY
       const visible = prevScrollPos > currentScrollPos || currentScrollPos < 10
-      const atTop = currentScrollPos < 10
 
       setPrevScrollPos(currentScrollPos)
       setVisible(visible)
-      setIsAtTop(atTop)
     }
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [prevScrollPos])
-
-  // Track when we transition from top to floating
-  React.useEffect(() => {
-    if (!isAtTop && wasAtTopRef.current) {
-      // Just left the top - disable transition temporarily
-      setTimeout(() => {
-        wasAtTopRef.current = false
-      }, 50) // Small delay to ensure positioning is complete
-    } else if (isAtTop) {
-      wasAtTopRef.current = true
-    }
-  }, [isAtTop])
 
   return (
     <>
@@ -60,45 +44,33 @@ export function SiteHeader() {
       `}</style>
       <div
         className={cn(
-          "z-50 transition-opacity duration-200",
-          isAtTop
-            ? "relative w-full"
-            : "fixed top-4 left-1/2 w-max",
-          !isAtTop && !visible ? "opacity-0 pointer-events-none" : "opacity-100"
+          "fixed top-4 left-1/2 z-50 w-max transition-all duration-300",
+          !visible ? "opacity-0 pointer-events-none" : "opacity-100"
         )}
         style={{
-          transform: !isAtTop
-            ? visible
-              ? "translateX(-50%)"
-              : "translateX(-50%) translateY(-100%)"
-            : undefined,
-          transition: !isAtTop
-            ? wasAtTopRef.current
-              ? "opacity 200ms" // Only opacity when leaving top
-              : "transform 300ms, opacity 300ms" // Full animation when floating
-            : undefined
+          transform: visible
+            ? "translateX(-50%)"
+            : "translateX(-50%) translateY(-100%)",
         }}
       >
-        <div className={cn(
-          "relative px-4 py-2 transition-all duration-300",
-          isAtTop
-            ? "bg-background border-b rounded-none"
-            : "rounded-3xl bg-background/80 backdrop-blur-md border shadow-lg"
-        )}>
-          <NavigationMenu className={isAtTop ? "mx-auto" : ""}>
+        <div className="relative px-4 py-2 rounded-3xl bg-background/80 backdrop-blur-md border shadow-lg">
+          <NavigationMenu viewport={false}>
               <NavigationMenuList className="items-center">
-                {/* Cafe name text with aurora effect - properly wrapped in NavigationMenuItem */}
+                {/* Cafe name text with red border - properly wrapped in NavigationMenuItem */}
                 <NavigationMenuItem className="mr-6">
                   <NavigationMenuLink asChild>
                     <Link href="/" className="flex items-center">
                       <div className="flex items-center" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
-                        <AuroraText
-                          className="text-xl font-normal whitespace-nowrap leading-none"
-                          colors={["#8B4513", "#D2691E", "#CD853F", "#DEB887"]}
-                          speed={5}
+                        <span
+                          className="text-xl font-normal whitespace-nowrap leading-none text-white"
+                          style={{
+                            WebkitTextStroke: '2px #B91C1C',
+                            textStroke: '2px #B91C1C',
+                            paintOrder: 'stroke fill'
+                          }}
                         >
-                          Moon River Café
-                        </AuroraText>
+                          Moon River
+                        </span>
                       </div>
                     </Link>
                   </NavigationMenuLink>
@@ -123,10 +95,10 @@ export function SiteHeader() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Coffee</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                  <ul className="grid gap-2 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
-                        <a
+                        <Link
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                           href="/coffee"
                         >
@@ -137,7 +109,7 @@ export function SiteHeader() {
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             Discover our curated collection.
                           </p>
-                        </a>
+                        </Link>
                       </NavigationMenuLink>
                     </li>
                     <ListItem href="/coffee/single-origin" title="Single Origin">
@@ -156,7 +128,7 @@ export function SiteHeader() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Lattes & Cold Brews</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid gap-3 p-4 md:w-[400px]">
+                  <ul className="grid gap-2 p-4 md:w-[400px]">
                     <ListItem href="/lattes" title="Signature Lattes">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     </ListItem>
@@ -173,7 +145,7 @@ export function SiteHeader() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Brew Guides</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid gap-3 p-4 md:w-[400px]">
+                  <ul className="grid gap-2 p-4 md:w-[400px]">
                     <ListItem href="/guides/pour-over" title="Pour Over">
                       Lorem ipsum dolor sit amet, consectetur adipiscing.
                     </ListItem>
@@ -202,6 +174,10 @@ export function SiteHeader() {
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <ModeToggle />
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
@@ -210,29 +186,22 @@ export function SiteHeader() {
   )
 }
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+function ListItem({
+  title,
+  children,
+  href,
+  ...props
+}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
   return (
-    <li>
+    <li {...props}>
       <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
+        <Link href={href} className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
           <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   )
-})
-ListItem.displayName = "ListItem"
-
+}

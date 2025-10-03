@@ -19,10 +19,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Additional white space sections for scrolling */}
-        <div className="min-h-screen bg-white"></div>
-        <div className="min-h-screen bg-white"></div>
-        <div className="min-h-screen bg-white"></div>
+        {/* Additional space sections for scrolling */}
+        <div className="min-h-screen bg-background"></div>
+        <div className="min-h-screen bg-background"></div>
+        <div className="min-h-screen bg-background"></div>
       </main>
     </>
   );
