@@ -54,10 +54,10 @@ export function SiteHeader() {
               {/* Cafe name text with aurora effect - properly wrapped in NavigationMenuItem */}
               <NavigationMenuItem className="mr-6">
                 <NavigationMenuLink asChild>
-                  <Link href="/" className="flex items-center h-full">
-                    <div style={{ fontFamily: 'TanNimbus, sans-serif' }}>
+                  <Link href="/" className="flex items-center">
+                    <div className="flex items-center" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
                       <AuroraText
-                        className="text-xl font-normal whitespace-nowrap"
+                        className="text-xl font-normal whitespace-nowrap leading-none"
                         colors={["#8B4513", "#D2691E", "#CD853F", "#DEB887"]}
                         speed={5}
                       >
