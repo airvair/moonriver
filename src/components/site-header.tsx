@@ -77,7 +77,7 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave" className={navigationMenuTriggerStyle()}>
+                  <Link href="/menu10-25.pdf" target="_blank" rel="noopener noreferrer" className={navigationMenuTriggerStyle()}>
                     Menu
                   </Link>
                 </NavigationMenuLink>
@@ -90,7 +90,7 @@ export function SiteHeader() {
                       <ListItem href="/guides/merchandise" title="Merchandise">
                           Shop our mugs and apparel—available online and in-store.
                       </ListItem>
-                      <ListItem href="/giftcard" title="Gift Cards">
+                      <ListItem href="https://www.toasttab.com/moon-river-cafe-728-e-new-haven-ave/giftcards" title="Gift Cards">
                           Give the gift of coffee with digital or physical cards for any occasion.
                       </ListItem>
                     </ul>
@@ -141,7 +141,7 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/order" className={navigationMenuTriggerStyle()}>
+                  <Link href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave" className={navigationMenuTriggerStyle()}>
                       Order Online
                   </Link>
                 </NavigationMenuLink>
