@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/navigation-menu"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { ModeToggle } from "@/components/mode-toggle"
 
 export function SiteHeader() {
   const [visible, setVisible] = React.useState(true)
@@ -64,12 +63,12 @@ export function SiteHeader() {
                         <span
                           className="text-xl font-normal whitespace-nowrap leading-none text-white"
                           style={{
-                            WebkitTextStroke: '2px #B91C1C',
-                            textStroke: '2px #B91C1C',
+                            WebkitTextStroke: '2px #926F34',
+                            textStroke: '2px #926F34',
                             paintOrder: 'stroke fill'
                           }}
                         >
-                          Moon River
+                          Moon River Café
                         </span>
                       </div>
                     </Link>
@@ -78,105 +77,74 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/subscribe" className={navigationMenuTriggerStyle()}>
-                    Subscribe
+                  <Link href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave" className={navigationMenuTriggerStyle()}>
+                    Menu
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/shop" className={navigationMenuTriggerStyle()}>
-                    Shop All
-                  </Link>
-                </NavigationMenuLink>
+                  <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-2 p-4 md:w-[400px]">
+                      <ListItem href="/guides/merchandise" title="Merchandise">
+                          Shop our mugs and apparel—available online and in-store.
+                      </ListItem>
+                      <ListItem href="/giftcard" title="Gift Cards">
+                          Give the gift of coffee with digital or physical cards for any occasion.
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Coffee</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-2 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <Link
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                          href="/coffee"
-                        >
-                          <div className="mb-2 mt-4 text-lg font-medium">
-                            Our Selection
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Discover our curated collection.
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/coffee/single-origin" title="Single Origin">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.
-                    </ListItem>
-                    <ListItem href="/coffee/blends" title="House Blends">
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-                    </ListItem>
-                    <ListItem href="/coffee/decaf" title="Decaf Options">
-                      Duis aute irure dolor in reprehenderit in voluptate velit.
-                    </ListItem>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Lattes & Cold Brews</NavigationMenuTrigger>
+                <NavigationMenuTrigger>Events</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-2 p-4 md:w-[400px]">
-                    <ListItem href="/lattes" title="Signature Lattes">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    <ListItem href="/calendar" title="Calendar">
+                        Browse all upcoming events.
                     </ListItem>
-                    <ListItem href="/cold-brew" title="Cold Brew Collection">
-                      Sed do eiusmod tempor incididunt ut labore et dolore magna.
+                    <ListItem href="/afternoon-tea" title="Afternoon Tea">
+                        Reserve a classic tiered tea service with fresh pastries and savories.
                     </ListItem>
-                    <ListItem href="/seasonal" title="Seasonal Specials">
-                      Ut enim ad minim veniam, quis nostrud exercitation.
+                    <ListItem href="/guides/private-events" title="Private Events">
+                        Plan a private gathering with us.
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Brew Guides</NavigationMenuTrigger>
+                <NavigationMenuLink asChild>
+                  <Link href="/blog" className={navigationMenuTriggerStyle()}>
+                    Blog
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>About</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-2 p-4 md:w-[400px]">
-                    <ListItem href="/guides/pour-over" title="Pour Over">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing.
-                    </ListItem>
-                    <ListItem href="/guides/french-press" title="French Press">
-                      Sed do eiusmod tempor incididunt ut labore.
-                    </ListItem>
-                    <ListItem href="/guides/espresso" title="Espresso">
-                      Duis aute irure dolor in reprehenderit.
-                    </ListItem>
+                  <ListItem href="/story" title="Our Story">
+                      Learn more about the cafe, its history, and its mission.
+                  </ListItem>
+                  <ListItem href="/guides/press" title="Press">
+                      Press inquiries and media inquiries.
+                  </ListItem>
+                  <ListItem href="/guides/contact" title="Contact">
+                      Contact us for more information.
+                  </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/cafes" className={navigationMenuTriggerStyle()}>
-                    Cafes
+                  <Link href="/order" className={navigationMenuTriggerStyle()}>
+                      Order Online
                   </Link>
                 </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/wholesale" className={navigationMenuTriggerStyle()}>
-                    Wholesale
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <ModeToggle />
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
