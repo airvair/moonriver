@@ -18,7 +18,7 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { RefreshCw, Search, BookOpen } from "lucide-react";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo } from "react";
 import type { BloggerPost, BloggerPostList, BloggerApiError } from "@/lib/types/blogger";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
@@ -41,7 +41,7 @@ export default function BlogPage() {
   const [selectedTag, setSelectedTag] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const fetchPosts = useCallback(async (page: number = 1) => {
+  const fetchPosts = async (page: number = 1) => {
     try {
       setLoading(true);
       setError(null);
@@ -87,11 +87,12 @@ export default function BlogPage() {
     } finally {
       setLoading(false);
     }
-  }, [pageTokens, currentPage]);
+  };
 
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -100,7 +101,8 @@ export default function BlogPage() {
       setPageTokens(new Map());
       fetchPosts(1);
     }
-  }, [selectedTag, searchQuery, currentPage, fetchPosts]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTag, searchQuery]);
 
   // Extract all unique tags from posts
   const allTags = useMemo(() => extractAllTags(posts), [posts]);

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, Clock, ArrowLeft, RefreshCw, Share2 } from "lucide-react";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { BloggerPost, BloggerApiError } from "@/lib/types/blogger";
 import {
@@ -33,36 +33,36 @@ export default function BlogPostPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPost = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await fetch(`/api/blog/${postId}`);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch blog post");
-      }
-
-      const data: BloggerPost | BloggerApiError = await response.json();
-
-      if ("error" in data) {
-        throw new Error(data.error);
-      }
-
-      setPost(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, [postId]);
-
   useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`/api/blog/${postId}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch blog post");
+        }
+
+        const data: BloggerPost | BloggerApiError = await response.json();
+
+        if ("error" in data) {
+          throw new Error(data.error);
+        }
+
+        setPost(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (postId) {
       fetchPost();
     }
-  }, [postId, fetchPost]);
+  }, [postId]);
 
   // Extract table of contents from post content
   const tocItems = useMemo<TOCItem[]>(() => {
