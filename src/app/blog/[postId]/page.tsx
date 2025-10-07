@@ -33,35 +33,36 @@ export default function BlogPostPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  const fetchPost = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const response = await fetch(`/api/blog/${postId}`);
+      const response = await fetch(`/api/blog/${postId}`);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch blog post");
-        }
-
-        const data: BloggerPost | BloggerApiError = await response.json();
-
-        if ("error" in data) {
-          throw new Error(data.error);
-        }
-
-        setPost(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to fetch blog post");
       }
-    };
 
+      const data: BloggerPost | BloggerApiError = await response.json();
+
+      if ("error" in data) {
+        throw new Error(data.error);
+      }
+
+      setPost(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (postId) {
       fetchPost();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
 
   // Extract table of contents from post content
