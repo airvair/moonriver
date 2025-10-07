@@ -16,7 +16,6 @@ import { useState, useEffect } from "react";
 
 // Array of available hero videos
 const heroVideos = [
-  '/images_videos/home/coffee.mp4',
   '/images_videos/home/coffee2.mp4',
   '/images_videos/home/coffee3.mp4',
   '/images_videos/home/coffee4.mp4',
