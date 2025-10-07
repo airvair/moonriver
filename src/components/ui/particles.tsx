@@ -99,6 +99,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1
   const rafID = useRef<number | null>(null)
   const resizeTimeout = useRef<NodeJS.Timeout | null>(null)
+  const scrollY = useRef<number>(0)
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -116,7 +117,12 @@ export const Particles: React.FC<ParticlesProps> = ({
       }, 200)
     }
 
+    const handleScroll = () => {
+      scrollY.current = window.scrollY
+    }
+
     window.addEventListener("resize", handleResize)
+    window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => {
       if (rafID.current != null) {
@@ -126,6 +132,7 @@ export const Particles: React.FC<ParticlesProps> = ({
         clearTimeout(resizeTimeout.current)
       }
       window.removeEventListener("resize", handleResize)
+      window.removeEventListener("scroll", handleScroll)
     }
   }, [color])
 
@@ -186,7 +193,8 @@ export const Particles: React.FC<ParticlesProps> = ({
     const targetAlpha = parseFloat((Math.random() * 0.6 + 0.1).toFixed(1))
     const dx = (Math.random() - 0.5) * 0.1
     const dy = (Math.random() - 0.5) * 0.1
-    const magnetism = 0.1 + Math.random() * 4
+    // Magnetism is proportional to particle size - smaller particles move less
+    const magnetism = 0.1 + (pSize - size) * 4
     return {
       x,
       y,
@@ -206,9 +214,18 @@ export const Particles: React.FC<ParticlesProps> = ({
   const drawCircle = (circle: Circle, update = false) => {
     if (context.current) {
       const { x, y, translateX, translateY, size, alpha } = circle
+
+      // Calculate parallax factor: smaller particles scroll more (0.2-1.0), larger particles scroll less (0.0-0.2)
+      // Particle sizes range from `size` to `size + 2`
+      const sizeRange = 2
+      const parallaxFactor = 1 - ((circle.size - size) / sizeRange) * 0.8
+
+      // Apply parallax offset to y position
+      const parallaxY = y - scrollY.current * parallaxFactor
+
       context.current.translate(translateX, translateY)
       context.current.beginPath()
-      context.current.arc(x, y, size, 0, 2 * Math.PI)
+      context.current.arc(x, parallaxY, size, 0, 2 * Math.PI)
       context.current.fillStyle = `rgba(${rgb.join(", ")}, ${alpha})`
       context.current.fill()
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0)
@@ -284,12 +301,10 @@ export const Particles: React.FC<ParticlesProps> = ({
 
       drawCircle(circle, true)
 
-      // circle gets out of the canvas
+      // circle gets out of the canvas (only check horizontal bounds for parallax effect)
       if (
         circle.x < -circle.size ||
-        circle.x > canvasSize.current.w + circle.size ||
-        circle.y < -circle.size ||
-        circle.y > canvasSize.current.h + circle.size
+        circle.x > canvasSize.current.w + circle.size
       ) {
         // remove the circle from the array
         circles.current.splice(i, 1)

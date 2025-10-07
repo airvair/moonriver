@@ -2,30 +2,64 @@
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { BlogCard } from "@/components/blog/blog-card";
+import { BlogCardSkeleton } from "@/components/blog/blog-card-skeleton";
+import { TagFilter } from "@/components/blog/tag-filter";
+import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, User, ArrowRight, RefreshCw } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "@/components/ui/pagination";
+import { RefreshCw, Search, BookOpen } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 import type { BloggerPost, BloggerPostList, BloggerApiError } from "@/lib/types/blogger";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
+import {
+  extractAllTags,
+  filterPostsByTag,
+  searchPosts,
+  sortPostsByDate,
+  getFeaturedPosts,
+} from "@/lib/blog-utils";
+
+const POSTS_PER_PAGE = 9; // 3x3 grid
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BloggerPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageTokens, setPageTokens] = useState<Map<number, string>>(new Map());
   const [nextPageToken, setNextPageToken] = useState<string | undefined>();
+  const [prevPageToken, setPrevPageToken] = useState<string | undefined>();
+  const [selectedTag, setSelectedTag] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const fetchPosts = async (pageToken?: string) => {
+  const fetchPosts = async (page: number = 1) => {
     try {
       setLoading(true);
       setError(null);
 
+      // Scroll to top of blog section when changing pages
+      if (page !== currentPage) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
       const url = new URL("/api/blog", window.location.origin);
-      if (pageToken) {
-        url.searchParams.set("pageToken", pageToken);
+      url.searchParams.set("maxResults", POSTS_PER_PAGE.toString());
+
+      // Get the token for the requested page
+      const token = pageTokens.get(page);
+      if (token) {
+        url.searchParams.set("pageToken", token);
       }
 
       const response = await fetch(url.toString());
@@ -40,8 +74,17 @@ export default function BlogPage() {
         throw new Error(data.error);
       }
 
-      setPosts(data.items || []);
+      const sortedPosts = sortPostsByDate(data.items || [], "desc");
+      setPosts(sortedPosts);
       setNextPageToken(data.nextPageToken);
+      setPrevPageToken(data.prevPageToken);
+
+      // Store the next page token for future navigation
+      if (data.nextPageToken) {
+        setPageTokens(prev => new Map(prev).set(page + 1, data.nextPageToken!));
+      }
+
+      setCurrentPage(page);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -53,27 +96,31 @@ export default function BlogPage() {
     fetchPosts();
   }, []);
 
-  // Helper to extract excerpt from HTML content
-  const getExcerpt = (html: string, maxLength = 200): string => {
-    const text = html.replace(/<[^>]*>/g, "");
-    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-  };
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+      setPageTokens(new Map());
+      fetchPosts(1);
+    }
+  }, [selectedTag, searchQuery]);
 
-  // Helper to format date
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-  };
+  // Extract all unique tags from posts
+  const allTags = useMemo(() => extractAllTags(posts), [posts]);
 
-  // Helper to extract first image from post content
-  const getFirstImage = (html: string): string | null => {
-    const imgMatch = html.match(/<img[^>]+src="([^">]+)"/);
-    return imgMatch ? imgMatch[1] : null;
-  };
+  // Filter and search posts
+  const filteredPosts = useMemo(() => {
+    let filtered = filterPostsByTag(posts, selectedTag);
+
+    if (searchQuery) {
+      filtered = searchPosts(filtered, searchQuery);
+    }
+
+    return filtered;
+  }, [posts, selectedTag, searchQuery]);
+
+  // Get featured posts
+  const featuredPosts = useMemo(() => getFeaturedPosts(posts), [posts]);
 
   return (
     <>
@@ -87,179 +134,207 @@ export default function BlogPage() {
         }
       `}</style>
       <SiteHeader />
-      <main className="flex flex-col">
-        {/* Hero Section */}
-        <section className="relative min-h-[60vh] flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-b from-secondary/20 to-background">
-          <div className="container mx-auto px-4 py-32 relative z-10">
-            <AnimatedGradientText className="mb-6">
-              <span className={cn(
-                `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-lg font-medium`
-              )}>
-                Stories, Updates & Inspiration
-              </span>
-            </AnimatedGradientText>
+      <main className="min-h-screen bg-background relative">
+        {/* Subtle Flickering Grid Background */}
+        <div className="absolute top-20 left-0 z-0 w-full h-[400px] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]">
+          <FlickeringGrid
+            className="absolute top-0 left-0 size-full"
+            squareSize={4}
+            gridGap={6}
+            color="#AE8625"
+            maxOpacity={0.05}
+            flickerChance={0.02}
+          />
+        </div>
 
-            <h1
-              className="text-5xl md:text-7xl font-bold mb-6 max-w-4xl mx-auto"
-              style={{
-                fontFamily: 'TanNimbus, sans-serif',
-                WebkitTextStroke: '3px #926F34',
-                paintOrder: 'stroke fill'
-              }}
-            >
-              Moon River Blog
-            </h1>
-
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Stay up to date with café news, community events, and behind-the-scenes stories
-            </p>
-          </div>
-        </section>
-
-        {/* Blog Posts Section */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              {loading && (
-                <div className="flex flex-col items-center justify-center py-12 gap-4">
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-64 h-64 object-contain"
-                  >
-                    <source src="/dog_hare_animation.webm" type="video/webm" />
-                  </video>
-                  <span className="text-lg text-muted-foreground">Loading posts...</span>
-                </div>
-              )}
-
-              {error && (
-                <div className="text-center py-12">
-                  <Card className="max-w-md mx-auto border-destructive/50 bg-destructive/5">
-                    <CardContent className="pt-6">
-                      <p className="text-destructive mb-4">{error}</p>
-                      <Button
-                        onClick={() => fetchPosts()}
-                        variant="outline"
-                        className="border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10"
-                      >
-                        <RefreshCw className="h-4 w-4 mr-2" />
-                        Try Again
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
-
-              {!loading && !error && posts.length === 0 && (
-                <div className="text-center py-12">
-                  <Card className="max-w-md mx-auto">
-                    <CardContent className="pt-6">
-                      <p className="text-muted-foreground text-lg">No blog posts available yet. Check back soon!</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
-
-              {!loading && !error && posts.length > 0 && (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {posts.map((post) => {
-                      const firstImage = getFirstImage(post.content);
-
-                      return (
-                        <Card
-                          key={post.id}
-                          className="hover:shadow-lg transition-shadow bg-card/50 backdrop-blur flex flex-col"
-                        >
-                          {firstImage && (
-                            <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
-                                src={firstImage}
-                                alt={post.title}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          )}
-
-                          <CardHeader>
-                            <div className="flex flex-wrap gap-2 mb-3">
-                              {post.labels?.slice(0, 3).map((label) => (
-                                <Badge
-                                  key={label}
-                                  variant="secondary"
-                                  className="bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20 text-[#926F34]"
-                                >
-                                  {label}
-                                </Badge>
-                              ))}
-                            </div>
-
-                            <CardTitle className="line-clamp-2 text-xl">
-                              {post.title}
-                            </CardTitle>
-
-                            <div className="flex flex-col gap-2 text-sm text-muted-foreground pt-2">
-                              <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4" />
-                                <span>{formatDate(post.published)}</span>
-                              </div>
-
-                              {post.author && (
-                                <div className="flex items-center gap-2">
-                                  <User className="h-4 w-4" />
-                                  <span>{post.author.displayName}</span>
-                                </div>
-                              )}
-                            </div>
-                          </CardHeader>
-
-                          <CardContent className="flex-grow">
-                            <CardDescription className="line-clamp-3 text-base">
-                              {getExcerpt(post.content)}
-                            </CardDescription>
-                          </CardContent>
-
-                          <div className="p-6 pt-0">
-                            <Button
-                              asChild
-                              className="w-full bg-gradient-to-r from-[#AE8625] to-[#D2AC47] hover:from-[#926F34] hover:to-[#AE8625] text-white"
-                            >
-                              <Link href={`/blog/${post.id}`}>
-                                Read More
-                                <ArrowRight className="ml-2 h-4 w-4" />
-                              </Link>
-                            </Button>
-                          </div>
-                        </Card>
-                      );
-                    })}
+        {/* Hero Section with Tags */}
+        <div className="relative z-10">
+          <div className="p-6 pt-28 md:pt-32 pb-8">
+            <div className="max-w-7xl mx-auto w-full">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="flex flex-col gap-6"
+              >
+                {/* Header with Icon */}
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2.5 rounded-xl bg-[#926F34]/10">
+                    <BookOpen className="h-6 w-6 text-[#926F34]" />
                   </div>
+                  <AnimatedGradientText>
+                    <span className={cn(
+                      "inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-sm font-medium uppercase tracking-wider"
+                    )}>
+                      Our Stories
+                    </span>
+                  </AnimatedGradientText>
+                </div>
 
-                  {nextPageToken && (
-                    <div className="flex justify-center mt-12">
-                      <Button
-                        onClick={() => fetchPosts(nextPageToken)}
-                        size="lg"
-                        variant="outline"
-                        className="border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10"
-                      >
-                        Load More Posts
-                      </Button>
-                    </div>
-                  )}
-                </>
-              )}
+                {/* Title and Description */}
+                <div className="space-y-3">
+                  <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl tracking-tighter"
+                    style={{ fontFamily: 'TanNimbus, sans-serif' }}
+                  >
+                    <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                      Moon River Blog
+                    </span>
+                  </h1>
+                  <p className="text-muted-foreground text-base md:text-lg max-w-2xl">
+                    Discover stories, updates, and inspiration from your local coffee sanctuary
+                  </p>
+                </div>
+
+                {/* Search Bar */}
+                <div className="relative max-w-md">
+                  <div className="relative group">
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 transition-colors group-focus-within:text-[#926F34]" />
+                    <input
+                      type="search"
+                      placeholder="Search articles..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3 bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl focus:bg-background/80 focus:border-[#AE8625]/50 focus:outline-none transition-all duration-300 placeholder:text-muted-foreground/60"
+                    />
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
-        </section>
 
-        {/* Footer */}
-        <SiteFooter />
+          {/* Tag Filter Section */}
+          {allTags.length > 0 && !loading && (
+            <div className="border-y border-border/50 bg-background/40 backdrop-blur-sm">
+              <div className="max-w-7xl mx-auto px-6 py-4">
+                <TagFilter
+                  tags={allTags}
+                  selectedTag={selectedTag}
+                  onTagSelect={setSelectedTag}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Blog Posts Grid */}
+        <div className="max-w-7xl mx-auto w-full px-6 py-12">
+          {loading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <BlogCardSkeleton key={i} />
+              ))}
+            </div>
+          )}
+
+          {error && (
+            <div className="py-16 text-center">
+              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8">
+                <p className="text-destructive mb-4">{error}</p>
+                <Button
+                  onClick={() => fetchPosts()}
+                  variant="outline"
+                  className="border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10 transition-colors"
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Try Again
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {!loading && !error && filteredPosts.length === 0 && (
+            <div className="py-16 text-center">
+              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8">
+                <p className="text-muted-foreground text-lg">
+                  {searchQuery
+                    ? `No posts found matching "${searchQuery}"`
+                    : selectedTag !== "all"
+                    ? `No posts found with tag "${selectedTag}"`
+                    : "No blog posts available yet. Check back soon!"}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {!loading && !error && filteredPosts.length > 0 && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                {filteredPosts.map((post, index) => (
+                  <BlogCard key={post.id} post={post} index={index} />
+                ))}
+              </div>
+
+              {/* Show pagination only when not filtering */}
+              {!searchQuery && selectedTag === "all" && (nextPageToken || currentPage > 1) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex justify-center pt-12"
+                >
+                  <Pagination>
+                    <PaginationContent className="bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-2">
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => currentPage > 1 && fetchPosts(currentPage - 1)}
+                          className={cn(
+                            "transition-all duration-300",
+                            currentPage === 1
+                              ? "pointer-events-none opacity-50"
+                              : "hover:bg-[#AE8625]/10 hover:text-[#AE8625] cursor-pointer"
+                          )}
+                        />
+                      </PaginationItem>
+
+                      {/* Show current page */}
+                      <PaginationItem>
+                        <PaginationLink
+                          isActive
+                          className="bg-[#926F34]/20 text-[#926F34] border-[#926F34]/30"
+                        >
+                          {currentPage}
+                        </PaginationLink>
+                      </PaginationItem>
+
+                      {/* Show next page if available */}
+                      {nextPageToken && (
+                        <PaginationItem>
+                          <PaginationLink
+                            onClick={() => fetchPosts(currentPage + 1)}
+                            className="hover:bg-[#AE8625]/10 hover:text-[#AE8625] cursor-pointer transition-all duration-300"
+                          >
+                            {currentPage + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      )}
+
+                      {/* Show ellipsis if more pages might exist */}
+                      {nextPageToken && (
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      )}
+
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => nextPageToken && fetchPosts(currentPage + 1)}
+                          className={cn(
+                            "transition-all duration-300",
+                            !nextPageToken
+                              ? "pointer-events-none opacity-50"
+                              : "hover:bg-[#AE8625]/10 hover:text-[#AE8625] cursor-pointer"
+                          )}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </motion.div>
+              )}
+            </>
+          )}
+        </div>
       </main>
+      <SiteFooter />
     </>
   );
 }

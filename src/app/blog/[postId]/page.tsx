@@ -2,15 +2,27 @@
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { Card, CardContent } from "@/components/ui/card";
+import { TableOfContents, type TOCItem } from "@/components/blog/table-of-contents";
+import { AuthorCard } from "@/components/blog/author-card";
+import { ReadMoreSection } from "@/components/blog/read-more-section";
+import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, User, ArrowLeft, RefreshCw } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Calendar, Clock, ArrowLeft, RefreshCw, Share2 } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { BloggerPost, BloggerApiError } from "@/lib/types/blogger";
+import {
+  calculateReadingTime,
+  extractHeadings,
+  formatDate,
+  addHeadingIds,
+  getFirstImage,
+} from "@/lib/blog-utils";
+import { getAuthorFromBlogger } from "@/lib/authors";
 import Link from "next/link";
 
 export default function BlogPostPage() {
@@ -53,14 +65,55 @@ export default function BlogPostPage() {
     }
   }, [postId]);
 
-  // Helper to format date
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
+  // Extract table of contents from post content
+  const tocItems = useMemo<TOCItem[]>(() => {
+    if (!post) return [];
+    return extractHeadings(post.content);
+  }, [post]);
+
+  // Process content to add heading IDs
+  const processedContent = useMemo(() => {
+    if (!post) return "";
+    return addHeadingIds(post.content);
+  }, [post]);
+
+  // Get author information
+  const author = useMemo(() => {
+    if (!post) return null;
+    return getAuthorFromBlogger(post.author);
+  }, [post]);
+
+  // Calculate reading time
+  const readingTime = useMemo(() => {
+    if (!post) return "";
+    return calculateReadingTime(post.content);
+  }, [post]);
+
+  // Get thumbnail image
+  const thumbnail = useMemo(() => {
+    if (!post) return null;
+    return getFirstImage(post.content);
+  }, [post]);
+
+  const handleShare = async () => {
+    if (!post) return;
+
+    const shareData = {
+      title: post.title,
+      text: `Check out this article: ${post.title}`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error("Error sharing:", err);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(window.location.href);
+    }
   };
 
   return (
@@ -94,6 +147,7 @@ export default function BlogPostPage() {
           margin-top: 2rem;
           margin-bottom: 1rem;
           font-weight: bold;
+          scroll-margin-top: 5rem;
         }
 
         .blog-content h1 { font-size: 2.5rem; }
@@ -152,143 +206,179 @@ export default function BlogPostPage() {
           padding: 0;
         }
       `}</style>
+
       <SiteHeader />
-      <main className="flex flex-col">
+      <main className="min-h-screen bg-background relative">
+        {/* Flickering Grid Background */}
+        <div className="absolute top-20 left-0 z-0 w-full h-[250px] [mask-image:linear-gradient(to_top,transparent_25%,black_95%)]">
+          <FlickeringGrid
+            className="absolute top-0 left-0 size-full"
+            squareSize={4}
+            gridGap={6}
+            color="#AE8625"
+            maxOpacity={0.1}
+            flickerChance={0.05}
+          />
+        </div>
+
         {loading && (
-          <section className="min-h-screen flex items-center justify-center bg-background">
-            <div className="flex flex-col items-center gap-4">
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-64 h-64 object-contain"
-              >
-                <source src="/dog_hare_animation.webm" type="video/webm" />
-              </video>
-              <span className="text-lg text-muted-foreground">Loading post...</span>
+          <div className="relative z-10 pt-20">
+            <div className="max-w-7xl mx-auto flex flex-col gap-6 p-6">
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-12 w-3/4" />
+              <Skeleton className="h-6 w-1/2" />
             </div>
-          </section>
+            <div className="flex divide-x divide-border relative max-w-7xl mx-auto px-4 md:px-0">
+              <div className="w-full p-6 lg:p-10">
+                <div className="space-y-3">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <Skeleton key={i} className="h-4 w-full" />
+                  ))}
+                </div>
+              </div>
+              <aside className="hidden lg:block w-[350px] p-6 lg:p-10">
+                <Skeleton className="h-32 w-full" />
+              </aside>
+            </div>
+          </div>
         )}
 
         {error && (
-          <section className="min-h-screen flex items-center justify-center bg-background">
-            <div className="container mx-auto px-4">
-              <Card className="max-w-md mx-auto border-destructive/50 bg-destructive/5">
-                <CardContent className="pt-6 text-center">
-                  <p className="text-destructive mb-4">{error}</p>
-                  <div className="flex gap-3 justify-center">
-                    <Button
-                      onClick={() => fetchPost()}
-                      variant="outline"
-                      className="border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10"
-                    >
-                      <RefreshCw className="h-4 w-4 mr-2" />
-                      Try Again
-                    </Button>
-                    <Button
-                      onClick={() => router.push("/blog")}
-                      variant="outline"
-                    >
-                      <ArrowLeft className="h-4 w-4 mr-2" />
-                      Back to Blog
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+          <div className="relative z-10 min-h-[60vh] flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-destructive mb-4">{error}</p>
+              <div className="flex gap-3 justify-center">
+                <Button
+                  onClick={() => fetchPost()}
+                  variant="outline"
+                  className="border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10"
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Try Again
+                </Button>
+                <Button
+                  onClick={() => router.push("/blog")}
+                  variant="outline"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back to Blog
+                </Button>
+              </div>
             </div>
-          </section>
+          </div>
         )}
 
         {!loading && !error && post && (
           <>
-            {/* Hero Section */}
-            <section className="relative min-h-[40vh] flex flex-col items-center justify-center text-center overflow-hidden bg-gradient-to-b from-secondary/20 to-background">
-              <div className="container mx-auto px-4 py-24 relative z-10">
-                <div className="max-w-4xl mx-auto">
-                  <Button
-                    asChild
-                    variant="ghost"
-                    className="mb-6 text-[#AE8625] hover:text-[#926F34] hover:bg-[#AE8625]/10"
-                  >
+            {/* Header Section */}
+            <div className="space-y-4 border-b border-border relative z-10 pt-20">
+              <div className="max-w-7xl mx-auto flex flex-col gap-6 p-6">
+                <div className="flex flex-wrap items-center gap-3 gap-y-5 text-sm text-muted-foreground">
+                  <Button variant="outline" asChild className="h-8 px-3">
                     <Link href="/blog">
-                      <ArrowLeft className="h-4 w-4 mr-2" />
-                      Back to Blog
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Back to all articles
                     </Link>
                   </Button>
-
                   {post.labels && post.labels.length > 0 && (
-                    <div className="flex flex-wrap gap-2 justify-center mb-6">
+                    <div className="flex flex-wrap gap-2">
                       {post.labels.map((label) => (
                         <Badge
                           key={label}
                           variant="secondary"
-                          className="bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20 text-[#926F34]"
+                          className="bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20 text-[#926F34] border-[#AE8625]/30"
                         >
                           {label}
                         </Badge>
                       ))}
                     </div>
                   )}
-
-                  <h1
-                    className="text-4xl md:text-6xl font-bold mb-6"
-                    style={{ fontFamily: 'TanNimbus, sans-serif' }}
-                  >
-                    {post.title}
-                  </h1>
-
-                  <div className="flex flex-wrap gap-4 justify-center text-muted-foreground">
-                    {post.author && (
-                      <div className="flex items-center gap-2">
-                        <User className="h-4 w-4" />
-                        <span>{post.author.displayName}</span>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-4 text-muted-foreground">
+                    <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      <span>{formatDate(post.published)}</span>
+                      <time>{formatDate(post.published)}</time>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      <span>{readingTime}</span>
                     </div>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleShare}
+                    className="ml-auto"
+                  >
+                    <Share2 className="h-4 w-4 mr-2" />
+                    Share
+                  </Button>
                 </div>
+
+                <h1
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-balance"
+                  style={{ fontFamily: 'TanNimbus, sans-serif' }}
+                >
+                  {post.title}
+                </h1>
               </div>
-            </section>
+            </div>
 
-            {/* Post Content */}
-            <section className="py-16 bg-background">
-              <div className="container mx-auto px-4">
-                <article className="max-w-4xl mx-auto">
-                  <Card className="bg-card/50 backdrop-blur">
-                    <CardContent className="p-8 md:p-12">
-                      <div
-                        className="blog-content prose prose-lg max-w-none"
-                        dangerouslySetInnerHTML={{ __html: post.content }}
-                      />
-                    </CardContent>
-                  </Card>
+            {/* Content Section */}
+            <div className="flex divide-x divide-border relative max-w-7xl mx-auto px-4 md:px-0 z-10">
+              <div className="absolute max-w-7xl mx-auto left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] lg:w-full h-full border-x border-border p-0 pointer-events-none" />
 
-                  {/* Navigation */}
-                  <div className="mt-12 flex justify-center">
-                    <Button
-                      asChild
-                      size="lg"
-                      className="bg-gradient-to-r from-[#AE8625] to-[#D2AC47] hover:from-[#926F34] hover:to-[#AE8625] text-white"
-                    >
-                      <Link href="/blog">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to All Posts
-                      </Link>
-                    </Button>
+              <main className="w-full p-0 overflow-hidden">
+                {thumbnail && (
+                  <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={thumbnail}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
                   </div>
-                </article>
-              </div>
-            </section>
+                )}
+
+                <div className="p-6 lg:p-10">
+                  <article
+                    className="blog-content prose prose-lg max-w-none"
+                    dangerouslySetInnerHTML={{ __html: processedContent }}
+                  />
+                </div>
+
+                {/* Related Posts */}
+                <div className="mt-10">
+                  <ReadMoreSection
+                    currentPostId={post.id}
+                    currentTags={post.labels}
+                  />
+                </div>
+              </main>
+
+              {/* Sidebar */}
+              <aside className="hidden lg:block w-[350px] flex-shrink-0 p-6 lg:p-10 bg-muted/30">
+                <div className="sticky top-32 space-y-8">
+                  {author && <AuthorCard author={author} />}
+
+                  {tocItems.length > 0 && (
+                    <>
+                      <Separator />
+                      <TableOfContents items={tocItems} />
+                    </>
+                  )}
+                </div>
+              </aside>
+            </div>
+
+            {/* Mobile Table of Contents */}
+            {tocItems.length > 0 && (
+              <TableOfContents items={tocItems} className="lg:hidden" />
+            )}
           </>
         )}
-
-        {/* Footer */}
-        <SiteFooter />
       </main>
+      <SiteFooter />
     </>
   );
 }
