@@ -4,17 +4,22 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { BloggerPost } from "@/lib/types/blogger";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface ReadMoreSectionProps {
   currentPostId: string;
   currentTags?: string[];
 }
 
+interface PostWithRelevance extends BloggerPost {
+  relevanceScore: number;
+}
+
 export function ReadMoreSection({
   currentPostId,
   currentTags = [],
 }: ReadMoreSectionProps) {
-  const [relatedPosts, setRelatedPosts] = useState<BloggerPost[]>([]);
+  const [relatedPosts, setRelatedPosts] = useState<PostWithRelevance[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,7 +34,7 @@ export function ReadMoreSection({
         // Filter out current post and sort by tag relevance
         const otherPosts = data.items
           .filter((post: BloggerPost) => post.id !== currentPostId)
-          .map((post: BloggerPost) => {
+          .map((post: BloggerPost): PostWithRelevance => {
             const tagOverlap = currentTags.filter((tag) =>
               post.labels?.includes(tag)
             ).length;
@@ -39,7 +44,7 @@ export function ReadMoreSection({
               relevanceScore: tagOverlap,
             };
           })
-          .sort((a: any, b: any) => {
+          .sort((a: PostWithRelevance, b: PostWithRelevance) => {
             if (a.relevanceScore !== b.relevanceScore) {
               return b.relevanceScore - a.relevanceScore;
             }
@@ -156,5 +161,3 @@ export function ReadMoreSection({
     </section>
   );
 }
-
-import { cn } from "@/lib/utils";

@@ -9,10 +9,9 @@ import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, Clock, ArrowLeft, RefreshCw, Share2 } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { BloggerPost, BloggerApiError } from "@/lib/types/blogger";
 import {
@@ -34,7 +33,7 @@ export default function BlogPostPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -57,13 +56,13 @@ export default function BlogPostPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [postId]);
 
   useEffect(() => {
     if (postId) {
       fetchPost();
     }
-  }, [postId]);
+  }, [postId, fetchPost]);
 
   // Extract table of contents from post content
   const tocItems = useMemo<TOCItem[]>(() => {

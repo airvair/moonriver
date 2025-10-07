@@ -18,7 +18,7 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { RefreshCw, Search, BookOpen } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import type { BloggerPost, BloggerPostList, BloggerApiError } from "@/lib/types/blogger";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
@@ -27,7 +27,6 @@ import {
   filterPostsByTag,
   searchPosts,
   sortPostsByDate,
-  getFeaturedPosts,
 } from "@/lib/blog-utils";
 
 const POSTS_PER_PAGE = 9; // 3x3 grid
@@ -39,11 +38,10 @@ export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageTokens, setPageTokens] = useState<Map<number, string>>(new Map());
   const [nextPageToken, setNextPageToken] = useState<string | undefined>();
-  const [prevPageToken, setPrevPageToken] = useState<string | undefined>();
   const [selectedTag, setSelectedTag] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const fetchPosts = async (page: number = 1) => {
+  const fetchPosts = useCallback(async (page: number = 1) => {
     try {
       setLoading(true);
       setError(null);
@@ -77,7 +75,6 @@ export default function BlogPage() {
       const sortedPosts = sortPostsByDate(data.items || [], "desc");
       setPosts(sortedPosts);
       setNextPageToken(data.nextPageToken);
-      setPrevPageToken(data.prevPageToken);
 
       // Store the next page token for future navigation
       if (data.nextPageToken) {
@@ -90,11 +87,11 @@ export default function BlogPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pageTokens, currentPage]);
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -103,7 +100,7 @@ export default function BlogPage() {
       setPageTokens(new Map());
       fetchPosts(1);
     }
-  }, [selectedTag, searchQuery]);
+  }, [selectedTag, searchQuery, currentPage, fetchPosts]);
 
   // Extract all unique tags from posts
   const allTags = useMemo(() => extractAllTags(posts), [posts]);
@@ -118,9 +115,6 @@ export default function BlogPage() {
 
     return filtered;
   }, [posts, selectedTag, searchQuery]);
-
-  // Get featured posts
-  const featuredPosts = useMemo(() => getFeaturedPosts(posts), [posts]);
 
   return (
     <>

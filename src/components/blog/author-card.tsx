@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { type Author } from "@/lib/authors";
 import { cn } from "@/lib/utils";
-import { Avatar } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 
 interface AuthorCardProps {

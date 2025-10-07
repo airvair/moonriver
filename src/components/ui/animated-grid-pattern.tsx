@@ -6,6 +6,7 @@ import {
   useId,
   useRef,
   useState,
+  useCallback,
 } from "react"
 import { motion } from "motion/react"
 
@@ -39,22 +40,23 @@ export function AnimatedGridPattern({
   const id = useId()
   const containerRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
-  const [squares, setSquares] = useState(() => generateSquares(numSquares))
 
-  function getPos() {
+  const getPos = useCallback(() => {
     return [
       Math.floor((Math.random() * dimensions.width) / width),
       Math.floor((Math.random() * dimensions.height) / height),
     ]
-  }
+  }, [dimensions.width, dimensions.height, width, height])
 
   // Adjust the generateSquares function to return objects with an id, x, and y
-  function generateSquares(count: number) {
+  const generateSquares = useCallback((count: number) => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       pos: getPos(),
     }))
-  }
+  }, [getPos])
+
+  const [squares, setSquares] = useState(() => generateSquares(numSquares))
 
   // Function to update a single square's position
   const updateSquarePosition = (id: number) => {
@@ -88,16 +90,17 @@ export function AnimatedGridPattern({
       }
     })
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current)
+    const currentRef = containerRef.current
+    if (currentRef) {
+      resizeObserver.observe(currentRef)
     }
 
     return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current)
+      if (currentRef) {
+        resizeObserver.unobserve(currentRef)
       }
     }
-  }, [containerRef])
+  }, [])
 
   return (
     <svg
