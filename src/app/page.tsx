@@ -8,6 +8,7 @@ import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TestimonialCard } from "@/components/ui/testimonial-card";
+import { Particles } from "@/components/ui/particles";
 import { Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TESTIMONIALS } from "@/lib/testimonials";
@@ -49,7 +50,17 @@ export default function Home() {
         }
       `}</style>
       <SiteHeader />
-      <main className="flex flex-col">
+      <main className="flex flex-col relative">
+        {/* Global Particles Background */}
+        <Particles
+          className="fixed inset-0 z-0"
+          quantity={100}
+          ease={80}
+          color="#ffffff"
+          size={0.5}
+          refresh={false}
+        />
+
         {/* Hero Section */}
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden">
           {/* Video Background */}
@@ -174,7 +185,7 @@ export default function Home() {
 
         {/* Newsletter CTA Section */}
         <section className="py-24 relative overflow-hidden">
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto text-center">
               <AnimatedGradientText className="mb-6">
                 <span className={cn(
