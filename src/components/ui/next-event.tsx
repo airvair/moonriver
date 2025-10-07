@@ -2,6 +2,7 @@
 
 import { Calendar, MapPin, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface EventData {
   htmlLink?: string;
@@ -91,10 +92,10 @@ export function NextEvent() {
   }, []);
 
   return (
-    <div className="w-full h-full p-4 flex flex-col">
+    <div className="w-full h-full p-6 flex flex-col">
       <div className="flex items-center gap-2 mb-3">
-        <Calendar className="h-5 w-5 text-[#926F34]" />
-        <h3 className="font-semibold text-sm">Next Event</h3>
+        <Calendar className="h-6 w-6 text-[#926F34]" />
+        <h3 className="font-semibold text-base">Next Event</h3>
       </div>
 
       {loading ? (
@@ -112,37 +113,43 @@ export function NextEvent() {
       ) : (
         <div className="flex flex-col gap-2 flex-1">
           <div>
-            <h4 className="font-medium text-sm line-clamp-1">
+            <h4 className="font-semibold text-base line-clamp-1">
               {event.summary || "Untitled Event"}
             </h4>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               {formatEventDate(event.start, event.end)}
             </p>
           </div>
 
           {event.location && (
-            <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
-              <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+            <div className="flex items-start gap-1.5 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
               <span className="line-clamp-1">{event.location}</span>
             </div>
           )}
 
           {event.description && (
-            <p className="text-xs text-muted-foreground line-clamp-2 flex-1">
+            <p className="text-sm text-muted-foreground line-clamp-2 flex-1">
               {event.description}
             </p>
           )}
 
           {event.htmlLink && (
-            <a
-              href={event.htmlLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-[#926F34] hover:underline mt-auto"
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="mt-auto mx-auto w-fit text-[#926F34] border-[#926F34]/20 hover:bg-[#926F34]/5 hover:text-[#926F34] hover:border-[#926F34]/30"
             >
-              View details
-              <ExternalLink className="h-3 w-3" />
-            </a>
+              <a
+                href={event.htmlLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View details
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            </Button>
           )}
         </div>
       )}

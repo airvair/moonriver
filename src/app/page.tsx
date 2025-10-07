@@ -86,9 +86,9 @@ export default function Home() {
               </div>
 
               {/* Right side - Info boxes */}
-              <div className="flex flex-col gap-4 w-full lg:w-80 xl:w-96">
+              <div className="flex flex-col gap-4 w-full lg:w-96 xl:w-[28rem]">
                 {/* Next Event Box */}
-                <div className="bg-background/80 backdrop-blur-md border shadow-lg rounded-2xl min-h-[180px]">
+                <div className="bg-background/80 backdrop-blur-md border shadow-lg rounded-2xl min-h-[220px]">
                   <NextEvent />
                 </div>
 

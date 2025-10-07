@@ -67,12 +67,12 @@ export function StoreHours() {
   const isOpen = isCurrentlyOpen(currentDayHours.hours);
 
   return (
-    <div className="w-full h-full p-4 flex flex-col">
+    <div className="w-full h-full p-6 flex flex-col">
       <div className="flex items-center gap-2 mb-3">
-        <Clock className="h-5 w-5 text-[#926F34]" />
-        <h3 className="font-semibold text-sm">Hours</h3>
+        <Clock className="h-6 w-6 text-[#926F34]" />
+        <h3 className="font-semibold text-base">Hours</h3>
         <span className={cn(
-          "text-[10px] font-medium px-1.5 py-0.5 rounded ml-auto",
+          "text-xs font-medium px-1.5 py-0.5 rounded ml-auto",
           isOpen
             ? "bg-green-500/10 text-green-600 dark:text-green-400"
             : "bg-muted text-muted-foreground"
@@ -86,7 +86,7 @@ export function StoreHours() {
           <div
             key={schedule.day}
             className={cn(
-              "flex justify-between items-center text-xs py-1 px-2 rounded-md transition-colors",
+              "flex justify-between items-center text-sm py-1 px-2 rounded-md transition-colors",
               index === currentDay && "bg-[#926F34]/10 font-medium"
             )}
           >
@@ -106,7 +106,7 @@ export function StoreHours() {
         ))}
       </div>
 
-      <p className="text-[10px] text-muted-foreground/70 mt-3 italic">
+      <p className="text-xs text-muted-foreground/70 mt-3 italic">
         Hours may vary during holidays and special events
       </p>
     </div>
