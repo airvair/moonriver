@@ -1,8 +1,7 @@
 "use client";
 
-import { Calendar, MapPin, ExternalLink } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 
 interface EventData {
   htmlLink?: string;
@@ -93,14 +92,21 @@ export function NextEvent() {
 
   return (
     <div className="w-full h-full p-6 flex flex-col">
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2 mb-4">
         <Calendar className="h-6 w-6 text-[#926F34]" />
         <h3 className="font-semibold text-base">Next Event</h3>
       </div>
 
       {loading ? (
-        <div className="text-sm text-muted-foreground">
-          Loading...
+        <div className="flex items-center justify-center flex-1">
+          <video
+            src="/dog_hare_animation.webm"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full max-w-[200px] h-auto"
+          />
         </div>
       ) : error ? (
         <div className="text-sm text-muted-foreground">
@@ -111,7 +117,7 @@ export function NextEvent() {
           No upcoming events
         </div>
       ) : (
-        <div className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-3 flex-1">
           <div>
             <h4 className="font-semibold text-base line-clamp-1">
               {event.summary || "Untitled Event"}
@@ -129,27 +135,9 @@ export function NextEvent() {
           )}
 
           {event.description && (
-            <p className="text-sm text-muted-foreground line-clamp-2 flex-1">
+            <p className="text-sm text-muted-foreground line-clamp-2">
               {event.description}
             </p>
-          )}
-
-          {event.htmlLink && (
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="mt-auto mx-auto w-fit text-[#926F34] border-[#926F34]/20 hover:bg-[#926F34]/5 hover:text-[#926F34] hover:border-[#926F34]/30"
-            >
-              <a
-                href={event.htmlLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View details
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            </Button>
           )}
         </div>
       )}

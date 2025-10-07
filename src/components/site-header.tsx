@@ -64,7 +64,6 @@ export function SiteHeader() {
                           className="text-xl font-normal whitespace-nowrap leading-none text-white"
                           style={{
                             WebkitTextStroke: '2px #926F34',
-                            textStroke: '2px #926F34',
                             paintOrder: 'stroke fill'
                           }}
                         >

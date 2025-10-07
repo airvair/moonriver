@@ -108,7 +108,6 @@ export default function OurStory() {
               style={{
                 fontFamily: 'TanNimbus, sans-serif',
                 WebkitTextStroke: '3px #926F34',
-                textStroke: '3px #926F34',
                 paintOrder: 'stroke fill'
               }}
             >

@@ -19,7 +19,7 @@ export function SiteFooter() {
               </span>
             </h3>
             <p className="text-muted-foreground mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              A creative sanctuary in Downtown Melbourne where coffee meets culture. Enjoy artisan beverages, European café traditions, and vibrant community events in our welcoming space.
             </p>
             <div className="flex gap-4">
               <Link href="https://www.facebook.com/profile.php?id=61557348156870" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -48,7 +48,7 @@ export function SiteFooter() {
           <div>
             <h4 className="font-semibold mb-4">Shop</h4>
             <ul className="space-y-2">
-              {["All Products", "Coffee", "Equipment", "Merchandise", "Gift Cards"].map((item) => (
+              {["Merchandise", "Gift Cards"].map((item) => (
                 <li key={item}>
                   <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                     {item}
@@ -61,7 +61,7 @@ export function SiteFooter() {
           <div>
             <h4 className="font-semibold mb-4">Company</h4>
             <ul className="space-y-2">
-              {["About Us", "Our Story", "Careers", "Press", "Blog"].map((item) => (
+              {["Our Story", "Press", "Blog"].map((item) => (
                 <li key={item}>
                   <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                     {item}
@@ -74,10 +74,6 @@ export function SiteFooter() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2">
-              <li className="flex items-center gap-2 text-muted-foreground">
-                <Phone className="h-4 w-4" />
-                <span>1-800-MOONRIVER</span>
-              </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
                 <span>contact@themoonrivercafe.com</span>
@@ -93,7 +89,7 @@ export function SiteFooter() {
         <div className="mt-12 pt-8 border-t">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © 2025 Moon River Coffee. Lorem ipsum dolor sit amet.
+              © {new Date().getFullYear()} Moon River Café & Curiosities. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm text-muted-foreground">
               <Link href="#" className="hover:text-foreground transition-colors">Privacy Policy</Link>

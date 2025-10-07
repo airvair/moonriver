@@ -5,27 +5,37 @@ import { SiteFooter } from "@/components/site-footer";
 import { NextEvent } from "@/components/ui/next-event";
 import { StoreHours } from "@/components/ui/store-hours";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
-import { MagicCard } from "@/components/ui/magic-card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Coffee, Leaf, Truck, Award, Star, Check, ChevronRight, Mail, Phone, MapPin } from "lucide-react";
+import { TestimonialCard } from "@/components/ui/testimonial-card";
+import { Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { useState } from "react";
+import { TESTIMONIALS } from "@/lib/testimonials";
+import { useState, useEffect } from "react";
+
+// Array of available hero videos
+const heroVideos = [
+  '/images_videos/home/coffee.mp4',
+  '/images_videos/home/coffee2.mp4',
+  '/images_videos/home/coffee3.mp4',
+  '/images_videos/home/coffee4.mp4',
+  '/images_videos/home/coffee5.mp4',
+];
 
 export default function Home() {
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly");
+  // Initialize with null to avoid hydration mismatch
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Generate truly random selection on client side
+    // This will run fresh on every page reload/mount
+    const randomIndex = Math.floor(Math.random() * heroVideos.length);
+    const video = heroVideos[randomIndex];
+    setSelectedVideo(video);
+
+    // Log for debugging (can be removed in production)
+    console.log('Selected hero video:', video);
+  }, []); // Empty dependency ensures this runs once per mount
 
   return (
     <>
@@ -43,15 +53,18 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden">
           {/* Video Background */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          >
-            <source src="/images_videos/home/coffee_art.mp4" type="video/mp4" />
-          </video>
+          {selectedVideo && (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover z-0"
+              key={selectedVideo} // Force re-render when video changes
+            >
+              <source src={selectedVideo} type="video/mp4" />
+            </video>
+          )}
 
           {/* Dark Overlay for Text Readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/60 z-[1]" />
@@ -64,7 +77,7 @@ export default function Home() {
                   <span className={cn(
                     `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2Ac47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-lg font-medium`
                   )}>
-                    Awarded "Best Café in Brevard" — Florida Today
+                    Awarded &quot;Best Café in Brevard&quot; — Florida Today
                   </span>
                 </AnimatedGradientText>
 
@@ -73,7 +86,6 @@ export default function Home() {
                   style={{
                     fontFamily: 'TanNimbus, sans-serif',
                     WebkitTextStroke: '3px #926F34',
-                    textStroke: '3px #926F34',
                     paintOrder: 'stroke fill'
                   }}
                 >
@@ -88,7 +100,7 @@ export default function Home() {
               {/* Right side - Info boxes */}
               <div className="flex flex-col gap-4 w-full lg:w-96 xl:w-[28rem]">
                 {/* Next Event Box */}
-                <div className="bg-background/80 backdrop-blur-md border shadow-lg rounded-2xl min-h-[220px]">
+                <div className="bg-background/80 backdrop-blur-md border shadow-lg rounded-2xl min-h-[180px]">
                   <NextEvent />
                 </div>
 
@@ -153,34 +165,8 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {[
-                { name: "John Doe", role: "Coffee Enthusiast", initial: "JD" },
-                { name: "Jane Smith", role: "Regular Customer", initial: "JS" },
-                { name: "Mike Johnson", role: "Business Owner", initial: "MJ" }
-              ].map((customer, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex items-center gap-4 mb-4">
-                      <Avatar>
-                        <AvatarFallback>{customer.initial}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <CardTitle className="text-lg">{customer.name}</CardTitle>
-                        <CardDescription>{customer.role}</CardDescription>
-                      </div>
-                    </div>
-                    <div className="flex gap-0.5">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground italic">
-                      &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.&quot;
-                    </p>
-                  </CardContent>
-                </Card>
+              {TESTIMONIALS.map((testimonial) => (
+                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
               ))}
             </div>
           </div>
@@ -199,7 +185,7 @@ export default function Home() {
               </AnimatedGradientText>
 
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                Lorem Ipsum Dolor Sit Amet
+                Join Our Inner Circle
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
                 Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
