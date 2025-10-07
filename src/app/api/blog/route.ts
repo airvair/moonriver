@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import type { BloggerPostList } from "@/lib/types/blogger";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+
+// Simple in-memory cache for development
+const cache = new Map<string, { data: BloggerPostList; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export async function GET(request: Request) {
   const blogId = process.env.BLOGGER_BLOG_ID;
@@ -20,6 +23,21 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const maxResults = searchParams.get("maxResults") || "10";
   const pageToken = searchParams.get("pageToken");
+
+  // Create cache key based on request parameters
+  const cacheKey = `posts-${maxResults}-${pageToken || 'first'}`;
+
+  // Check cache first
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    console.log('Serving from cache:', cacheKey);
+    return NextResponse.json(cached.data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "X-Cache": "HIT"
+      }
+    });
+  }
 
   const url = new URL(
     `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts`
@@ -39,13 +57,33 @@ export async function GET(request: Request) {
   );
 
   try {
-    const response = await fetch(url.toString(), {
-      cache: "no-store",
-      next: { revalidate: 300 } // Revalidate every 5 minutes
-    });
+    const response = await fetch(url.toString());
 
     if (!response.ok) {
-      console.error("Blogger API error:", response.status, response.statusText);
+      const errorText = await response.text();
+      console.error("Blogger API error:", response.status, response.statusText, errorText);
+
+      // Handle rate limiting specifically
+      if (response.status === 429) {
+        // Try to serve stale cache if available
+        const staleCache = cache.get(cacheKey);
+        if (staleCache) {
+          console.log('Rate limited - serving stale cache:', cacheKey);
+          return NextResponse.json(staleCache.data, {
+            headers: {
+              "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+              "X-Cache": "STALE",
+              "X-Rate-Limited": "true"
+            }
+          });
+        }
+
+        return NextResponse.json(
+          { error: "Rate limit exceeded. Please try again in a few moments." },
+          { status: 429 }
+        );
+      }
+
       return NextResponse.json(
         { error: "Blogger API fetch failed" },
         { status: response.status }
@@ -54,9 +92,19 @@ export async function GET(request: Request) {
 
     const data: BloggerPostList = await response.json();
 
+    // Store in cache
+    cache.set(cacheKey, { data, timestamp: Date.now() });
+
+    // Clean up old cache entries (keep last 100)
+    if (cache.size > 100) {
+      const firstKey = cache.keys().next().value;
+      if (firstKey) cache.delete(firstKey);
+    }
+
     return NextResponse.json(data, {
       headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600"
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "X-Cache": "MISS"
       }
     });
   } catch (error) {

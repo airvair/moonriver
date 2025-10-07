@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import type { BloggerPost } from "@/lib/types/blogger";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+
+// Simple in-memory cache for development
+const cache = new Map<string, { data: BloggerPost; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export async function GET(
   request: Request,
@@ -20,6 +23,21 @@ export async function GET(
     );
   }
 
+  // Create cache key
+  const cacheKey = `post-${postId}`;
+
+  // Check cache first
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    console.log('Serving post from cache:', cacheKey);
+    return NextResponse.json(cached.data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "X-Cache": "HIT"
+      }
+    });
+  }
+
   const url = new URL(
     `https://www.googleapis.com/blogger/v3/blogs/${blogId}/posts/${postId}`
   );
@@ -27,13 +45,33 @@ export async function GET(
   url.searchParams.set("key", apiKey);
 
   try {
-    const response = await fetch(url.toString(), {
-      cache: "no-store",
-      next: { revalidate: 300 } // Revalidate every 5 minutes
-    });
+    const response = await fetch(url.toString());
 
     if (!response.ok) {
-      console.error("Blogger API error:", response.status, response.statusText);
+      const errorText = await response.text();
+      console.error("Blogger API error:", response.status, response.statusText, errorText);
+
+      // Handle rate limiting specifically
+      if (response.status === 429) {
+        // Try to serve stale cache if available
+        const staleCache = cache.get(cacheKey);
+        if (staleCache) {
+          console.log('Rate limited - serving stale post cache:', cacheKey);
+          return NextResponse.json(staleCache.data, {
+            headers: {
+              "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+              "X-Cache": "STALE",
+              "X-Rate-Limited": "true"
+            }
+          });
+        }
+
+        return NextResponse.json(
+          { error: "Rate limit exceeded. Please try again in a few moments." },
+          { status: 429 }
+        );
+      }
+
       return NextResponse.json(
         { error: "Blog post not found" },
         { status: response.status }
@@ -42,9 +80,19 @@ export async function GET(
 
     const data: BloggerPost = await response.json();
 
+    // Store in cache
+    cache.set(cacheKey, { data, timestamp: Date.now() });
+
+    // Clean up old cache entries (keep last 50)
+    if (cache.size > 50) {
+      const firstKey = cache.keys().next().value;
+      if (firstKey) cache.delete(firstKey);
+    }
+
     return NextResponse.json(data, {
       headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600"
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "X-Cache": "MISS"
       }
     });
   } catch (error) {
