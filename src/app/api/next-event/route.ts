@@ -1,13 +1,30 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { CalendarType, getCalendarId, CALENDAR_CONFIGS } from "@/lib/calendar-config";
 
-export async function GET() {
-  const calendarId = process.env.GCAL_ID;
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const calendarType = (searchParams.get("calendarType") || "primary") as CalendarType;
+
+  // Validate calendar type
+  if (!CALENDAR_CONFIGS[calendarType]) {
+    return NextResponse.json(
+      { error: `Invalid calendar type: ${calendarType}` },
+      { status: 400 }
+    );
+  }
+
+  const calendarId = getCalendarId(calendarType);
   const apiKey = process.env.GCAL_API_KEY;
 
   // Check if environment variables are configured
   if (!calendarId || !apiKey) {
+    const calendarConfig = CALENDAR_CONFIGS[calendarType];
+    const errorMessage = !apiKey
+      ? "Google Calendar API key not configured. Please set GCAL_API_KEY in .env.local"
+      : `Calendar '${calendarType}' not configured. Please set ${calendarConfig.envKey} in .env.local`;
+
     return NextResponse.json(
-      { error: "Google Calendar not configured. Please set GCAL_ID and GCAL_API_KEY in .env.local" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -45,7 +62,10 @@ export async function GET() {
     const data = await response.json();
 
     return NextResponse.json(
-      { event: data.items?.[0] ?? null },
+      {
+        event: data.items?.[0] ?? null,
+        calendarType, // Include which calendar was queried
+      },
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch (error) {

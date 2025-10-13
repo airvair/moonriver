@@ -2,6 +2,7 @@
 
 import { Calendar, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
+import type { CalendarType } from "@/lib/calendar-config";
 
 interface EventData {
   htmlLink?: string;
@@ -63,24 +64,44 @@ function formatEventDate(start: EventData["start"], end: EventData["end"]) {
   return `${dateStr}, ${startTimeStr}`;
 }
 
-export function NextEvent() {
+interface NextEventProps {
+  /**
+   * The type of calendar to display events from
+   * @default "primary"
+   */
+  calendarType?: CalendarType;
+
+  /**
+   * Optional title override for the widget
+   */
+  title?: string;
+}
+
+export function NextEvent({ calendarType = "primary", title }: NextEventProps) {
   const [event, setEvent] = useState<EventData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
     async function fetchEvent() {
       try {
-        const response = await fetch("/api/next-event");
+        const url = new URL("/api/next-event", window.location.origin);
+        url.searchParams.set("calendarType", calendarType);
+
+        const response = await fetch(url.toString());
 
         if (response.ok) {
           const data = await response.json();
           setEvent(data.event);
         } else {
+          const errorData = await response.json();
+          setErrorMessage(errorData.error || "Unable to load events");
           setError(true);
         }
       } catch (err) {
         console.error("Failed to fetch next event:", err);
+        setErrorMessage("Failed to connect to calendar");
         setError(true);
       } finally {
         setLoading(false);
@@ -88,13 +109,13 @@ export function NextEvent() {
     }
 
     fetchEvent();
-  }, []);
+  }, [calendarType]);
 
   return (
     <div className="w-full h-full p-6 flex flex-col">
       <div className="flex items-center gap-2 mb-4">
         <Calendar className="h-6 w-6 text-[#926F34]" />
-        <h3 className="font-semibold text-base">Next Event</h3>
+        <h3 className="font-semibold text-base">{title || "Next Event"}</h3>
       </div>
 
       {loading ? (
@@ -110,7 +131,7 @@ export function NextEvent() {
         </div>
       ) : error ? (
         <div className="text-sm text-muted-foreground">
-          Unable to load events
+          {errorMessage || "Unable to load events"}
         </div>
       ) : !event ? (
         <div className="text-sm text-muted-foreground">

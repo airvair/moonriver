@@ -14,7 +14,7 @@ export default function CalendarPage() {
 
             <div className="w-full aspect-[4/3] md:aspect-video rounded-lg overflow-hidden border shadow-lg">
               <iframe
-                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&showTz=0&showCalendars=0&showTabs=0&showTitle=0&src=cHJlc3Rvbi5tYWxtcXVpc3RAZ21haWwuY29t&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039be5&color=%230b8043"
+                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=UTC&showTz=0&showTabs=0&showTitle=0&src=Y180ZjZlNzc5M2ZjMmRjNWU2ZWMzMmNjYjM4ZjJjZjgwZmYyOTM0MDY2NmE1MTZjY2RjZDQ2YjM1ODU1ZTVlYTk1QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%234285f4&color=%230b8043"
                 className="w-full h-full"
                 style={{ border: 0 }}
                 frameBorder="0"

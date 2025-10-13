@@ -1,11 +1,11 @@
 export const HOURS = [
   { day: "Sunday", hours: "9 AM–3 PM" },
   { day: "Monday", hours: "Closed" },
-  { day: "Tuesday", hours: "9 AM–3 PM, 5 PM–8 PM" },
-  { day: "Wednesday", hours: "9 AM–3 PM, 5 PM–8 PM" },
-  { day: "Thursday", hours: "9 AM–3 PM, 5 PM–8 PM" },
-  { day: "Friday", hours: "9 AM–8 PM" },
-  { day: "Saturday", hours: "9 AM–8 PM" },
+  { day: "Tuesday", hours: "9 AM–3 PM" },
+  { day: "Wednesday", hours: "9 AM–3 PM, 5 PM–9 PM" },
+  { day: "Thursday", hours: "9 AM–3 PM, 5 PM–9 PM" },
+  { day: "Friday", hours: "9 AM–9 PM" },
+  { day: "Saturday", hours: "9 AM–9 PM" },
 ];
 
 // Parse time string like "9 AM" into hours (24-hour format)
