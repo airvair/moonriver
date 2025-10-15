@@ -1,13 +1,14 @@
 "use client";
 
+import Script from "next/script";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { MagicCard } from "@/components/ui/magic-card";
+import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Coffee, Clock, Music, Calendar, CreditCard, Users, Star, Heart, Phone } from "lucide-react";
+import { Coffee, Clock, Music, Calendar, CreditCard, Users, Star, Heart, Phone, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,39 +16,116 @@ import Image from "next/image";
 export default function AfternoonTea() {
   const offerings = [
     {
-      title: "Luxurious Pastries",
+      name: "Luxurious Pastries",
+      className: "col-span-1 md:col-span-2 lg:col-span-2",
+      Icon: Heart,
       description: "Exquisite pastries crafted in-house daily by our skilled pâtissiers",
-      icon: <Heart className="h-5 w-5" />
+      href: "#",
+      cta: "Explore Menu",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-orange-500/20 to-red-500/20">
+          <div className="absolute inset-0 bg-[radial-gradient(40%_128px_at_50%_0%,theme(colors.amber.500/0.1),transparent)]" />
+          <Sparkles className="absolute top-4 right-4 h-8 w-8 text-amber-500/30 animate-pulse" />
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+        </div>
+      )
     },
     {
-      title: "Finest Teas",
+      name: "Finest Teas",
+      className: "col-span-1 md:col-span-1 lg:col-span-1",
+      Icon: Coffee,
       description: "A curated collection of premium loose-leaf teas from around the world",
-      icon: <Coffee className="h-5 w-5" />
+      href: "#",
+      cta: "Tea Selection",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,theme(colors.emerald.500/0.1),transparent)]" />
+        </div>
+      )
     },
     {
-      title: "Classic Sandwiches",
+      name: "Classic Sandwiches",
+      className: "col-span-1 md:col-span-1 lg:col-span-1",
+      Icon: Star,
       description: "Delicate finger sandwiches with traditional and modern fillings",
-      icon: <Star className="h-5 w-5" />
+      href: "#",
+      cta: "View Varieties",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 20% 50%, transparent 20%, rgba(255,255,255,0.02) 20.5%, rgba(255,255,255,0.02) 30%, transparent 30.5%)`,
+            backgroundSize: '20px 20px'
+          }} />
+        </div>
+      )
     },
     {
-      title: "Fresh Scones",
+      name: "Fresh Scones",
+      className: "col-span-1 md:col-span-1 lg:col-span-1",
+      Icon: Clock,
       description: "Warm, freshly baked scones served with clotted cream and preserves",
-      icon: <Clock className="h-5 w-5" />
+      href: "#",
+      cta: "Daily Fresh",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-amber-500/10 to-orange-500/10">
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
+        </div>
+      )
     },
     {
-      title: "Live Music",
+      name: "Live Music",
+      className: "col-span-1 md:col-span-2 lg:col-span-2",
+      Icon: Music,
       description: "Gentle melodies to enhance your afternoon tea experience",
-      icon: <Music className="h-5 w-5" />
+      href: "#",
+      cta: "Performance Schedule",
+      background: (
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-purple-500/10" />
+          <div className="absolute -top-4 -right-4 h-24 w-24 animate-pulse rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 blur-2xl" />
+          <div className="absolute -bottom-4 -left-4 h-32 w-32 animate-pulse rounded-full bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 blur-2xl animation-delay-1000" />
+          <Music className="absolute bottom-4 right-4 h-6 w-6 text-indigo-500/20 animate-bounce" />
+        </div>
+      )
     },
     {
-      title: "Timeless Elegance",
+      name: "Timeless Elegance",
+      className: "col-span-1 md:col-span-1 lg:col-span-1",
+      Icon: Users,
       description: "An ambiance of refined comfort and sophisticated charm",
-      icon: <Users className="h-5 w-5" />
+      href: "#",
+      cta: "Reserve Table",
+      background: (
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-500/10 via-gray-500/10 to-zinc-500/10">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,theme(colors.gray.500/0.05)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.500/0.05)_1px,transparent_1px)]"
+               style={{ backgroundSize: '20px 20px' }} />
+        </div>
+      )
     }
   ];
 
   return (
     <>
+      <Script
+        src="https://www.eventbrite.com/static/widgets/eb_widgets.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          // Initialize widget after script loads
+          const exampleCallback = function() {
+            console.log('Order complete!');
+          };
+
+          if (typeof window !== 'undefined' && (window as Window & { EBWidgets?: any }).EBWidgets) {
+            (window as Window & { EBWidgets?: any }).EBWidgets.createWidget({
+              widgetType: 'checkout',
+              eventId: '1709272091839',
+              iframeContainerId: 'eventbrite-widget-container-1709272091839',
+              iframeContainerHeight: 425,
+              onOrderComplete: exampleCallback
+            });
+          }
+        }}
+      />
       <style jsx global>{`
         @font-face {
           font-family: 'TanNimbus';
@@ -55,6 +133,23 @@ export default function AfternoonTea() {
           font-weight: normal;
           font-style: normal;
           font-display: swap;
+        }
+
+        @keyframes pulse-glow {
+          0%, 100% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
+
+        .animation-delay-1000 {
+          animation-delay: 1000ms;
+        }
+
+        .animate-pulse-glow {
+          animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
       `}</style>
       <SiteHeader />
@@ -107,14 +202,6 @@ export default function AfternoonTea() {
                   Reserve on Eventbrite
                 </Link>
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-white border-white hover:bg-white hover:text-black"
-              >
-                <Phone className="h-4 w-4 mr-2" />
-                Call to Reserve
-              </Button>
             </div>
           </div>
         </section>
@@ -123,6 +210,13 @@ export default function AfternoonTea() {
         <section className="py-20 px-4 bg-gradient-to-b from-background to-secondary/20">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
+              <AnimatedGradientText className="mb-4">
+                <span className={cn(
+                  "inline bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 bg-clip-text text-transparent text-sm font-medium uppercase tracking-wider"
+                )}>
+                  An Unforgettable Experience
+                </span>
+              </AnimatedGradientText>
               <h2
                 className="text-4xl md:text-5xl font-bold mb-4"
                 style={{ fontFamily: 'TanNimbus, serif' }}
@@ -135,29 +229,14 @@ export default function AfternoonTea() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {offerings.map((item, index) => (
-                <MagicCard
-                  key={index}
-                  className="cursor-pointer bg-card/50 backdrop-blur border-primary/10"
-                  gradientColor="#FF6B35"
-                >
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-3">
-                      <div className="p-2 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20">
-                        {item.icon}
-                      </div>
-                      {item.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-base">
-                      {item.description}
-                    </CardDescription>
-                  </CardContent>
-                </MagicCard>
+            <BentoGrid className="max-w-7xl mx-auto">
+              {offerings.map((item) => (
+                <BentoCard
+                  key={item.name}
+                  {...item}
+                />
               ))}
-            </div>
+            </BentoGrid>
           </div>
         </section>
 
@@ -249,29 +328,23 @@ export default function AfternoonTea() {
                   </Card>
 
                   <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-amber-500/10 to-orange-500/10">
-                    <Badge className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white">
+                    <Badge className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white z-10">
                       Online Booking
                     </Badge>
                     <CardHeader className="pt-12">
-                      <CardTitle className="text-xl">Eventbrite</CardTitle>
-                      <div className="text-3xl font-bold text-primary">
-                        $76
-                        <span className="text-base font-normal text-muted-foreground ml-2">per person</span>
-                      </div>
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        <CreditCard className="h-5 w-5" />
+                        Reserve Online
+                      </CardTitle>
+                      <CardDescription>
+                        Secure your reservation with Eventbrite
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground">
-                        Convenient online reservation
-                      </p>
-                      <Button
-                        className="w-full mt-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
-                        asChild
-                      >
-                        <Link href="https://www.eventbrite.com" target="_blank" rel="noopener noreferrer">
-                          <CreditCard className="h-4 w-4 mr-2" />
-                          Book on Eventbrite
-                        </Link>
-                      </Button>
+                      <div
+                        id="eventbrite-widget-container-1709272091839"
+                        className="w-full min-h-[425px] rounded-lg overflow-hidden"
+                      />
                     </CardContent>
                   </Card>
                 </div>

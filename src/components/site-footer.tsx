@@ -1,5 +1,8 @@
+"use client"
+
 import Link from "next/link"
 import { Mail, MapPin } from "lucide-react"
+import { BlurFade } from "@/components/ui/blur-fade"
 
 export function SiteFooter() {
   return (
@@ -96,6 +99,47 @@ export function SiteFooter() {
               <Link href="#" className="hover:text-foreground transition-colors">Terms of Service</Link>
               <Link href="#" className="hover:text-foreground transition-colors">Cookie Policy</Link>
             </div>
+          </div>
+
+          {/* Creative credit for Preston */}
+          <div className="mt-8 flex flex-col items-center">
+            <BlurFade delay={0.5} inView>
+              <div className="group relative">
+                <div className="text-sm md:text-base flex items-center gap-2">
+                  <span className="text-muted-foreground/70">Crafted with</span>
+                  <span className="relative inline-block">
+                    <span className="text-2xl transition-transform duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-12 inline-block">
+                      ☕
+                    </span>
+                    {/* Steam animation on hover */}
+                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="flex gap-[2px]">
+                        <div className="w-[1px] h-3 bg-gradient-to-t from-[#926F34] to-transparent animate-pulse" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-[1px] h-4 bg-gradient-to-t from-[#AE8625] to-transparent animate-pulse" style={{ animationDelay: '200ms' }}></div>
+                        <div className="w-[1px] h-3 bg-gradient-to-t from-[#926F34] to-transparent animate-pulse" style={{ animationDelay: '400ms' }}></div>
+                      </div>
+                    </div>
+                  </span>
+                  <span className="text-muted-foreground/70">by</span>
+                  <span
+                    className="font-bold text-sm md:text-base bg-gradient-to-r from-[#FFD700] via-[#AE8625] to-[#FFD700] bg-clip-text text-transparent animate-gradient bg-[length:200%_auto] transition-all duration-300 group-hover:scale-105"
+                    style={{
+                      fontFamily: 'TanNimbus, sans-serif',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundSize: '200% auto',
+                      animation: 'gradient-shift 3s ease-in-out infinite'
+                    }}
+                  >
+                    Preston Malmquist
+                  </span>
+                </div>
+                {/* Hidden message that appears on hover */}
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                  <span className="text-xs text-[#AE8625]/60 italic">preston.malmquist@gmail.com</span>
+                </div>
+              </div>
+            </BlurFade>
           </div>
         </div>
       </div>

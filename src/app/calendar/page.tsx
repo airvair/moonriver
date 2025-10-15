@@ -14,7 +14,7 @@ export default function CalendarPage() {
 
             <div className="w-full aspect-[4/3] md:aspect-video rounded-lg overflow-hidden border shadow-lg">
               <iframe
-                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=UTC&showTz=0&showTabs=0&showTitle=0&src=Y180ZjZlNzc5M2ZjMmRjNWU2ZWMzMmNjYjM4ZjJjZjgwZmYyOTM0MDY2NmE1MTZjY2RjZDQ2YjM1ODU1ZTVlYTk1QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%234285f4&color=%230b8043"
+                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&showTz=0&showCalendars=0&showTabs=0&showTitle=0&title=Moon%20River%20Public%20Calendar&src=Y18zMDFiOWU4YTJiZmQzYWNkYmYxOGI2NTY3NWQ4YWNlNGMwNjk2ZmQ5YmQ4ODFlNDc3ZDA5OTFhZGI5MDcxNGM3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23b39ddb&color=%230b8043"
                 className="w-full h-full"
                 style={{ border: 0 }}
                 frameBorder="0"

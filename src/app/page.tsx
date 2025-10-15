@@ -7,10 +7,9 @@ import { StoreHours } from "@/components/ui/store-hours";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { TestimonialCard } from "@/components/ui/testimonial-card";
 import { Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { TESTIMONIALS } from "@/lib/testimonials";
+import { TestimonialMarquee } from "@/components/testimonial-marquee";
 import { useState, useEffect } from "react";
 
 // Array of available hero videos
@@ -163,11 +162,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {TESTIMONIALS.map((testimonial) => (
-                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-              ))}
-            </div>
+            <TestimonialMarquee />
           </div>
         </section>
 
