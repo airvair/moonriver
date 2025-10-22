@@ -4,10 +4,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { NextEvent } from "@/components/ui/next-event";
 import { StoreHours } from "@/components/ui/store-hours";
-import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
 import { useState, useEffect } from "react";
@@ -302,7 +298,7 @@ export default function Home() {
                     Your Neighborhood Coffee House
                   </h2>
                   <p className="text-xl text-muted-foreground mb-10 font-casual">
-                    More than just coffee — we're a gathering place where neighbors become friends
+                    More than just coffee — we&apos;re a gathering place where neighbors become friends
                   </p>
 
                   {/* 2x2 Grid of features */}

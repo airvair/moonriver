@@ -2,7 +2,7 @@
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Coffee, Tag, BookOpen } from "lucide-react";
+import { Coffee } from "lucide-react";
 
 interface TagFilterProps {
   tags: { name: string; count: number }[];

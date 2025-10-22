@@ -13,6 +13,22 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 
+interface EBWidgets {
+  createWidget: (config: {
+    widgetType: string;
+    eventId: string;
+    iframeContainerId: string;
+    iframeContainerHeight: number;
+    onOrderComplete: () => void;
+  }) => void;
+}
+
+declare global {
+  interface Window {
+    EBWidgets?: EBWidgets;
+  }
+}
+
 export default function AfternoonTea() {
   const offerings = [
     {
@@ -115,8 +131,8 @@ export default function AfternoonTea() {
             console.log('Order complete!');
           };
 
-          if (typeof window !== 'undefined' && (window as Window & { EBWidgets?: any }).EBWidgets) {
-            (window as Window & { EBWidgets?: any }).EBWidgets.createWidget({
+          if (typeof window !== 'undefined' && window.EBWidgets) {
+            window.EBWidgets.createWidget({
               widgetType: 'checkout',
               eventId: '1709272091839',
               iframeContainerId: 'eventbrite-widget-container-1709272091839',

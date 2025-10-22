@@ -28,7 +28,7 @@ export interface PodcastEpisode {
 export interface YouTubeVideo {
   id: {
     videoId: string;
-  };
+  } | string;
   snippet: {
     publishedAt: string;
     channelId: string;
@@ -42,9 +42,28 @@ export interface YouTubeVideo {
       maxres?: YouTubeThumbnail;
     };
     channelTitle: string;
+    resourceId?: {
+      videoId: string;
+    };
   };
   contentDetails?: {
     duration: string; // ISO 8601 duration format (PT15M33S)
+    videoId?: string;
+  };
+}
+
+export interface YouTubePlaylistItem {
+  id: string;
+  snippet: YouTubeVideo['snippet'];
+  contentDetails?: {
+    videoId: string;
+  };
+}
+
+export interface YouTubeVideoDetails {
+  id: string;
+  contentDetails: {
+    duration: string;
   };
 }
 

@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import type {
   YouTubeSearchResponse,
   PodcastEpisode,
-  YouTubeApiError,
+  YouTubeVideo,
+  YouTubePlaylistItem,
+  YouTubeVideoDetails,
 } from "@/lib/types/podcast";
 import {
   extractGuestFromText,
@@ -71,7 +73,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    let videos: any[] = [];
+    let videos: YouTubeVideo[] = [];
     let nextPageTokenValue: string | undefined;
 
     // Fetch from playlist or channel
@@ -136,12 +138,12 @@ export async function GET(request: Request) {
       }
 
       const data = await response.json();
-      videos = data.items || [];
+      const playlistItems: YouTubePlaylistItem[] = data.items || [];
       nextPageTokenValue = data.nextPageToken;
 
       // Transform playlist items to match search response format
-      videos = videos.map((item: any) => ({
-        id: { videoId: item.contentDetails?.videoId || item.snippet.resourceId?.videoId },
+      videos = playlistItems.map((item) => ({
+        id: { videoId: item.contentDetails?.videoId || item.snippet.resourceId?.videoId || '' },
         snippet: item.snippet,
       }));
     } else if (channelId) {
@@ -213,10 +215,10 @@ export async function GET(request: Request) {
 
     // Fetch video details to get duration
     const videoIds = videos
-      .map((v) => v.id?.videoId)
+      .map((v) => typeof v.id === 'string' ? v.id : v.id?.videoId)
       .filter(Boolean)
       .join(",");
-    let videoDurations: { [key: string]: string } = {};
+    const videoDurations: { [key: string]: string } = {};
 
     if (videoIds) {
       const detailsUrl = new URL(
@@ -228,8 +230,8 @@ export async function GET(request: Request) {
 
       const detailsResponse = await fetch(detailsUrl.toString());
       if (detailsResponse.ok) {
-        const detailsData = await detailsResponse.json();
-        detailsData.items?.forEach((item: any) => {
+        const detailsData: { items?: YouTubeVideoDetails[] } = await detailsResponse.json();
+        detailsData.items?.forEach((item) => {
           videoDurations[item.id] = item.contentDetails.duration;
         });
       }
@@ -237,7 +239,7 @@ export async function GET(request: Request) {
 
     // Transform to PodcastEpisode format
     const episodes: PodcastEpisode[] = videos.map((video) => {
-      const videoId = video.id?.videoId || video.id;
+      const videoId = typeof video.id === 'string' ? video.id : video.id?.videoId || '';
       const snippet = video.snippet;
       const title = snippet.title;
       const description = snippet.description;

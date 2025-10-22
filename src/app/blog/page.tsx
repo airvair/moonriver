@@ -16,7 +16,7 @@ import {
   PaginationNext,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
-import { RefreshCw, Search, BookOpen, Coffee, Heart, Newspaper } from "lucide-react";
+import { RefreshCw, Search, Coffee, Newspaper } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import type { BloggerPost, BloggerPostList, BloggerApiError } from "@/lib/types/blogger";
 import { cn } from "@/lib/utils";

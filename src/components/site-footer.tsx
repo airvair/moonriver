@@ -181,7 +181,7 @@ export function SiteFooter() {
           <div className="text-center mb-8">
             <div className="coffee-divider mb-4"></div>
             <p className="font-handwritten text-2xl text-primary/80 italic">
-              "Thank you for being part of our coffee family!"
+              &ldquo;Thank you for being part of our coffee family!&rdquo;
             </p>
           </div>
 

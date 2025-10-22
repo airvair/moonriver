@@ -1,11 +1,10 @@
 "use client";
 
-import { Calendar, Coffee, Heart, MapPin } from "lucide-react";
+import { Coffee, Heart, MapPin } from "lucide-react";
 import Link from "next/link";
 import type { BloggerPost } from "@/lib/types/blogger";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
-import Image from "next/image";
 
 interface JournalBlogCardProps {
   post: BloggerPost;
@@ -14,7 +13,7 @@ interface JournalBlogCardProps {
 }
 
 // Author mapping for personal touches
-const AUTHORS = {
+const AUTHORS: Record<string, { name: string; avatar: string; role: string; signature: string }> = {
   "Moon River Blog": {
     name: "Mary & Kate",
     avatar: "/mary-kate-avatar.jpg", // We'll add these images later
@@ -229,7 +228,7 @@ export function JournalBlogCard({
 
             {/* Handwritten note decoration */}
             <div className="absolute bottom-2 left-6 text-xs text-[#926F34]/40 italic font-handwriting">
-              "A story worth sharing..."
+              &ldquo;A story worth sharing...&rdquo;
             </div>
           </div>
 

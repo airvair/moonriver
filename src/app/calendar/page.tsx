@@ -47,7 +47,7 @@ export default function CalendarPage() {
               {/* Decorative Note */}
               <div className="mt-6 pt-6 border-t border-primary/20">
                 <p className="text-center font-casual text-lg text-muted-foreground">
-                  "Looking forward to seeing you at our next event!"
+                  &ldquo;Looking forward to seeing you at our next event!&rdquo;
                 </p>
               </div>
             </div>

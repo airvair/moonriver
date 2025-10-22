@@ -11,7 +11,6 @@ import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { Marquee } from "@/components/ui/marquee";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import {
   Accordion,
@@ -20,14 +19,12 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion";
 import {
-  Calendar,
   Users,
   Utensils,
   Music,
   Wifi,
   Monitor,
   Car,
-  Clock,
   Star,
   Heart,
   Phone,
@@ -37,9 +34,7 @@ import {
   Sparkles,
   PartyPopper,
   Briefcase,
-  Gift,
   Wine,
-  Coffee,
   Check,
   ArrowRight
 } from "lucide-react";
@@ -438,7 +433,7 @@ export default function PrivateEvents() {
                   Event Gallery
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  Take a glimpse at some of the memorable events we've hosted
+                  Take a glimpse at some of the memorable events we&apos;ve hosted
                 </p>
               </div>
             </BlurFade>
@@ -518,7 +513,7 @@ export default function PrivateEvents() {
                   What Our Clients Say
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  Don't just take our word for it - hear from those who've experienced our events
+                  Don&apos;t just take our word for it - hear from those who&apos;ve experienced our events
                 </p>
               </div>
             </BlurFade>
@@ -534,7 +529,7 @@ export default function PrivateEvents() {
                         ))}
                       </div>
                       <CardDescription className="text-base italic">
-                        "{testimonial.quote}"
+                        &ldquo;{testimonial.quote}&rdquo;
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -682,7 +677,7 @@ export default function PrivateEvents() {
                       </li>
                       <li className="flex items-center">
                         <Check className="h-4 w-4 mr-3 text-green-500" />
-                        <span>Chef's tasting menu</span>
+                        <span>Chef&apos;s tasting menu</span>
                       </li>
                       <li className="flex items-center">
                         <Check className="h-4 w-4 mr-3 text-green-500" />
@@ -738,7 +733,7 @@ export default function PrivateEvents() {
                 <CardHeader>
                   <CardTitle className="text-2xl">Contact Our Events Team</CardTitle>
                   <CardDescription className="text-base">
-                    We'll work with you to create the perfect event experience
+                    We&apos;ll work with you to create the perfect event experience
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -842,7 +837,7 @@ export default function PrivateEvents() {
             <BlurFade delay={0.75} inView>
               <div className="mt-12 text-center">
                 <p className="text-muted-foreground mb-4">
-                  Still have questions? We're here to help!
+                  Still have questions? We&apos;re here to help!
                 </p>
                 <Button
                   variant="outline"

@@ -49,10 +49,11 @@ async function getSpotifyAccessToken(): Promise<string> {
   }
 
   const data = await response.json();
-  cachedAccessToken = data.access_token;
+  const accessToken: string = data.access_token;
+  cachedAccessToken = accessToken;
   tokenExpiry = Date.now() + data.expires_in * 1000 - 60000; // Refresh 1 min before expiry
 
-  return cachedAccessToken;
+  return accessToken;
 }
 
 export async function GET(request: Request) {
