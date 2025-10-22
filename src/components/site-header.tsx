@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/navigation-menu"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-
 export function SiteHeader() {
   const [visible, setVisible] = React.useState(true)
   const [prevScrollPos, setPrevScrollPos] = React.useState(0)
@@ -43,18 +42,14 @@ export function SiteHeader() {
       `}</style>
       <div
         className={cn(
-          "fixed top-4 left-1/2 z-50 w-max transition-all duration-300",
-          !visible ? "opacity-0 pointer-events-none" : "opacity-100"
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          !visible ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100 translate-y-0"
         )}
-        style={{
-          transform: visible
-            ? "translateX(-50%)"
-            : "translateX(-50%) translateY(-100%)",
-        }}
       >
-        <div className="relative px-4 py-2 rounded-3xl bg-background/80 backdrop-blur-md border shadow-lg">
-          <NavigationMenu viewport={false}>
-              <NavigationMenuList className="items-center">
+        <div className="relative px-4 py-3 bg-background/95 backdrop-blur-sm border-b-2 border-primary/20 warm-shadow">
+          <div className="container mx-auto flex justify-center">
+            <NavigationMenu viewport={false}>
+              <NavigationMenuList className="items-center flex-wrap">
                 {/* Cafe name text with red border - properly wrapped in NavigationMenuItem */}
                 <NavigationMenuItem className="mr-6">
                   <NavigationMenuLink asChild>
@@ -76,7 +71,7 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/menu10-25.pdf" target="_blank" rel="noopener noreferrer" className={navigationMenuTriggerStyle()}>
+                  <Link href="/menu" className={navigationMenuTriggerStyle()}>
                     Menu
                   </Link>
                 </NavigationMenuLink>
@@ -122,17 +117,22 @@ export function SiteHeader() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link href="/podcast" className={navigationMenuTriggerStyle()}>
+                    Podcast
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
                 <NavigationMenuTrigger>About</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-2 p-4 md:w-[400px]">
                   <ListItem href="/story" title="Our Story">
                       Learn more about the cafe, its history, and its mission.
                   </ListItem>
-                  <ListItem href="/guides/press" title="Press">
-                      Press inquiries and media inquiries.
-                  </ListItem>
-                  <ListItem href="/guides/contact" title="Contact">
-                      Contact us for more information.
+                  <ListItem href="/our-team" title="Our Team">
+                    Meet the team behind the cafe.
                   </ListItem>
                   </ul>
                 </NavigationMenuContent>
@@ -145,8 +145,10 @@ export function SiteHeader() {
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
         </div>
       </div>
     </>
@@ -162,9 +164,9 @@ function ListItem({
   return (
     <li {...props}>
       <NavigationMenuLink asChild>
-        <Link href={href} className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+        <Link href={href} className="group">
+          <div className="text-sm leading-none font-medium">{title}</div>
+          <p className="text-muted-foreground group-hover:text-foreground line-clamp-2 text-sm leading-snug">
             {children}
           </p>
         </Link>

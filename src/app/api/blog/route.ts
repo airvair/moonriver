@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 
 // Simple in-memory cache for development
 const cache = new Map<string, { data: BloggerPostList; timestamp: number }>();
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 30 * 1000; // 30 secs
 
 export async function GET(request: Request) {
   const blogId = process.env.BLOGGER_BLOG_ID;

@@ -2,10 +2,9 @@
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { BlogCard } from "@/components/blog/blog-card";
+import { JournalBlogCard } from "@/components/blog/journal-blog-card";
 import { BlogCardSkeleton } from "@/components/blog/blog-card-skeleton";
 import { TagFilter } from "@/components/blog/tag-filter";
-import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +16,7 @@ import {
   PaginationNext,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
-import { RefreshCw, Search, BookOpen } from "lucide-react";
+import { RefreshCw, Search, BookOpen, Coffee, Heart, Newspaper } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import type { BloggerPost, BloggerPostList, BloggerApiError } from "@/lib/types/blogger";
 import { cn } from "@/lib/utils";
@@ -128,23 +127,22 @@ export default function BlogPage() {
           font-style: normal;
           font-display: swap;
         }
+
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Kalam:wght@300;400;700&display=swap');
+
+        .font-handwriting {
+          font-family: 'Caveat', cursive;
+        }
+
+        .font-journal {
+          font-family: 'Kalam', cursive;
+        }
       `}</style>
       <SiteHeader />
       <main className="min-h-screen bg-background relative">
-        {/* Subtle Flickering Grid Background */}
-        <div className="absolute top-20 left-0 z-0 w-full h-[400px] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]">
-          <FlickeringGrid
-            className="absolute top-0 left-0 size-full"
-            squareSize={4}
-            gridGap={6}
-            color="#AE8625"
-            maxOpacity={0.05}
-            flickerChance={0.02}
-          />
-        </div>
 
         {/* Hero Section with Tags */}
-        <div className="relative z-10">
+        <div className="relative z-10 bg-gradient-to-b from-background to-secondary/20">
           <div className="p-6 pt-28 md:pt-32 pb-8">
             <div className="max-w-7xl mx-auto w-full">
               <motion.div
@@ -153,44 +151,41 @@ export default function BlogPage() {
                 transition={{ duration: 0.6 }}
                 className="flex flex-col gap-6"
               >
-                {/* Header with Icon */}
+                {/* Header with Coffee Icons */}
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="p-2.5 rounded-xl bg-[#926F34]/10">
-                    <BookOpen className="h-6 w-6 text-[#926F34]" />
-                  </div>
+                  <Coffee className="h-5 w-5 text-primary" />
                   <AnimatedGradientText>
                     <span className={cn(
                       "inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-sm font-medium uppercase tracking-wider"
                     )}>
-                      Our Stories
+                      Stories from the Café
                     </span>
                   </AnimatedGradientText>
+                  <Newspaper className="h-5 w-5 text-primary" />
                 </div>
 
-                {/* Title and Description */}
-                <div className="space-y-3">
-                  <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl tracking-tighter"
-                    style={{ fontFamily: 'TanNimbus, sans-serif' }}
+                {/* Title and Description with Journal Feel */}
+                <div className="space-y-4">
+                  <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground"
+                    style={{ fontFamily: 'TanNimbus, serif' }}
                   >
-                    <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-                      Moon River Blog
-                    </span>
+                    The Moon River Journal
                   </h1>
-                  <p className="text-muted-foreground text-base md:text-lg max-w-2xl">
-                    Discover stories, updates, and inspiration from your local coffee sanctuary
+                  <p className="text-muted-foreground text-base md:text-lg max-w-2xl font-serif">
+                    Pour yourself a cup and dive into our collection of stories, recipes, and musings.
                   </p>
                 </div>
 
-                {/* Search Bar */}
+                {/* Search Bar - Clean and simple */}
                 <div className="relative max-w-md">
                   <div className="relative group">
-                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 transition-colors group-focus-within:text-[#926F34]" />
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <input
                       type="search"
-                      placeholder="Search articles..."
+                      placeholder="Search our stories..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3 bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl focus:bg-background/80 focus:border-[#AE8625]/50 focus:outline-none transition-all duration-300 placeholder:text-muted-foreground/60"
+                      className="relative w-full pl-11 pr-4 py-3 bg-background/50 border border-border rounded-lg focus:bg-background focus:border-primary/50 focus:outline-none transition-all duration-300 placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
@@ -198,10 +193,14 @@ export default function BlogPage() {
             </div>
           </div>
 
-          {/* Tag Filter Section */}
+          {/* Tag Filter Section - Clean and simple */}
           {allTags.length > 0 && !loading && (
-            <div className="border-y border-border/50 bg-background/40 backdrop-blur-sm">
-              <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="border-y border-border/50 bg-accent/10">
+              <div className="max-w-7xl mx-auto px-6 py-5">
+                <div className="flex items-center gap-4 mb-3">
+                  <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Browse by Category</h2>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+                </div>
                 <TagFilter
                   tags={allTags}
                   selectedTag={selectedTag}
@@ -224,7 +223,7 @@ export default function BlogPage() {
 
           {error && (
             <div className="py-16 text-center">
-              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8">
+              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8 paper-texture">
                 <p className="text-destructive mb-4">{error}</p>
                 <Button
                   onClick={() => fetchPosts()}
@@ -240,7 +239,7 @@ export default function BlogPage() {
 
           {!loading && !error && filteredPosts.length === 0 && (
             <div className="py-16 text-center">
-              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8">
+              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8 paper-texture">
                 <p className="text-muted-foreground text-lg">
                   {searchQuery
                     ? `No posts found matching "${searchQuery}"`
@@ -254,9 +253,14 @@ export default function BlogPage() {
 
           {!loading && !error && filteredPosts.length > 0 && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
                 {filteredPosts.map((post, index) => (
-                  <BlogCard key={post.id} post={post} index={index} />
+                  <JournalBlogCard
+                    key={post.id}
+                    post={post}
+                    index={index}
+                    variant={index % 4 === 0 ? "notebook" : index % 4 === 1 ? "journal" : index % 4 === 2 ? "recipe" : "polaroid"}
+                  />
                 ))}
               </div>
 
@@ -269,7 +273,7 @@ export default function BlogPage() {
                   className="flex justify-center pt-12"
                 >
                   <Pagination>
-                    <PaginationContent className="bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-2">
+                    <PaginationContent className="bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-2 paper-texture">
                       <PaginationItem>
                         <PaginationPrevious
                           onClick={() => currentPage > 1 && fetchPosts(currentPage - 1)}

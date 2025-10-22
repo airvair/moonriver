@@ -35,15 +35,15 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative h-full w-80 cursor-pointer overflow-hidden rounded-xl border p-6",
-        // Light mode styles with coffee-themed colors
-        "border-red-200/30 bg-gradient-to-br from-red-50/50 to-orange-50/30 hover:from-red-100/50 hover:to-orange-100/40",
+        "relative h-full w-80 cursor-pointer overflow-hidden rounded-xl border p-6 cozy-card warm-shadow-enhanced vintage-paper",
+        // Light mode styles with warm coffee-themed colors
+        "border-[#926F34]/20 bg-gradient-to-br from-[#F5EBD7]/40 to-[#E8D4B0]/30 hover:from-[#F5EBD7]/60 hover:to-[#E8D4B0]/40",
         // Dark mode styles
-        "dark:border-red-950/30 dark:bg-gradient-to-br dark:from-red-950/20 dark:to-orange-950/20 dark:hover:from-red-950/30 dark:hover:to-orange-950/30"
+        "dark:border-[#926F34]/30 dark:bg-gradient-to-br dark:from-[#3A2F26]/30 dark:to-[#4A3929]/20 dark:hover:from-[#3A2F26]/40 dark:hover:to-[#4A3929]/30"
       )}
     >
       <div className="flex flex-row items-start gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#B91C1C] to-[#f87171] text-white font-semibold">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#926F34] to-[#D4AF37] text-white font-semibold shadow-md">
           {initials}
         </div>
         <div className="flex flex-col flex-1">
@@ -56,9 +56,9 @@ const ReviewCard = ({
               <Star
                 key={i}
                 className={cn(
-                  "h-4 w-4",
+                  "h-4 w-4 transition-all duration-300",
                   i < rating
-                    ? "fill-yellow-400 text-yellow-400"
+                    ? "fill-[#D4AF37] text-[#D4AF37] drop-shadow-sm"
                     : "fill-gray-200 text-gray-200 dark:fill-gray-700 dark:text-gray-700"
                 )}
               />
@@ -69,13 +69,17 @@ const ReviewCard = ({
       <blockquote className="mt-4 text-sm text-muted-foreground leading-relaxed">
         {truncatedReview}
       </blockquote>
+      {/* Coffee bean decoration */}
+      <div className="absolute bottom-2 right-2 opacity-10">
+        <span className="text-4xl">☕</span>
+      </div>
     </figure>
   );
 };
 
 export function TestimonialMarquee() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+    <div className="relative flex w-full max-w-full flex-col items-center justify-center overflow-hidden">
       <Marquee pauseOnHover className="[--duration:40s]">
         {firstRow.map((review, index) => (
           <ReviewCard key={`${review.id}-${index}`} {...review} />

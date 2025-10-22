@@ -2,18 +2,16 @@
 
 import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { HOURS, getOpenStatus } from "@/lib/hours";
+import { HOURS } from "@/lib/hours";
 import { useEffect, useState } from "react";
 
 export function StoreHours() {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
-  const [status, setStatus] = useState(getOpenStatus());
 
   useEffect(() => {
-    // Update status every minute
+    // Update current day every minute
     const interval = setInterval(() => {
       setCurrentDay(new Date().getDay());
-      setStatus(getOpenStatus());
     }, 60000); // 60 seconds
 
     return () => clearInterval(interval);
@@ -24,14 +22,6 @@ export function StoreHours() {
       <div className="flex items-center gap-2 mb-3">
         <Clock className="h-6 w-6 text-[#926F34]" />
         <h3 className="font-semibold text-base">Hours</h3>
-        <span className={cn(
-          "text-xs font-medium px-2 py-1 rounded ml-auto whitespace-nowrap",
-          status.isOpen
-            ? "bg-green-500/10 text-green-600 dark:text-green-400"
-            : "bg-muted text-muted-foreground"
-        )}>
-          {status.message}
-        </span>
       </div>
 
       <div className="space-y-1.5">
