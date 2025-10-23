@@ -1,147 +1,23 @@
 "use client";
 
-import Script from "next/script";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Coffee, Clock, Music, Calendar, CreditCard, Users, Star, Heart, Phone, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import { Phone, Coffee, Music, Sandwich, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-interface EBWidgets {
-  createWidget: (config: {
-    widgetType: string;
-    eventId: string;
-    iframeContainerId: string;
-    iframeContainerHeight: number;
-    onOrderComplete: () => void;
-  }) => void;
-}
-
-declare global {
-  interface Window {
-    EBWidgets?: EBWidgets;
-  }
-}
-
 export default function AfternoonTea() {
-  const offerings = [
-    {
-      name: "Luxurious Pastries",
-      className: "col-span-1 md:col-span-2 lg:col-span-2",
-      Icon: Heart,
-      description: "Exquisite pastries crafted in-house daily by our skilled pâtissiers",
-      href: "#",
-      cta: "Explore Menu",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-orange-500/20 to-red-500/20">
-          <div className="absolute inset-0 bg-[radial-gradient(40%_128px_at_50%_0%,theme(colors.amber.500/0.1),transparent)]" />
-          <Sparkles className="absolute top-4 right-4 h-8 w-8 text-amber-500/30 animate-pulse" />
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-        </div>
-      )
-    },
-    {
-      name: "Finest Teas",
-      className: "col-span-1 md:col-span-1 lg:col-span-1",
-      Icon: Coffee,
-      description: "A curated collection of premium loose-leaf teas from around the world",
-      href: "#",
-      cta: "Tea Selection",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-teal-500/10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,theme(colors.emerald.500/0.1),transparent)]" />
-        </div>
-      )
-    },
-    {
-      name: "Classic Sandwiches",
-      className: "col-span-1 md:col-span-1 lg:col-span-1",
-      Icon: Star,
-      description: "Delicate finger sandwiches with traditional and modern fillings",
-      href: "#",
-      cta: "View Varieties",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-rose-500/10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 20% 50%, transparent 20%, rgba(255,255,255,0.02) 20.5%, rgba(255,255,255,0.02) 30%, transparent 30.5%)`,
-            backgroundSize: '20px 20px'
-          }} />
-        </div>
-      )
-    },
-    {
-      name: "Fresh Scones",
-      className: "col-span-1 md:col-span-1 lg:col-span-1",
-      Icon: Clock,
-      description: "Warm, freshly baked scones served with clotted cream and preserves",
-      href: "#",
-      cta: "Daily Fresh",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-amber-500/10 to-orange-500/10">
-          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
-        </div>
-      )
-    },
-    {
-      name: "Live Music",
-      className: "col-span-1 md:col-span-2 lg:col-span-2",
-      Icon: Music,
-      description: "Gentle melodies to enhance your afternoon tea experience",
-      href: "#",
-      cta: "Performance Schedule",
-      background: (
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-purple-500/10" />
-          <div className="absolute -top-4 -right-4 h-24 w-24 animate-pulse rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 blur-2xl" />
-          <div className="absolute -bottom-4 -left-4 h-32 w-32 animate-pulse rounded-full bg-gradient-to-tr from-blue-500/20 to-indigo-500/20 blur-2xl animation-delay-1000" />
-          <Music className="absolute bottom-4 right-4 h-6 w-6 text-indigo-500/20 animate-bounce" />
-        </div>
-      )
-    },
-    {
-      name: "Timeless Elegance",
-      className: "col-span-1 md:col-span-1 lg:col-span-1",
-      Icon: Users,
-      description: "An ambiance of refined comfort and sophisticated charm",
-      href: "#",
-      cta: "Reserve Table",
-      background: (
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-500/10 via-gray-500/10 to-zinc-500/10">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,theme(colors.gray.500/0.05)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.500/0.05)_1px,transparent_1px)]"
-               style={{ backgroundSize: '20px 20px' }} />
-        </div>
-      )
-    }
+  const highlights = [
+    { icon: Sparkles, text: "Luxurious Pastries", ariaLabel: "Luxurious pastries included" },
+    { icon: Coffee, text: "Finest Teas", ariaLabel: "Finest teas included" },
+    { icon: Sandwich, text: "Classic Sandwiches", ariaLabel: "Classic sandwiches included" },
+    { icon: Music, text: "Live Music", ariaLabel: "Live music accompaniment" }
   ];
 
   return (
     <>
-      <Script
-        src="https://www.eventbrite.com/static/widgets/eb_widgets.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          // Initialize widget after script loads
-          const exampleCallback = function() {
-            console.log('Order complete!');
-          };
-
-          if (typeof window !== 'undefined' && window.EBWidgets) {
-            window.EBWidgets.createWidget({
-              widgetType: 'checkout',
-              eventId: '1709272091839',
-              iframeContainerId: 'eventbrite-widget-container-1709272091839',
-              iframeContainerHeight: 425,
-              onOrderComplete: exampleCallback
-            });
-          }
-        }}
-      />
       <style jsx global>{`
         @font-face {
           font-family: 'TanNimbus';
@@ -167,214 +43,126 @@ export default function AfternoonTea() {
         .animate-pulse-glow {
           animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-pulse-glow {
+            animation: none;
+          }
+        }
       `}</style>
       <SiteHeader />
-      <main className="flex flex-col">
-        {/* Hero Section with Video Background */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden">
-          {/* Video Background */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="/images_videos/afternoon_tea/stirring_tea.mp4" type="video/mp4" />
-          </video>
+      <main className="flex flex-col relative unified-background overflow-hidden h-screen">
+        {/* Single Viewport Layout */}
+        <section className="relative h-screen flex items-center justify-center overflow-hidden" role="main" aria-label="Afternoon Tea Service Information">
 
-          {/* Dark overlay for better text visibility */}
-          <div className="absolute inset-0 bg-black/50" />
-
-          {/* Content */}
-          <div className="relative z-10 max-w-4xl mx-auto px-4 py-20">
-            <AnimatedGradientText className="mb-6">
-              <span className={cn(
-                "inline bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 bg-clip-text text-transparent text-sm font-medium uppercase tracking-wider"
-              )}>
-                A Moon River Tradition
-              </span>
-            </AnimatedGradientText>
-
-            <h1
-              className="text-6xl md:text-8xl font-bold mb-6 text-white"
-              style={{ fontFamily: 'TanNimbus, serif' }}
-            >
-              Afternoon Tea
-            </h1>
-
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto">
-              Indulge in an exquisite afternoon of refined elegance, featuring luxurious pastries,
-              finest teas, and live music in an atmosphere of timeless sophistication.
-            </p>
-
-            <div className="flex gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
-                asChild
-              >
-                <Link href="https://www.eventbrite.com" target="_blank" rel="noopener noreferrer">
-                  Reserve on Eventbrite
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* What to Expect Section */}
-        <section className="py-20 px-4 bg-gradient-to-b from-background to-secondary/20">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <AnimatedGradientText className="mb-4">
-                <span className={cn(
-                  "inline bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 bg-clip-text text-transparent text-sm font-medium uppercase tracking-wider"
-                )}>
-                  An Unforgettable Experience
-                </span>
-              </AnimatedGradientText>
-              <h2
-                className="text-4xl md:text-5xl font-bold mb-4"
-                style={{ fontFamily: 'TanNimbus, serif' }}
-              >
-                What to Expect
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Every element of our afternoon tea service has been carefully curated to create
-                an unforgettable experience of indulgence and refinement.
-              </p>
-            </div>
-
-            <BentoGrid className="max-w-7xl mx-auto">
-              {offerings.map((item) => (
-                <BentoCard
-                  key={item.name}
-                  {...item}
-                />
-              ))}
-            </BentoGrid>
-          </div>
-        </section>
-
-        {/* Visual Showcase Section */}
-        <section className="py-20 px-4 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Image Section */}
-              <div className="relative group">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <Image
-                    src="/images_videos/afternoon_tea/high_tea.jpg"
-                    alt="Elegant afternoon tea setup"
-                    width={800}
-                    height={600}
-                    className="w-full h-auto rounded-2xl transform group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {/* Content Container */}
+          <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4 py-8">
+            <div className="max-w-6xl mx-auto w-full">
+              {/* Header */}
+              <header className="text-center mb-8">
+                <div className="mb-4">
+                  <span
+                    className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full border border-primary/20 font-handwritten text-base stamp"
+                    role="note"
+                    aria-label="This is a Moon River tradition"
+                  >
+                    <Coffee className="inline-block w-4 h-4 mr-1 -mt-1" aria-hidden="true" />
+                    A Moon River Tradition
+                  </span>
                 </div>
-                <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white">
-                  Served Daily
-                </Badge>
-              </div>
-
-              {/* Video Section */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover rounded-2xl"
-                  style={{ maxHeight: '500px' }}
+                <h1
+                  className="text-5xl md:text-7xl font-bold mb-4 handwritten-underline"
+                  style={{
+                    fontFamily: 'TanNimbus, serif',
+                    color: '#926F34'
+                  }}
                 >
-                  <source src="/images_videos/afternoon_tea/high_tea_sweets.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                  <h3 className="text-2xl font-bold text-white mb-2">Artisan Sweets</h3>
-                  <p className="text-gray-200">
-                    Each pastry is a work of art, crafted with precision and passion
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+                  Afternoon Tea
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-casual">
+                  Luxurious pastries, finest teas, and live music in timeless sophistication
+                </p>
+              </header>
 
-        {/* Reservation Section */}
-        <section className="py-20 px-4 bg-gradient-to-b from-secondary/20 to-background">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2
-              className="text-4xl md:text-5xl font-bold mb-8"
-              style={{ fontFamily: 'TanNimbus, serif' }}
-            >
-              Reserve Your Experience
-            </h2>
+              {/* Info Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-6">
+                {/* Highlights Card */}
+                <Card className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl paper-texture hover:shadow-xl transition-all duration-300 group">
+                  <CardContent className="p-6">
+                    <h2 className="text-xl font-handwritten text-primary mb-4 flex items-center gap-2">
+                      <Sparkles className="w-5 h-5" aria-hidden="true" />
+                      What&apos;s Included
+                    </h2>
+                    <ul className="grid grid-cols-2 gap-3" role="list" aria-label="Afternoon tea inclusions">
+                      {highlights.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <li
+                            key={item.text}
+                            className="flex items-center gap-2 p-2 rounded-md hover:bg-primary/5 transition-colors"
+                            aria-label={item.ariaLabel}
+                          >
+                            <Icon className="w-5 h-5 text-primary flex-shrink-0" aria-hidden="true" />
+                            <span className="text-sm font-casual text-foreground">{item.text}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </CardContent>
+                </Card>
 
-            <Card className="bg-card/50 backdrop-blur border-primary/10">
-              <CardHeader>
-                <CardTitle className="text-2xl">
-                  <Calendar className="inline-block mr-2 h-6 w-6" />
-                  Reservations Required
-                </CardTitle>
-                <CardDescription className="text-lg">
-                  Secure your spot for this exclusive afternoon tradition
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-8">
-                {/* Pricing Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Card className="relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-bl-full" />
-                    <CardHeader>
-                      <CardTitle className="text-xl">At the Café</CardTitle>
-                      <div className="text-3xl font-bold text-primary">
-                        $65
-                        <span className="text-base font-normal text-muted-foreground ml-2">per person</span>
+                {/* Reservation Card */}
+                <Card className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl paper-texture hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                  <div className="relative h-32 overflow-hidden">
+                    <Image
+                      src="/images_videos/afternoon_tea/high_tea.jpg"
+                      alt="Elegant afternoon tea setup with fine china, pastries, and tea service"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
+                  </div>
+                  <CardContent className="p-6 -mt-4 relative z-10">
+                    <h2 className="text-xl font-handwritten text-primary mb-3">Reserve Now</h2>
+                    <div className="space-y-3">
+                      <div className="flex items-baseline gap-2" role="text" aria-label="Price: 65 dollars per person">
+                        <span className="text-3xl font-handwritten text-primary">$65</span>
+                        <span className="text-sm font-casual text-muted-foreground">per person</span>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Purchase directly at Moon River Café
-                      </p>
-                      <Button className="w-full mt-4" variant="outline">
-                        <Phone className="h-4 w-4 mr-2" />
+                      <Button
+                        className="w-full bg-primary hover:bg-primary/90 text-white font-handwritten text-base focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+                        asChild
+                      >
+                        <Link
+                          href="https://www.eventbrite.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="Book afternoon tea on Eventbrite (opens in new tab)"
+                        >
+                          Book on Eventbrite
+                        </Link>
+                      </Button>
+                      <Button
+                        className="w-full font-handwritten text-base focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all border-primary/30 hover:bg-primary/10"
+                        variant="outline"
+                        aria-label="Call to reserve afternoon tea"
+                      >
+                        <Phone className="h-4 w-4 mr-2" aria-hidden="true" />
                         Call to Reserve
                       </Button>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
 
-                  <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-amber-500/10 to-orange-500/10">
-                    <Badge className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white z-10">
-                      Online Booking
-                    </Badge>
-                    <CardHeader className="pt-12">
-                      <CardTitle className="text-xl flex items-center gap-2">
-                        <CreditCard className="h-5 w-5" />
-                        Reserve Online
-                      </CardTitle>
-                      <CardDescription>
-                        Secure your reservation with Eventbrite
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div
-                        id="eventbrite-widget-container-1709272091839"
-                        className="w-full min-h-[425px] rounded-lg overflow-hidden"
-                      />
-                    </CardContent>
-                  </Card>
-                </div>
-
-                <div className="pt-8 border-t">
-                  <p className="text-lg text-muted-foreground mb-4">
-                    We look forward to welcoming you to this new Moon River tradition.
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    For groups larger than 6, please contact us directly for special arrangements.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+              {/* Bottom Note */}
+              <footer className="text-center" role="contentinfo" aria-label="Important information">
+                <p className="text-sm text-muted-foreground font-casual">
+                  Reservations required <span aria-hidden="true">•</span> Served daily <span aria-hidden="true">•</span> Groups of 6+ please call ahead
+                </p>
+              </footer>
+            </div>
           </div>
         </section>
       </main>

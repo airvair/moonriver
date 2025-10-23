@@ -1,3 +1,6 @@
+// Store location time zone
+const STORE_TIMEZONE = "America/New_York";
+
 export const HOURS = [
   { day: "Sunday", hours: "9 AM–3 PM" },
   { day: "Monday", hours: "Closed" },
@@ -7,6 +10,19 @@ export const HOURS = [
   { day: "Friday", hours: "9 AM–9 PM" },
   { day: "Saturday", hours: "9 AM–9 PM" },
 ];
+
+// Get current time in store's time zone
+function getStoreTime(): Date {
+  // Get current UTC time
+  const now = new Date();
+
+  // Convert to store's time zone
+  const storeTimeStr = now.toLocaleString("en-US", {
+    timeZone: STORE_TIMEZONE,
+  });
+
+  return new Date(storeTimeStr);
+}
 
 // Parse time string like "9 AM" into hours (24-hour format)
 export function parseTime(timeStr: string): number {
@@ -27,7 +43,7 @@ export function parseTime(timeStr: string): number {
 export function isCurrentlyOpen(hoursStr: string): boolean {
   if (hoursStr === "Closed") return false;
 
-  const now = new Date();
+  const now = getStoreTime();
   const currentHours = now.getHours();
   const currentMinutes = now.getMinutes();
   const currentTimeInMinutes = currentHours * 60 + currentMinutes;
@@ -56,9 +72,9 @@ export function isCurrentlyOpen(hoursStr: string): boolean {
 }
 
 // Get the next opening time (today or in the future)
-function getNextOpeningTime(now: Date): { date: Date; dayName: string } | null {
-  const currentDay = now.getDay();
-  const currentTimeInMinutes = now.getHours() * 60 + now.getMinutes();
+function getNextOpeningTime(storeTime: Date): { date: Date; dayName: string } | null {
+  const currentDay = storeTime.getDay();
+  const currentTimeInMinutes = storeTime.getHours() * 60 + storeTime.getMinutes();
 
   // First check if we open later today
   const todayHours = HOURS[currentDay].hours;
@@ -74,7 +90,7 @@ function getNextOpeningTime(now: Date): { date: Date; dayName: string } | null {
 
       // If this period starts later today
       if (currentTimeInMinutes < startTimeInMinutes) {
-        const openingDate = new Date(now);
+        const openingDate = new Date(storeTime);
         openingDate.setHours(startHours, 0, 0, 0);
         return {
           date: openingDate,
@@ -97,7 +113,7 @@ function getNextOpeningTime(now: Date): { date: Date; dayName: string } | null {
 
       if (match) {
         const startHours = parseTime(match[1]);
-        const openingDate = new Date(now);
+        const openingDate = new Date(storeTime);
         openingDate.setDate(openingDate.getDate() + i);
         openingDate.setHours(startHours, 0, 0, 0);
 
@@ -114,7 +130,7 @@ function getNextOpeningTime(now: Date): { date: Date; dayName: string } | null {
 
 // Get friendly status message with opening information
 export function getOpenStatus() {
-  const now = new Date();
+  const now = getStoreTime();
   const currentDay = now.getDay();
   const currentDayHours = HOURS[currentDay];
   const isOpen = isCurrentlyOpen(currentDayHours.hours);

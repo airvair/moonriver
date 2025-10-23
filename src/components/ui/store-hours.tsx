@@ -5,13 +5,24 @@ import { cn } from "@/lib/utils";
 import { HOURS } from "@/lib/hours";
 import { useEffect, useState } from "react";
 
+const STORE_TIMEZONE = "America/New_York";
+
+// Get current day in store's time zone
+function getStoreDay(): number {
+  const now = new Date();
+  const storeTimeStr = now.toLocaleString("en-US", {
+    timeZone: STORE_TIMEZONE,
+  });
+  return new Date(storeTimeStr).getDay();
+}
+
 export function StoreHours() {
-  const [currentDay, setCurrentDay] = useState(new Date().getDay());
+  const [currentDay, setCurrentDay] = useState(getStoreDay());
 
   useEffect(() => {
     // Update current day every minute
     const interval = setInterval(() => {
-      setCurrentDay(new Date().getDay());
+      setCurrentDay(getStoreDay());
     }, 60000); // 60 seconds
 
     return () => clearInterval(interval);

@@ -71,14 +71,14 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/menu" className={navigationMenuTriggerStyle()}>
+                  <Link href="/menu" className={cn(navigationMenuTriggerStyle(), "font-casual !text-xl")}>
                     Menu
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                  <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="font-casual !text-xl">Shop</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid gap-2 p-4 md:w-[400px]">
                       <ListItem href="/guides/merchandise" title="Merchandise">
@@ -92,7 +92,7 @@ export function SiteHeader() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Events</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="font-casual !text-xl">Events</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-2 p-4 md:w-[400px]">
                     <ListItem href="/calendar" title="Calendar">
@@ -110,7 +110,7 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/blog" className={navigationMenuTriggerStyle()}>
+                  <Link href="/blog" className={cn(navigationMenuTriggerStyle(), "font-casual !text-xl")}>
                     Blog
                   </Link>
                 </NavigationMenuLink>
@@ -118,14 +118,14 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/podcast" className={navigationMenuTriggerStyle()}>
+                  <Link href="/podcast" className={cn(navigationMenuTriggerStyle(), "font-casual !text-xl")}>
                     Podcast
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>About</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="font-casual !text-xl">About</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-2 p-4 md:w-[400px]">
                   <ListItem href="/story" title="Our Story">
@@ -140,7 +140,7 @@ export function SiteHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave" className={navigationMenuTriggerStyle()}>
+                  <Link href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave" className={cn(navigationMenuTriggerStyle(), "font-casual !text-xl")}>
                       Order Online
                   </Link>
                 </NavigationMenuLink>
@@ -165,8 +165,8 @@ function ListItem({
     <li {...props}>
       <NavigationMenuLink asChild>
         <Link href={href} className="group">
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground group-hover:text-foreground line-clamp-2 text-sm leading-snug">
+          <div className="text-base leading-none font-bold font-casual">{title}</div>
+          <p className="text-muted-foreground group-hover:text-foreground line-clamp-2 text-base leading-snug font-casual font-normal mt-1">
             {children}
           </p>
         </Link>
