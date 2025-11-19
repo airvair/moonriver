@@ -1,157 +1,230 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BentoGrid } from "@/components/ui/bento-grid";
-import { BlurFade } from "@/components/ui/blur-fade";
-import { Marquee } from "@/components/ui/marquee";
-import { NumberTicker } from "@/components/ui/number-ticker";
-import { TextReveal } from "@/components/ui/text-reveal";
-import { ScrollProgress } from "@/components/ui/scroll-progress";
-import { Particles } from "@/components/ui/particles";
-import { Coffee, Heart, Music, Palette, Book, Users, Award, Sparkles, Calendar, ChevronDown, MapPin, Star } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Coffee, Sparkles, MapPin, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
-// Custom BentoGridItem Component
-const BentoGridItem = ({
+// Polaroid Photo Card Component
+const PolaroidCard = ({
+  image,
   title,
-  description,
-  icon,
-  className,
-  children
+  caption,
+  rotation = 0,
+  className
 }: {
+  image: string;
   title: string;
-  description: string;
-  icon: React.ReactNode;
+  caption: string;
+  rotation?: number;
   className?: string;
-  children?: React.ReactNode;
 }) => {
   return (
-    <div className={cn(
-      "row-span-1 rounded-xl group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-black dark:border-white/[0.2] bg-white border border-transparent justify-between flex flex-col space-y-4",
-      className
-    )}>
-      {children}
-      <div className="group-hover/bento:translate-x-2 transition duration-200 relative z-10">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="p-2 rounded-full bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20">
-            {icon}
-          </div>
-        </div>
-        <div className="font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2">
-          {title}
-        </div>
-        <div className="font-sans font-normal text-neutral-600 text-sm dark:text-neutral-300">
-          {description}
-        </div>
+    <div
+      className={cn(
+        "bg-white dark:bg-card p-4 rounded-lg warm-shadow-enhanced transition-all duration-300 hover:scale-105 hover:z-10",
+        "paper-texture vintage-paper",
+        className
+      )}
+      style={{ transform: `rotate(${rotation}deg)` }}
+    >
+      <div className="relative aspect-square bg-muted rounded-sm overflow-hidden mb-3">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className="object-cover"
+        />
       </div>
+      <h3 className="font-handwritten text-xl text-primary mb-1">{title}</h3>
+      <p className="font-casual text-sm text-muted-foreground">{caption}</p>
+    </div>
+  );
+};
+
+// Sticky Note Component
+const StickyNote = ({
+  children,
+  color = "yellow",
+  rotation = 0,
+  className
+}: {
+  children: React.ReactNode;
+  color?: "yellow" | "pink" | "blue" | "green";
+  rotation?: number;
+  className?: string;
+}) => {
+  const colorClasses = {
+    yellow: "bg-yellow-100/90 dark:bg-yellow-900/30",
+    pink: "bg-pink-100/90 dark:bg-pink-900/30",
+    blue: "bg-blue-100/90 dark:bg-blue-900/30",
+    green: "bg-green-100/90 dark:bg-green-900/30"
+  };
+
+  return (
+    <div
+      className={cn(
+        "p-6 rounded-sm warm-shadow-enhanced transition-all duration-300 hover:scale-105 hover:z-10",
+        "paper-texture",
+        colorClasses[color],
+        className
+      )}
+      style={{ transform: `rotate(${rotation}deg)` }}
+    >
+      {children}
     </div>
   );
 };
 
 export default function OurStory() {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const features = [
+  const pressArticles = [
     {
-      title: "Hand-Painted Artistry",
-      description: "Kate's original acrylic and oil paintings adorn our walls, including a stunning hand-painted mural that doubles as our menu board",
-      icon: <Palette className="h-5 w-5" />,
-      className: "md:col-span-2",
-      image: "/images_videos/our_story/moonriver_artwork.jpg"
+      date: "Oct 21, 2025",
+      publication: "Hometown News Brevard",
+      title: "Writers Remember Mentor with Plaque",
+      url: "https://www.hometownnewsbrevard.com/news/local/brevard_county/writers-remember-mentor-with-plaque-at-moon-river-caf/article_e143f66a-b873-5f61-a9fc-5aa06841e8cb.html",
+      color: "yellow" as const,
+      rotation: -2
     },
     {
-      title: "World Treasures",
-      description: "An 1863 German steamer trunk, 1876 coffee grinder, antique apothecary scales, and brass register tell stories from around the globe",
-      icon: <Sparkles className="h-5 w-5" />,
-      className: "md:col-span-1"
+      date: "Oct 3, 2025",
+      publication: "Florida Today",
+      title: "Named Best Coffee Shop in Brevard",
+      url: "https://www.floridatoday.com/story/entertainment/dining/2025/10/03/moon-river-cafe-named-best-coffee-shop-in-brevard-by-our-readers-florida/86310528007/",
+      color: "pink" as const,
+      rotation: 1
     },
     {
-      title: "Celestial Ceiling",
-      description: "Hand-painted mosaic ceiling sprinkled with moon and star motifs casts a warm, enchanting glow throughout the café",
-      icon: <Star className="h-5 w-5" />,
-      className: "md:col-span-1"
+      date: "Oct 2, 2025",
+      publication: "The Crimson",
+      title: "Grand Opening Celebration",
+      url: "https://www.crimson.fit.edu/arts_and_entertainment/moon-river-caf-and-curiosities-celebrates-its-grand-opening/article_4cee279c-dcf7-4bd2-a0e2-d82d87ed24ca.html",
+      color: "blue" as const,
+      rotation: -1
     },
     {
-      title: "The Cozy Interior",
-      description: "Every corner tells a story, inviting you to sip slowly and stay awhile",
-      icon: <Heart className="h-5 w-5" />,
-      className: "md:col-span-2",
-      image: "/images_videos/our_story/moonriver_today_inside.jpg"
-    }
-  ];
-
-  const offerings = [
-    {
-      title: "European Café Traditions",
-      description: "Lavazza coffee, house-made Belgian waffles, delicate scones with clotted cream, and gourmet sandwiches with Florida flair",
-      icon: <Coffee className="h-5 w-5" />
+      date: "Sept 29, 2025",
+      publication: "Florida Today",
+      title: "Top 4 Coffee Shops - Vote Round 3",
+      url: "https://www.floridatoday.com/story/entertainment/dining/2025/09/29/top-4-coffee-shops-in-brevard-cast-your-vote-today-round-three-best-in-brevard-coffee/86310165007/",
+      color: "green" as const,
+      rotation: 2
     },
     {
-      title: "The Palm Court",
-      description: "Elegant weekend afternoon high tea with fine china, premium loose-leaf teas, and freshly baked treats under a crystal chandelier",
-      icon: <Heart className="h-5 w-5" />
+      date: "Sept 26, 2025",
+      publication: "Florida Today",
+      title: "Who Will Brew to the Final Four?",
+      url: "https://www.floridatoday.com/story/entertainment/dining/2025/09/26/brevard-top-coffee-shops-who-will-brew-their-way-to-the-final-four-vote-best-coffee/86309898007/",
+      color: "yellow" as const,
+      rotation: -1
     },
     {
-      title: "Sober Bar Experience",
-      description: "Brevard County's first and only alcohol-free bar, featuring exquisite zero-proof mocktails crafted with care",
-      icon: <Sparkles className="h-5 w-5" />
+      date: "Sept 24, 2025",
+      publication: "Florida Today",
+      title: "Best Beans in Brevard - Vote Now",
+      url: "https://www.floridatoday.com/story/entertainment/dining/2025/09/24/from-titusville-to-palm-bay-who-is-brewing-the-best-beans-in-brevard-vote-best-coffee-shop/86293503007/",
+      color: "pink" as const,
+      rotation: 1
     },
     {
-      title: "The Galleria",
-      description: "In-house art gallery showcasing rotating exhibits from local and international artists alongside your morning coffee",
-      icon: <Palette className="h-5 w-5" />
+      date: "Sept 2025",
+      publication: "Brevard Business News",
+      title: "Featured in Archives",
+      url: "https://brevardbusinessnews.com/archives/2025-articles/",
+      color: "blue" as const,
+      rotation: -2
     },
     {
-      title: "Live Arts & Music",
-      description: "Acoustic performances, poetry readings, 'coffee and canvas' workshops, and creative sessions that blur café and arts center",
-      icon: <Music className="h-5 w-5" />
+      date: "Aug 6, 2025",
+      publication: "Florida Today",
+      title: "Restaurants Opened in Brevard 2025",
+      url: "https://www.floridatoday.com/picture-gallery/entertainment/dining/2025/06/05/restaurants-that-opened-in-brevard-in-2025-photos-florida-melbourne-viera-merritt-island/84034775007/",
+      color: "green" as const,
+      rotation: 1
     },
     {
-      title: "Local Authors' Corner",
-      description: "Dedicated shelf space for Brevard writers with book signings, author spotlights, and children's storytime events",
-      icon: <Book className="h-5 w-5" />
-    }
-  ];
-
-  const testimonials = [
-    {
-      quote: "Moon River feels like home. It's where I come to write, to think, and to be inspired.",
-      author: "Sarah M.",
-      title: "Local Author"
+      date: "May 19, 2025",
+      publication: "Brevard is Best",
+      title: "Where Coffee Meets Culture",
+      url: "https://brevardisbestteam.com/moon-river-cafe-curiosities-where-coffee-meets-culture-in-downtown-melbourne/",
+      color: "yellow" as const,
+      rotation: -1
     },
     {
-      quote: "The perfect blend of coffee, culture, and community. This place is magical!",
-      author: "James R.",
-      title: "Daily Visitor"
+      date: "May 7, 2025",
+      publication: "Florida Today",
+      title: "Mom and Daughter Open Moon River",
+      url: "https://www.floridatoday.com/videos/entertainment/dining/2025/05/07/mom-and-daughter-open-moon-river-cafe-and-add-to-melbourne-arts-scene-downtown-artists-coffee/83491830007/",
+      color: "pink" as const,
+      rotation: 2
     },
     {
-      quote: "Mary and Kate have created something truly special. It's more than a café – it's a sanctuary.",
-      author: "Emily L.",
-      title: "Artist"
+      date: "May 1, 2025",
+      publication: "Everything Brevard",
+      title: "Art, Poetry, Creative Connections",
+      url: "https://www.everythingbrevard.com/blog/new-melbourne-caf%C3%A9-features-art-poetry-creative-connections",
+      color: "blue" as const,
+      rotation: -2
     },
     {
-      quote: "The attention to detail is incredible. Every visit feels like a new discovery.",
-      author: "Michael T.",
-      title: "Coffee Enthusiast"
+      date: "April 29, 2025",
+      publication: "The Crimson",
+      title: "Grand Opening Celebration",
+      url: "https://www.crimson.fit.edu/arts_and_entertainment/moon-river-caf-and-curiosities-celebrates-its-grand-opening/article_4cee279c-dcf7-4bd2-a0e2-d82d87ed24ca.html",
+      color: "green" as const,
+      rotation: 1
     },
     {
-      quote: "My children love storytime here. It's become our favorite weekend tradition.",
-      author: "Amanda K.",
-      title: "Mom of Two"
+      date: "April 21, 2025",
+      publication: "Hometown News Brevard",
+      title: "Steeped in Charm and Creativity",
+      url: "https://www.hometownnewsbrevard.com/arts_and_entertainment/dining_reviews/moon-river-caf-curiosities-steeped-in-charm-and-creativity/article_aa6e8fcc-226c-5107-bba3-d436b1c89b42.html",
+      color: "yellow" as const,
+      rotation: -1
+    },
+    {
+      date: "March 2025",
+      publication: "Florida Today",
+      title: "Great Month for Restaurants",
+      url: "https://www.floridatoday.com/story/entertainment/dining/2025/03/28/march-was-a-great-month-for-restaurants-in-brevard-new-places-to-dine-foodies-cocoa-melbourne/82637175007/",
+      color: "pink" as const,
+      rotation: 2
+    },
+    {
+      date: "Feb 2025",
+      publication: "Business Debut",
+      title: "European-Inspired Café Coming",
+      url: "https://www.businessdebut.com/european-inspired-cafe-coming-to-melbourne-in-early-march/",
+      color: "blue" as const,
+      rotation: -1
+    },
+    {
+      date: "Jan 27, 2025",
+      publication: "The Crimson",
+      title: "Inspiration from Breakfast at Tiffany's",
+      url: "https://www.crimson.fit.edu/arts_and_entertainment/moon-river-cafe---a-local-inspiration-from-breakfast-at-tiffany-s/article_e004564c-dcf0-11ef-bfd3-2bbdc00ca918.html",
+      color: "green" as const,
+      rotation: 1
+    },
+    {
+      date: "Nov 2024",
+      publication: "Orlando Voyager",
+      title: "Rising Stars: Meet Kate Broderick",
+      url: "https://orlandovoyager.com/interview/rising-stars-meet-kate-broderick-of-melbourne/",
+      color: "yellow" as const,
+      rotation: -2
+    },
+    {
+      date: "Sept 14, 2024",
+      publication: "Florida Today",
+      title: "Thirsty for Community",
+      url: "https://www.floridatoday.com/story/entertainment/dining/2024/09/14/thirsty-for-community-moon-river-cafe-is-making-plans-in-melbourne-culture-arts-poetry-mocktails/74951921007/",
+      color: "pink" as const,
+      rotation: 2
     }
   ];
 
@@ -167,53 +240,18 @@ export default function OurStory() {
         }
       `}</style>
 
-      <ScrollProgress className="top-[64px] z-40" />
       <SiteHeader />
 
-      <main className="flex flex-col">
-        {/* Hero Section with Parallax */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden">
-          {/* Parallax Image Background */}
-          <div
-            className="absolute inset-0 z-0"
-            style={{
-              transform: `translateY(${scrollY * 0.5}px)`
-            }}
-          >
-            <Image
-              src="/images_videos/our_story/moonriver_hero.jpg"
-              alt="Moon River Café interior"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
+      <main className="flex flex-col unified-background">
+        {/* Hero Section */}
+        <section className="relative min-h-[60vh] flex flex-col items-center justify-center text-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#2a1810] via-[#3d2417] to-[#2a1810]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#926F34]/10 via-transparent to-[#D4AF37]/10" />
 
-          {/* Dark Overlay for Text Readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70 z-[1]" />
-
-          {/* Particles Effect */}
-          <Particles
-            className="absolute inset-0 z-[2]"
-            quantity={50}
-            ease={80}
-            refresh={false}
-          />
-
-          <div className="container mx-auto px-4 py-32 relative z-10">
-            <BlurFade delay={0.25} inView>
-              <AnimatedGradientText className="mb-6">
-                <span className={cn(
-                  `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-lg font-medium`
-                )}>
-                  A Dream Over Two Decades in the Making
-                </span>
-              </AnimatedGradientText>
-            </BlurFade>
-
-            <BlurFade delay={0.5} inView>
+          <div className="container mx-auto px-4 py-20 relative z-10">
+            <div className="max-w-4xl mx-auto">
               <h1
-                className="text-6xl md:text-8xl font-bold mb-6 text-white max-w-4xl mx-auto"
+                className="text-5xl md:text-7xl font-bold mb-6 text-white"
                 style={{
                   fontFamily: 'TanNimbus, sans-serif',
                   WebkitTextStroke: '3px #926F34',
@@ -222,483 +260,340 @@ export default function OurStory() {
               >
                 Our Story
               </h1>
-            </BlurFade>
 
-            <BlurFade delay={0.75} inView>
-              <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto">
-                A mother-daughter vision brought to life in the heart of Downtown Melbourne
+              <p className="text-xl md:text-2xl text-amber-100/90 mb-8 font-casual italic">
+                Some stories begin with fireworks, but ours began with a teapot.
               </p>
-            </BlurFade>
-
-            <BlurFade delay={1} inView>
-              <ChevronDown className="h-8 w-8 text-white/60 mx-auto animate-bounce" />
-            </BlurFade>
-          </div>
-        </section>
-
-        {/* Welcome Section with Front Door */}
-        <section className="py-24 bg-gradient-to-b from-background to-secondary/20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <BlurFade delay={0.25} inView>
-                  <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                    <Image
-                      src="/images_videos/our_story/moonriver_frontdoor.webp"
-                      alt="Moon River front door"
-                      width={600}
-                      height={800}
-                      className="w-full h-auto"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                      <p className="text-white text-lg font-medium">
-                        <MapPin className="inline h-5 w-5 mr-2" />
-                        Downtown Melbourne, Florida
-                      </p>
-                    </div>
-                  </div>
-                </BlurFade>
-
-                <div className="space-y-6">
-                  <BlurFade delay={0.5} inView>
-                    <AnimatedGradientText className="mb-4">
-                      <span className={cn(
-                        `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-medium`
-                      )}>
-                        Your Journey Begins Here
-                      </span>
-                    </AnimatedGradientText>
-                  </BlurFade>
-
-                  <BlurFade delay={0.75} inView>
-                    <h2
-                      className="text-4xl md:text-5xl font-bold mb-6"
-                      style={{ fontFamily: 'TanNimbus, sans-serif' }}
-                    >
-                      Step Into Our World
-                    </h2>
-                  </BlurFade>
-
-                  <BlurFade delay={1} inView>
-                    <TextReveal>
-                      Step through our doors and enter a world where time slows down, creativity flourishes, and every cup tells a story. This isn&apos;t just a café – it&apos;s a portal to a place where Old-World charm meets modern comfort, where strangers become friends, and where dreams come to life over coffee.
-                    </TextReveal>
-                  </BlurFade>
-
-                  <BlurFade delay={1.25} inView>
-                    <div className="flex items-center gap-6 mt-8">
-                      <div>
-                        <p className="text-2xl font-bold text-foreground">
-                          <NumberTicker value={20} />+
-                        </p>
-                        <p className="text-sm text-muted-foreground">Years in the Making</p>
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold text-foreground">
-                          <NumberTicker value={2025} />
-                        </p>
-                        <p className="text-sm text-muted-foreground">Grand Opening</p>
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold text-foreground">
-                          #<NumberTicker value={1} />
-                        </p>
-                        <p className="text-sm text-muted-foreground">Coffee House in Brevard</p>
-                      </div>
-                    </div>
-                  </BlurFade>
-                </div>
-              </div>
             </div>
           </div>
         </section>
 
-        {/* The Dream Begins Section */}
-        <section className="py-24 bg-background">
+        {/* The Beginning - Tea Party Origins */}
+        <section className="py-20 relative">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <BlurFade delay={0.25} inView>
-                <div className="text-center mb-16">
-                  <AnimatedGradientText className="mb-4">
-                    <span className={cn(
-                      `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-medium`
-                    )}>
-                      The Beginning
-                    </span>
-                  </AnimatedGradientText>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Polaroid image */}
+                <div className="relative order-2 lg:order-1">
+                  <PolaroidCard
+                    image="/images_videos/our_story/moonriver_today_inside.jpg"
+                    title="Where Magic Began"
+                    caption="From childhood tea parties to Moon River"
+                    rotation={-2}
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="space-y-6 order-1 lg:order-2">
+                  <span className="badge-handwritten text-primary">
+                    The Beginning
+                  </span>
                   <h2
-                    className="text-4xl md:text-5xl font-bold mb-4"
+                    className="text-4xl md:text-5xl font-bold mb-6 handwritten-underline"
                     style={{ fontFamily: 'TanNimbus, sans-serif' }}
                   >
-                    A Mother-Daughter Dream
+                    A Teapot&apos;s Promise
                   </h2>
-                </div>
-              </BlurFade>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <BlurFade delay={0.5} inView>
-                  <div className="space-y-4 text-lg text-muted-foreground">
-                    <p>
-                      Moon River Café & Curiosities began as a spark of inspiration over 20 years ago, when Melbourne locals Mary and Kate Broderick envisioned a creative sanctuary for their community. For years, this mother-daughter duo strolled the historic downtown streets, dreaming of a café that would be more than a coffee shop – a welcoming haven for artists, writers, and neighbors from all walks of life.
-                    </p>
-                    <p>
-                      Even the name &quot;Moon River&quot; carries a special piece of their story: it&apos;s inspired by the classic song Audrey Hepburn sang in <em>Breakfast at Tiffany&apos;s</em>, a lullaby Mary would sing to young Kate years ago. In 2025, that long-held dream became reality as Moon River Café opened its doors in the heart of Downtown Melbourne.
-                    </p>
-                  </div>
-                </BlurFade>
-
-                <BlurFade delay={0.75} inView>
-                  <Card className="bg-gradient-to-br from-[#AE8625]/10 to-[#D2AC47]/10 border-[#AE8625]/20">
-                    <CardContent className="p-12 text-center">
-                      <Users className="h-24 w-24 mx-auto mb-4 text-[#AE8625]/40" />
-                      <p className="text-lg font-medium text-foreground mb-2">Mary & Kate Broderick</p>
-                      <p className="text-muted-foreground italic">
-                        Mother & Daughter, Dreamers & Creators
+                  <Card className="bg-card/95 warm-shadow-enhanced vintage-paper paper-texture">
+                    <CardContent className="p-8">
+                      <p className="text-lg text-muted-foreground font-casual leading-relaxed mb-4">
+                        I grew up in rural Pennsylvania, where winters lasted forever and imagination was often
+                        the best source of entertainment. My mother, Mary, understood this better than anyone.
+                      </p>
+                      <p className="text-lg text-muted-foreground font-casual leading-relaxed">
+                        She staged lavish childhood tea parties for me—not the polite sort, but the kind where
+                        the mismatched china seemed enchanted, the stuffed animals held complicated political
+                        alliances, and every cup poured was an invitation to dream a little bigger than the world allowed.
                       </p>
                     </CardContent>
                   </Card>
-                </BlurFade>
+
+                  <StickyNote color="yellow" rotation={-1}>
+                    <p className="font-casual text-sm text-muted-foreground mb-3">
+                      Those early afternoons planted something in both of us: the idea that a shared table can
+                      be a kind of magic. A place where people become braver, kinder, more themselves.
+                    </p>
+                    <p className="font-handwritten text-lg text-primary">
+                      — The Seed Was Planted
+                    </p>
+                  </StickyNote>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Transformation Section - Before & After */}
-        <section className="py-24 bg-secondary/20">
+        {/* The Journey - European Research */}
+        <section className="py-20 relative">
           <div className="container mx-auto px-4">
-            <BlurFade delay={0.25} inView>
-              <div className="max-w-6xl mx-auto text-center mb-16">
-                <AnimatedGradientText className="mb-4">
-                  <span className={cn(
-                    `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-medium`
-                  )}>
-                    The Transformation
-                  </span>
-                </AnimatedGradientText>
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-12">
+                <span className="badge-handwritten text-primary">
+                  The Journey
+                </span>
                 <h2
-                  className="text-4xl md:text-5xl font-bold mb-4"
+                  className="text-4xl md:text-5xl font-bold mt-4 mb-8 handwritten-underline"
                   style={{ fontFamily: 'TanNimbus, sans-serif' }}
                 >
-                  From Vision to Reality
+                  Following the Thread
                 </h2>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                  Watch how a historic space was lovingly transformed into the magical café you see today
-                </p>
               </div>
-            </BlurFade>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              <BlurFade delay={0.5} inView>
-                <div className="relative group">
-                  <Badge className="absolute -top-3 left-4 z-10 bg-muted text-muted-foreground">
-                    Before Renovations
-                  </Badge>
-                  <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                    <Image
-                      src="/images_videos/our_story/before_renovations.jpg"
-                      alt="Before renovations"
-                      width={800}
-                      height={600}
-                      className="w-full h-auto rounded-2xl transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
-              </BlurFade>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <PolaroidCard
+                  image="/images_videos/our_story/moonriver_artwork.jpg"
+                  title="Parisian Dreams"
+                  caption="Hideaways where ideas crackled in the air"
+                  rotation={-1}
+                />
+                <PolaroidCard
+                  image="/images_videos/our_story/moonriver_today_barview.jpg"
+                  title="Dutch Delights"
+                  caption="Coffee houses filled with music and pastries"
+                  rotation={1}
+                />
+                <PolaroidCard
+                  image="/images_videos/our_story/moonriver_frontdoor.webp"
+                  title="London Tearooms"
+                  caption="Friendships forged over Darjeeling"
+                  rotation={-2}
+                />
+              </div>
 
-              <BlurFade delay={0.75} inView>
-                <div className="relative group">
-                  <Badge className="absolute -top-3 left-4 z-10 bg-gradient-to-r from-[#AE8625] to-[#D2AC47] text-white">
-                    Moon River Today (2025)
-                  </Badge>
-                  <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                    <Image
-                      src="/images_videos/our_story/moonriver_today_barview.jpg"
-                      alt="Moon River today - bar view"
-                      width={800}
-                      height={600}
-                      className="w-full h-auto rounded-2xl transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
-              </BlurFade>
+              <Card className="bg-card/95 warm-shadow-enhanced vintage-paper paper-texture max-w-4xl mx-auto">
+                <CardContent className="p-8">
+                  <p className="text-lg text-muted-foreground font-casual leading-relaxed mb-4">
+                    Years later, as adults, my mother and I followed the thread of that magic across the world.
+                    We wandered through Europe&apos;s cafés: Parisian hideaways where ideas crackled in the air,
+                    Dutch coffee houses filled with music and buttery pastries, London tearooms where whole
+                    friendships were forged over a pot of Darjeeling.
+                  </p>
+                  <p className="text-lg text-muted-foreground font-casual leading-relaxed">
+                    We even stood among the misty tea farms of Asia, watching leaves that had traveled
+                    centuries and continents.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
 
-        {/* Personal Touches Section with Bento Grid */}
-        <section className="py-24 bg-background">
+        {/* The Revelation - Historical Significance */}
+        <section className="py-20 relative">
           <div className="container mx-auto px-4">
-            <BlurFade delay={0.25} inView>
-              <div className="max-w-6xl mx-auto text-center mb-16">
-                <AnimatedGradientText className="mb-4">
-                  <span className={cn(
-                    `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-medium`
-                  )}>
-                    Personal Touches
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Content */}
+                <div className="space-y-6">
+                  <span className="badge-handwritten text-primary">
+                    The Revelation
                   </span>
-                </AnimatedGradientText>
-                <h2
-                  className="text-4xl md:text-5xl font-bold mb-4"
-                  style={{ fontFamily: 'TanNimbus, sans-serif' }}
-                >
-                  From Lullaby to Local Landmark
-                </h2>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                  Every corner of Moon River tells a story, infused with art, history, and a mother-daughter&apos;s passion
-                </p>
-              </div>
-            </BlurFade>
-
-            <BentoGrid className="max-w-6xl mx-auto">
-              {features.map((feature, index) => (
-                <BlurFade key={index} delay={0.25 * (index + 2)} inView>
-                  <BentoGridItem
-                    title={feature.title}
-                    description={feature.description}
-                    icon={feature.icon}
-                    className={cn(
-                      feature.className,
-                      "relative overflow-hidden group cursor-pointer"
-                    )}
+                  <h2
+                    className="text-4xl md:text-5xl font-bold mb-6 handwritten-underline"
+                    style={{ fontFamily: 'TanNimbus, sans-serif' }}
                   >
-                    {feature.image && (
-                      <div className="absolute inset-0 z-0">
-                        <Image
-                          src={feature.image}
-                          alt={feature.title}
-                          fill
-                          className="object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
-                        />
-                      </div>
-                    )}
-                  </BentoGridItem>
-                </BlurFade>
-              ))}
-            </BentoGrid>
+                    Spaces of Belonging
+                  </h2>
 
-            <BlurFade delay={1.5} inView>
-              <div className="mt-12 max-w-4xl mx-auto text-center">
-                <p className="text-lg text-muted-foreground">
-                  Step inside and you&apos;ll be greeted by Old-World charm with a modern twist. Look around and you&apos;ll spot antiques and curiosities from around the world – each piece carefully curated to spark conversation and creativity. Here, even the tables can double as writing desks and the walls bloom with local art, inviting you to sip slowly, savor deeply, and stay awhile.
-                </p>
-              </div>
-            </BlurFade>
-          </div>
-        </section>
-
-        {/* Coffee Meets Culture Section */}
-        <section className="py-24 bg-gradient-to-b from-secondary/20 to-background">
-          <div className="container mx-auto px-4">
-            <BlurFade delay={0.25} inView>
-              <div className="max-w-6xl mx-auto text-center mb-16">
-                <AnimatedGradientText className="mb-4">
-                  <span className={cn(
-                    `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-medium`
-                  )}>
-                    Experience
-                  </span>
-                </AnimatedGradientText>
-                <h2
-                  className="text-4xl md:text-5xl font-bold mb-4"
-                  style={{ fontFamily: 'TanNimbus, sans-serif' }}
-                >
-                  Where Coffee Meets Culture
-                </h2>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                  More than excellent coffee and tea – a vibrant community gathering space where every cup comes with creativity
-                </p>
-              </div>
-            </BlurFade>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {offerings.map((offering, index) => (
-                <BlurFade key={index} delay={0.1 * index} inView>
-                  <Card className="hover:shadow-xl transition-all duration-300 bg-card/50 backdrop-blur border-[#AE8625]/10 hover:border-[#AE8625]/30">
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-3">
-                        <div className="p-2 rounded-full bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20">
-                          {offering.icon}
-                        </div>
-                        {offering.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-base">
-                        {offering.description}
-                      </CardDescription>
+                  <Card className="bg-card/95 warm-shadow-enhanced vintage-paper paper-texture">
+                    <CardContent className="p-8">
+                      <p className="text-lg text-muted-foreground font-casual leading-relaxed">
+                        What struck both of us most was how these houses once served as equalizers. Grand or humble,
+                        they welcomed everyone: artists and laborers, dreamers and skeptics, strangers and friends.
+                      </p>
                     </CardContent>
                   </Card>
-                </BlurFade>
-              ))}
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <StickyNote color="pink" rotation={1}>
+                      <p className="font-casual text-sm text-muted-foreground">
+                        They were the first modern spaces where women could gather freely, share their thoughts,
+                        and build community.
+                      </p>
+                    </StickyNote>
+                    <StickyNote color="blue" rotation={-1}>
+                      <p className="font-casual text-sm text-muted-foreground">
+                        Places to step, quietly but firmly, into public life.
+                      </p>
+                    </StickyNote>
+                  </div>
+                </div>
+
+                {/* Quote Card */}
+                <div className="relative">
+                  <div className="bg-gradient-to-br from-[#AE8625]/10 to-[#D2AC47]/10 border-2 border-[#AE8625]/20 rounded-3xl p-12 text-center warm-shadow-enhanced paper-texture">
+                    <p className="font-handwritten text-3xl text-primary mb-4">
+                      &quot;Some dreams fade over time.&quot;
+                    </p>
+                    <p className="font-handwritten text-4xl text-[#AE8625]">
+                      Ours didn&apos;t.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Customer Testimonials with Marquee */}
-        <section className="py-24 bg-background">
+        {/* Moon River's Birth */}
+        <section className="py-20 relative">
           <div className="container mx-auto px-4">
-            <BlurFade delay={0.25} inView>
-              <div className="max-w-6xl mx-auto text-center mb-16">
-                <AnimatedGradientText className="mb-4">
-                  <span className={cn(
-                    `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-medium`
-                  )}>
-                    What People Say
-                  </span>
-                </AnimatedGradientText>
-                <h2
-                  className="text-4xl md:text-5xl font-bold mb-4"
-                  style={{ fontFamily: 'TanNimbus, sans-serif' }}
-                >
-                  Stories From Our Community
-                </h2>
-              </div>
-            </BlurFade>
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Polaroid-style front door photo */}
+                <div className="relative">
+                  <div
+                    className="bg-white dark:bg-card p-6 rounded-lg warm-shadow-enhanced paper-texture vintage-paper"
+                    style={{ transform: 'rotate(-1deg)' }}
+                  >
+                    <div className="relative aspect-[3/4] bg-muted rounded-sm overflow-hidden mb-4">
+                      <Image
+                        src="/images_videos/our_story/moonriver_frontdoor.webp"
+                        alt="Moon River front door"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <p className="font-handwritten text-2xl text-primary text-center">
+                      <MapPin className="inline h-5 w-5 mr-2" />
+                      Welcome Home
+                    </p>
+                  </div>
+                </div>
 
-            <BlurFade delay={0.5} inView>
-              <Marquee className="py-4" pauseOnHover>
-                {testimonials.map((testimonial, index) => (
-                  <Card key={index} className="mx-4 w-96 bg-gradient-to-br from-[#AE8625]/5 to-[#D2AC47]/5 border-[#AE8625]/20">
-                    <CardContent className="p-6">
-                      <div className="flex gap-2 mb-4">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-[#AE8625] text-[#AE8625]" />
-                        ))}
-                      </div>
-                      <p className="text-lg mb-4 italic">&quot;{testimonial.quote}&quot;</p>
-                      <div>
-                        <p className="font-semibold">{testimonial.author}</p>
-                        <p className="text-sm text-muted-foreground">{testimonial.title}</p>
-                      </div>
+                {/* Content */}
+                <div className="space-y-6">
+                  <span className="badge-handwritten text-primary">
+                    The Dream Realized
+                  </span>
+                  <h2
+                    className="text-4xl md:text-5xl font-bold mb-6 handwritten-underline"
+                    style={{ fontFamily: 'TanNimbus, sans-serif' }}
+                  >
+                    Moon River is Born
+                  </h2>
+
+                  <Card className="bg-card/95 warm-shadow-enhanced vintage-paper paper-texture">
+                    <CardContent className="p-8">
+                      <p className="text-lg text-muted-foreground font-casual leading-relaxed mb-4">
+                        Moon River Cafe was born from that stubborn, shining idea my mother and I carried
+                        across oceans: to build a place where people felt safe, seen, and welcomed.
+                      </p>
+                      <p className="text-lg text-muted-foreground font-casual leading-relaxed">
+                        A home away from home filled with Italian espresso strong enough to revive the dead,
+                        Parisian teas with stories steeped into every leaf, and treats that taste like comfort.
+                      </p>
                     </CardContent>
                   </Card>
-                ))}
-              </Marquee>
-            </BlurFade>
+
+                  <StickyNote color="green" rotation={1}>
+                    <p className="font-casual text-sm text-muted-foreground mb-3">
+                      But above all, Moon River exists for you: the artists, authors, musicians, wanderers,
+                      and neighbors who give our little café its beating heart.
+                    </p>
+                    <p className="font-handwritten text-lg text-primary">
+                      — For You
+                    </p>
+                  </StickyNote>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Award Recognition Section */}
-        <section className="py-24 bg-gradient-to-b from-secondary/20 to-background">
+        {/* Call to Action */}
+        <section className="py-20 relative">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <BlurFade delay={0.25} inView>
-                <div className="inline-block mb-8">
-                  <div className="relative">
-                    <Award className="h-24 w-24 text-[#AE8625] mx-auto" />
-                    <Sparkles className="h-8 w-8 text-[#F7EF8A] absolute -top-2 -right-2 animate-pulse" />
-                  </div>
-                </div>
-              </BlurFade>
-
-              <BlurFade delay={0.5} inView>
-                <Badge className="mb-6 bg-gradient-to-r from-[#AE8625] to-[#D2AC47] text-white text-lg px-6 py-2">
-                  Award Winner
-                </Badge>
-              </BlurFade>
-
-              <BlurFade delay={0.75} inView>
+              <div className="bg-gradient-to-br from-[#AE8625]/10 to-[#D2AC47]/10 border-2 border-[#AE8625]/20 rounded-3xl p-12 warm-shadow-enhanced paper-texture">
                 <h2
                   className="text-4xl md:text-5xl font-bold mb-6"
                   style={{ fontFamily: 'TanNimbus, sans-serif' }}
                 >
-                  Brevard&apos;s #<NumberTicker value={1} /> Coffee House
+                  Step inside. Take a seat.
                 </h2>
-              </BlurFade>
 
-              <BlurFade delay={1} inView>
-                <p className="text-xl text-muted-foreground mb-8">
-                  In less than a year of opening, Moon River was crowned Brevard&apos;s &quot;Best Coffee House&quot; after thousands of locals cast their votes in a county-wide poll. Mary and Kate were humbled by the honor, calling it proof that a dream built on passion and community can indeed flourish.
+                <p className="text-xl text-muted-foreground font-casual mb-8">
+                  Magic — of the everyday, extraordinary sort — lives here.
                 </p>
-              </BlurFade>
 
-              <BlurFade delay={1.25} inView>
-                <Card className="bg-gradient-to-br from-[#AE8625]/10 to-[#D2AC47]/10 border-[#AE8625]/20">
-                  <CardContent className="p-8">
-                    <p className="text-lg text-foreground italic">
-                      &quot;Our greatest pride is in the everyday moments: a customer who says the café &apos;feels like home,&apos; an aspiring poet finding her voice at an open-mic night, or neighbors forming new friendships at a Moon River workshop. These moments are the true legacy of Moon River Café.&quot;
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-4">
-                      — Mary & Kate Broderick
-                    </p>
-                  </CardContent>
-                </Card>
-              </BlurFade>
-            </div>
-          </div>
-        </section>
-
-        {/* Love Letter to Melbourne Section */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <BlurFade delay={0.25} inView>
-                <AnimatedGradientText className="mb-6">
-                  <span className={cn(
-                    `inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-lg font-medium`
-                  )}>
-                    A Love Letter to Melbourne
-                  </span>
-                </AnimatedGradientText>
-              </BlurFade>
-
-              <BlurFade delay={0.5} inView>
-                <h2
-                  className="text-4xl md:text-5xl font-bold mb-8"
-                  style={{ fontFamily: 'TanNimbus, sans-serif' }}
-                >
-                  You&apos;re Part of Our Story
-                </h2>
-              </BlurFade>
-
-              <div className="space-y-6 text-lg text-muted-foreground mb-12">
-                <BlurFade delay={0.75} inView>
-                  <p>
-                    In many ways, Moon River Café & Curiosities is a love letter to Melbourne – an homage to the town and people that inspired its creation. Mary often says she and Kate didn&apos;t just build a café; they built a community space where every cup comes with a story and every visitor becomes part of the family.
-                  </p>
-                </BlurFade>
-                <BlurFade delay={1} inView>
-                  <p>
-                    By reviving the timeless tradition of the neighborhood coffee house and tea room, Moon River brings old-fashioned hospitality and &quot;anything is possible&quot; creativity into the modern day. The atmosphere is fun and imaginative, yet always professional in its service.
-                  </p>
-                </BlurFade>
-                <BlurFade delay={1.25} inView>
-                  <p>
-                    What started with a song and a vision between a mother and daughter has blossomed into a vibrant gathering place for all of Melbourne. We invite you to come sip, savor, create, and stay awhile under our roof – because this isn&apos;t just our story, it&apos;s one we share with everyone who walks through our door.
-                  </p>
-                </BlurFade>
-              </div>
-
-              <BlurFade delay={1.5} inView>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-[#AE8625] to-[#D2AC47] hover:from-[#926F34] hover:to-[#AE8625] text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="bg-gradient-to-r from-[#AE8625] to-[#D2AC47] hover:from-[#926F34] hover:to-[#AE8625] text-white shadow-lg hover:shadow-xl transition-all duration-300 font-handwritten text-xl"
                     asChild
                   >
                     <Link href="/">
-                      <Coffee className="h-4 w-4 mr-2" />
+                      <Coffee className="h-5 w-5 mr-2" />
                       Visit Us Today
                     </Link>
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="border-2 border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10 shadow-lg hover:shadow-xl transition-all duration-300 font-handwritten text-xl"
                     asChild
                   >
                     <Link href="/calendar">
-                      <Calendar className="h-4 w-4 mr-2" />
+                      <Sparkles className="h-5 w-5 mr-2" />
                       View Our Events
                     </Link>
                   </Button>
                 </div>
-              </BlurFade>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Footer */}
+        {/* Press Section */}
+        <section className="py-20 relative">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-12">
+                <span className="badge-handwritten text-primary">
+                  In the News
+                </span>
+                <h2
+                  className="text-4xl md:text-5xl font-bold mt-4 mb-4 handwritten-underline"
+                  style={{ fontFamily: 'TanNimbus, sans-serif' }}
+                >
+                  Press
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {pressArticles.map((article, index) => (
+                  <StickyNote
+                    key={index}
+                    color={article.color}
+                    rotation={article.rotation}
+                    className="cursor-pointer"
+                  >
+                    <Link
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <p className="font-casual text-xs text-muted-foreground mb-2">
+                        {article.date}
+                      </p>
+                      <h3 className="font-handwritten text-lg text-primary mb-2">
+                        {article.title}
+                      </h3>
+                      <p className="font-casual text-sm text-muted-foreground flex items-center gap-1">
+                        {article.publication}
+                        <ExternalLink className="h-3 w-3" />
+                      </p>
+                    </Link>
+                  </StickyNote>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <SiteFooter />
       </main>
     </>
