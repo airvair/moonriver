@@ -112,10 +112,10 @@ export function NextEvent({ calendarType = "primary", title }: NextEventProps) {
   }, [calendarType]);
 
   return (
-    <div className="w-full h-full p-6 flex flex-col">
-      <div className="flex items-center gap-2 mb-4">
-        <Calendar className="h-6 w-6 text-[#926F34]" />
-        <h3 className="font-semibold text-base">{title || "Next Event"}</h3>
+    <div className="w-full h-full p-4 sm:p-5 lg:p-6 flex flex-col">
+      <div className="flex items-center gap-2 mb-2 sm:mb-3 lg:mb-4">
+        <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-[#926F34]" />
+        <h3 className="font-semibold text-sm sm:text-base">{title || "Next Event"}</h3>
       </div>
 
       {loading ? (
@@ -126,37 +126,37 @@ export function NextEvent({ calendarType = "primary", title }: NextEventProps) {
             loop
             muted
             playsInline
-            className="w-full max-w-[200px] h-auto"
+            className="w-full max-w-[120px] sm:max-w-[160px] lg:max-w-[200px] h-auto"
           />
         </div>
       ) : error ? (
-        <div className="text-sm text-muted-foreground">
+        <div className="text-xs sm:text-sm text-muted-foreground">
           {errorMessage || "Unable to load events"}
         </div>
       ) : !event ? (
-        <div className="text-sm text-muted-foreground">
+        <div className="text-xs sm:text-sm text-muted-foreground">
           No upcoming events
         </div>
       ) : (
-        <div className="flex flex-col gap-3 flex-1">
+        <div className="flex flex-col gap-2 sm:gap-3 flex-1">
           <div>
-            <h4 className="font-semibold text-base line-clamp-1">
+            <h4 className="font-semibold text-sm sm:text-base line-clamp-1">
               {event.summary || "Untitled Event"}
             </h4>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">
               {formatEventDate(event.start, event.end)}
             </p>
           </div>
 
           {event.location && (
-            <div className="flex items-start gap-1.5 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+            <div className="flex items-start gap-1.5 text-xs sm:text-sm text-muted-foreground">
+              <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 flex-shrink-0" />
               <span className="line-clamp-1">{event.location}</span>
             </div>
           )}
 
           {event.description && (
-            <p className="text-sm text-muted-foreground line-clamp-2">
+            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 hidden sm:block">
               {event.description}
             </p>
           )}

@@ -35,38 +35,39 @@ export default function Home() {
       <SiteHeader />
       <main className="flex flex-col relative unified-background overflow-x-hidden">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden">
+        <section className="relative h-screen min-h-[600px] max-h-[1200px] flex flex-col items-center justify-center text-center overflow-hidden">
           {/* Background Image */}
           <img
-            src="/images_videos/Cafe Pics/Reading Room.png"
+            src="/images_videos/Cafe%20Pics/Reading%20Room.png"
             alt="Moon River Café interior"
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
 
           {/* Warm Overlay for Text Readability with golden hour effect */}
           <div className="absolute inset-0 z-[1]">
-            <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/40-to-black/50" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/40 to-black/50" />
             <div className="absolute inset-0 bg-gradient-to-tr from-[#926F34]/10 via-transparent to-[#D4AF37]/10" />
             <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#FFE5B4]/5 to-transparent" />
           </div>
 
-          <div className="container mx-auto px-4 py-20 sm:py-32 relative z-10">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 max-w-7xl mx-auto">
+          <div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16 relative z-10 h-full flex items-center">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto w-full">
               {/* Left side - Main content */}
               <div className="flex-1 text-center lg:text-left">
-                <div className="mb-4 flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
+                {/* Badges row - hidden on very small screens to save space */}
+                <div className="mb-3 sm:mb-4 flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
                   <a
                     href="https://www.floridatoday.com/story/entertainment/dining/2025/10/03/moon-river-cafe-named-best-coffee-shop-in-brevard-by-our-readers-florida/86310528007/?gnt-cfr=1&gca-cat=p&gca-uir=true&gca-epti=z11xx53p000450c000450e008700v11xx53b00xxxxd11xx65&gca-ft=228&gca-ds=sophi"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block px-3 sm:px-4 py-2 bg-primary/10 text-primary rounded-full text-sm sm:text-lg font-medium border border-primary/20 transition-all duration-300 hover:bg-primary/20 hover:scale-105 warm-glow"
+                    className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm lg:text-lg font-medium border border-primary/20 transition-all duration-300 hover:bg-primary/20 hover:scale-105 warm-glow"
                   >
                     ☕ Best Café in Brevard — Florida Today
                   </a>
                   {/* Open/Closed Indicator */}
                   {openStatus && (
                     <div className={cn(
-                      "inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full font-handwritten text-sm sm:text-lg transition-all duration-300 hover:scale-105",
+                      "inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-handwritten text-xs sm:text-sm lg:text-lg transition-all duration-300 hover:scale-105",
                       openStatus.isOpen
                         ? "bg-green-900/80 text-green-100 border-2 border-green-400/50 hover:bg-green-900/90"
                         : "bg-red-900/80 text-red-100 border-2 border-red-400/50 hover:bg-red-900/90"
@@ -78,7 +79,7 @@ export default function Home() {
                 </div>
 
                 <h1
-                  className="text-4xl sm:text-5xl md:text-7xl font-bold mt-6 sm:mt-8 mb-4 sm:mb-6 text-white"
+                  className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mt-4 sm:mt-6 mb-3 sm:mb-4 lg:mb-6 text-white"
                   style={{
                     fontFamily: 'TanNimbus, sans-serif',
                     WebkitTextStroke: '3px #926F34',
@@ -88,15 +89,15 @@ export default function Home() {
                   Moon River Café
                 </h1>
 
-                {/* Hero CTA Button */}
-                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start w-full sm:w-auto">
-                  <Button asChild size="lg" className="text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-11 warm-shadow-enhanced w-full sm:w-auto">
+                {/* Hero CTA Buttons */}
+                <div className="mt-4 sm:mt-6 lg:mt-8 flex flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+                  <Button asChild size="lg" className="text-sm sm:text-base lg:text-lg px-4 sm:px-6 lg:px-8 h-10 sm:h-11 warm-shadow-enhanced">
                     <Link href="/menu">
                       View Menu
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-11 bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm w-full sm:w-auto">
+                  <Button asChild variant="outline" size="lg" className="text-sm sm:text-base lg:text-lg px-4 sm:px-6 lg:px-8 h-10 sm:h-11 bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm">
                     <Link href="/story">
                       Our Story
                     </Link>
@@ -105,14 +106,14 @@ export default function Home() {
               </div>
 
               {/* Right side - Info boxes */}
-              <div className="flex flex-col gap-3 sm:gap-4 w-full lg:w-96 xl:w-[28rem]">
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-3 sm:gap-4 w-full lg:w-80 xl:w-96 mt-4 lg:mt-0">
                 {/* Next Event Box */}
-                <div className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl min-h-[180px] paper-texture">
+                <div className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl paper-texture flex-1 lg:flex-none">
                   <NextEvent />
                 </div>
 
                 {/* Store Hours Box */}
-                <div className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl paper-texture">
+                <div className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl paper-texture flex-1 lg:flex-none">
                   <StoreHours />
                 </div>
               </div>
@@ -159,7 +160,7 @@ export default function Home() {
               <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
                 <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
                   <img
-                    src="/images_videos/food/Moon River_Food Pics_Jan 2026/Bella Capri.png"
+                    src="/images_videos/food/Moon%20River_Food%20Pics_Jan%202026/Bella%20Capri.png"
                     alt="Bella Capri"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
@@ -177,7 +178,7 @@ export default function Home() {
               <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
                 <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
                   <img
-                    src="/images_videos/food/Moon River_Food Pics_Jan 2026/Regency Toast-2.png"
+                    src="/images_videos/food/Moon%20River_Food%20Pics_Jan%202026/Regency%20Toast-2.png"
                     alt="Regency Toast"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
@@ -195,7 +196,7 @@ export default function Home() {
               <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card sm:col-span-2 md:col-span-1">
                 <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
                   <img
-                    src="/images_videos/food/Moon River_Food Pics_Jan 2026/Belgian Waffle and Baron.png"
+                    src="/images_videos/food/Moon%20River_Food%20Pics_Jan%202026/Belgian%20Waffle%20and%20Baron.png"
                     alt="Belgian Waffle and Baron"
                     className="absolute inset-0 w-full h-full object-cover"
                   />

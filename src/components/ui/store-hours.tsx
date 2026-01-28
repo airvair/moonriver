@@ -29,18 +29,18 @@ export function StoreHours() {
   }, []);
 
   return (
-    <div className="w-full h-full p-6 flex flex-col">
-      <div className="flex items-center gap-2 mb-3">
-        <Clock className="h-6 w-6 text-[#926F34]" />
-        <h3 className="font-semibold text-base">Hours</h3>
+    <div className="w-full h-full p-4 sm:p-5 lg:p-6 flex flex-col">
+      <div className="flex items-center gap-2 mb-2 sm:mb-3">
+        <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-[#926F34]" />
+        <h3 className="font-semibold text-sm sm:text-base">Hours</h3>
       </div>
 
-      <div className="space-y-1.5">
+      <div className="space-y-0.5 sm:space-y-1 lg:space-y-1.5">
         {HOURS.map((schedule, index) => (
           <div
             key={schedule.day}
             className={cn(
-              "flex justify-between items-center text-sm py-1 px-2 rounded-md transition-colors",
+              "flex justify-between items-center text-xs sm:text-sm py-0.5 sm:py-1 px-1.5 sm:px-2 rounded-md transition-colors",
               index === currentDay && "bg-[#926F34]/10 font-medium"
             )}
           >
@@ -60,7 +60,7 @@ export function StoreHours() {
         ))}
       </div>
 
-      <p className="text-xs text-muted-foreground/70 mt-3 italic">
+      <p className="text-[10px] sm:text-xs text-muted-foreground/70 mt-2 sm:mt-3 italic">
         Hours may vary during holidays and special events
       </p>
     </div>
