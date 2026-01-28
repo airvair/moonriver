@@ -105,7 +105,7 @@ export function AppSidebar() {
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-xs font-medium text-primary uppercase tracking-wide">Featured</span>
           </div>
-          <p className="font-handwritten text-base text-foreground leading-snug">Open Mic Night Every Friday</p>
+          <p className="font-handwritten text-base text-foreground leading-snug">Poetry Night Every 1st & Last Friday of the Month</p>
           <p className="text-xs text-muted-foreground mt-1">View all events</p>
         </Link>
       </div>
