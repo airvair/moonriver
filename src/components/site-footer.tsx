@@ -73,7 +73,7 @@ export function SiteFooter() {
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Clock className="h-4 w-4 text-primary" />
                   <span className="text-sm">
-                    Mon: Closed | Tue-Thu: 9-3, 5-9 | Fri-Sat: 9-9 | Sun: 9-3
+                    Mon: Closed | Tue-Thu: 9-3 | Fri-Sat: 9-8 | Sun: 9-3
                   </span>
                 </div>
               </div>

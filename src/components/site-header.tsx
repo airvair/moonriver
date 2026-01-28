@@ -10,11 +10,13 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 export function SiteHeader() {
   const [visible, setVisible] = React.useState(true)
   const [prevScrollPos, setPrevScrollPos] = React.useState(0)
+  const { openMobile } = useSidebar()
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -40,16 +42,26 @@ export function SiteHeader() {
           font-display: swap;
         }
       `}</style>
+      {/* Mobile Sidebar Trigger - visible on smaller screens, hidden when sidebar is open */}
       <div
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "fixed top-3 left-3 z-[60] lg:hidden transition-all duration-300",
+          (!visible || openMobile) ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100 translate-y-0"
+        )}
+      >
+        <SidebarTrigger className="bg-background/95 backdrop-blur-sm border border-primary/20 warm-shadow size-10" />
+      </div>
+      {/* Desktop Navigation - only on larger screens */}
+      <div
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 hidden lg:block",
           !visible ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100 translate-y-0"
         )}
       >
         <div className="relative px-4 py-3 bg-background/95 backdrop-blur-sm border-b-2 border-primary/20 warm-shadow">
           <div className="container mx-auto flex justify-center">
             <NavigationMenu viewport={false}>
-              <NavigationMenuList className="items-center flex-wrap">
+              <NavigationMenuList className="items-center flex-nowrap">
                 {/* Cafe name text with red border - properly wrapped in NavigationMenuItem */}
                 <NavigationMenuItem className="mr-6">
                   <NavigationMenuLink asChild>
@@ -77,18 +89,11 @@ export function SiteHeader() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
+              {/* Shop - Coming Soon (disabled) */}
               <NavigationMenuItem>
-                  <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-2 p-4 md:w-[400px]">
-                      <ListItem href="/guides/merchandise" title="Merchandise">
-                          Shop our mugs and apparel—available online and in-store.
-                      </ListItem>
-                      <ListItem href="https://www.toasttab.com/moon-river-cafe-728-e-new-haven-ave/giftcards" title="Gift Cards">
-                          Give the gift of coffee with digital or physical cards for any occasion.
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
+                <span className={cn(navigationMenuTriggerStyle(), "opacity-40 cursor-not-allowed pointer-events-none")}>
+                  Shop
+                </span>
               </NavigationMenuItem>
 
               <NavigationMenuItem>

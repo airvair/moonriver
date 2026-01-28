@@ -42,7 +42,7 @@ export default function Home() {
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden">
           {/* Background Image */}
           <img
-            src="/images_videos/home/christmas_cafe.png"
+            src="/images_videos/Cafe Pics/Reading Room.png"
             alt="Moon River Café interior"
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
@@ -127,71 +127,68 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {/* Signature Drink */}
+              {/* Bella Capri */}
               <div className="bg-card/95 rounded-3xl p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-[#926F34]/20 via-[#D4AF37]/10 to-primary/20">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-6xl mb-2 coffee-steam relative inline-block">☕</div>
-                      <p className="text-muted-foreground font-casual text-sm">Signature Drink Photo</p>
-                    </div>
-                  </div>
+                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
+                  <img
+                    src="/images_videos/food/Moon River_Food Pics_Jan 2026/Bella Capri.png"
+                    alt="Bella Capri"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
                 </div>
                 <span className="stamp stamp-fresh text-xs">Best Seller</span>
                 <h3 className="text-2xl font-handwritten text-primary mt-4 mb-2">
-                  Moon River Latte
+                  Bella Capri
                 </h3>
                 <p className="text-muted-foreground mb-4 font-casual">
-                  Our signature blend with hints of vanilla and caramel, topped with house-made foam art
+                  A delightful Italian-inspired creation that captures the essence of the Mediterranean
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-handwritten text-primary">$5.50</span>
+                  <span className="text-2xl font-handwritten text-primary">$12.00</span>
                   <span className="text-sm text-muted-foreground">⭐ 4.9/5</span>
                 </div>
               </div>
 
-              {/* Signature Food */}
+              {/* Regency Toast */}
               <div className="bg-card/95 rounded-3xl p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-accent/20 via-secondary/20 to-primary/10">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-6xl mb-2">🥐</div>
-                      <p className="text-muted-foreground font-casual text-sm">Signature Food Photo</p>
-                    </div>
-                  </div>
+                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
+                  <img
+                    src="/images_videos/food/Moon River_Food Pics_Jan 2026/Regency Toast-2.png"
+                    alt="Regency Toast"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
                 </div>
                 <span className="stamp stamp-fresh stamp-tilted text-xs">Fresh</span>
                 <h3 className="text-2xl font-handwritten text-primary mt-4 mb-2">
-                  Almond Croissant
+                  Regency Toast
                 </h3>
                 <p className="text-muted-foreground mb-4 font-casual">
-                  Buttery layers filled with almond cream, baked to golden perfection each morning
+                  Thick-cut brioche French toast with seasonal toppings, made fresh every morning
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-handwritten text-primary">$4.75</span>
+                  <span className="text-2xl font-handwritten text-primary">$14.00</span>
                   <span className="text-sm text-muted-foreground">⭐ 5.0/5</span>
                 </div>
               </div>
 
-              {/* Specialty Offering */}
+              {/* Belgian Waffle and Baron */}
               <div className="bg-card/95 rounded-3xl p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-primary/15 via-accent/15 to-secondary/20">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-6xl mb-2">🍰</div>
-                      <p className="text-muted-foreground font-casual text-sm">Specialty Item Photo</p>
-                    </div>
-                  </div>
+                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
+                  <img
+                    src="/images_videos/food/Moon River_Food Pics_Jan 2026/Belgian Waffle and Baron.png"
+                    alt="Belgian Waffle and Baron"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
                 </div>
                 <span className="stamp stamp-fresh text-xs">Local Favorite</span>
                 <h3 className="text-2xl font-handwritten text-primary mt-4 mb-2">
-                  Lemon Lavender Cake
+                  Belgian Waffle & Baron
                 </h3>
                 <p className="text-muted-foreground mb-4 font-casual">
-                  Light, fragrant cake with local lavender and fresh lemon zest — a Melbourne original
+                  Crispy Belgian waffle paired with our signature Baron coffee — the perfect brunch combo
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-handwritten text-primary">$6.00</span>
+                  <span className="text-2xl font-handwritten text-primary">$16.00</span>
                   <span className="text-sm text-muted-foreground">⭐ 4.8/5</span>
                 </div>
               </div>
