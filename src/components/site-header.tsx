@@ -89,13 +89,6 @@ export function SiteHeader() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
-              {/* Shop - Coming Soon (disabled) */}
-              <NavigationMenuItem>
-                <span className={cn(navigationMenuTriggerStyle(), "opacity-40 cursor-not-allowed pointer-events-none")}>
-                  Shop
-                </span>
-              </NavigationMenuItem>
-
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Events</NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -105,6 +98,23 @@ export function SiteHeader() {
                     </ListItem>
                     <ListItem href="/afternoon-tea" title="Afternoon Tea">
                         Reserve a classic tiered tea service with fresh pastries and savories.
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Live Music</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-2 p-4 md:w-[400px]">
+                    <ListItem href="/live-music/preston-hunter" title="Preston Hunter">
+                      Featured artist appearances and music.
+                    </ListItem>
+                    <ListItem href="/live-music/apply" title="Perform at Moon River">
+                      Apply to perform at the café.
+                    </ListItem>
+                    <ListItem href="#" title="Watch Performances">
+                      Watch live music videos on YouTube.
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
@@ -127,17 +137,11 @@ export function SiteHeader() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger>About</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-2 p-4 md:w-[400px]">
-                  <ListItem href="/story" title="Our Story">
-                      Learn more about the cafe, its history, and its mission.
-                  </ListItem>
-                  <ListItem href="/our-team" title="Our Team">
-                    Meet the team behind the cafe.
-                  </ListItem>
-                  </ul>
-                </NavigationMenuContent>
+                <NavigationMenuLink asChild>
+                  <Link href="/story" className={navigationMenuTriggerStyle()}>
+                    Our Story
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
@@ -167,8 +171,8 @@ function ListItem({
     <li {...props}>
       <NavigationMenuLink asChild>
         <Link href={href} className="group">
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground group-hover:text-foreground line-clamp-2 text-sm leading-snug">
+          <div className="text-base leading-none font-medium">{title}</div>
+          <p className="text-muted-foreground group-hover:text-foreground line-clamp-2 text-xs leading-snug mt-1">
             {children}
           </p>
         </Link>

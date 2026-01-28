@@ -211,19 +211,19 @@ export default function OurStory() {
         </BlurFade>
 
         {/* Story Content */}
-        <section className="py-16 md:py-24">
+        <section className="py-12 sm:py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto">
               {/* Opening */}
               <BlurFade delay={0.1} inView>
-                <p className="text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-8">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-6 sm:mb-8">
                   I grew up in rural Pennsylvania, where winters lasted forever and imagination was often
                   the best source of entertainment. My mother, Mary, understood this better than anyone.
                 </p>
               </BlurFade>
 
               <BlurFade delay={0.15} inView>
-                <p className="text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-8">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-6 sm:mb-8">
                   She staged lavish childhood tea parties for me—not the polite sort, but the kind where
                   the mismatched china seemed enchanted, the stuffed animals held complicated political
                   alliances, and every cup poured was an invitation to dream a little bigger than the world allowed.
@@ -231,7 +231,7 @@ export default function OurStory() {
               </BlurFade>
 
               <BlurFade delay={0.2} inView>
-                <p className="text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-12">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-8 sm:mb-12">
                   Those early afternoons planted something in both of us: the idea that a shared table can
                   be a kind of magic. A place where people become braver, kinder, more themselves.
                 </p>
@@ -239,8 +239,8 @@ export default function OurStory() {
 
               {/* Image Break - Sitting Area */}
               <BlurFade delay={0.25} inView>
-                <div className="my-12 md:my-16">
-                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden warm-shadow-enhanced">
+                <div className="my-8 sm:my-12 md:my-16">
+                  <div className="relative aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden warm-shadow-enhanced">
                     <Image
                       src="/images_videos/Cafe Pics/Sitting Area-2.png"
                       alt="Cozy sitting area at Moon River"
@@ -253,7 +253,7 @@ export default function OurStory() {
 
               {/* Journey */}
               <BlurFade delay={0.1} inView>
-                <p className="text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-8">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-6 sm:mb-8">
                   Years later, as adults, my mother and I followed the thread of that magic across the
                   world. We wandered through Europe&apos;s cafés: Parisian hideaways where ideas crackled
                   in the air, Dutch coffee houses filled with music and buttery pastries, London tearooms
@@ -263,7 +263,7 @@ export default function OurStory() {
               </BlurFade>
 
               <BlurFade delay={0.15} inView>
-                <p className="text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-12">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-8 sm:mb-12">
                   What struck both of us most was how these houses once served as equalizers. Grand
                   or humble, they welcomed everyone: artists and laborers, dreamers and skeptics,
                   strangers and friends. They were the first modern spaces where women could gather
@@ -273,8 +273,8 @@ export default function OurStory() {
 
               {/* Image Grid */}
               <BlurFade delay={0.2} inView>
-                <div className="grid grid-cols-2 gap-4 my-12 md:my-16">
-                  <div className="relative aspect-square rounded-xl overflow-hidden warm-shadow-enhanced">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 my-8 sm:my-12 md:my-16">
+                  <div className="relative aspect-square rounded-lg sm:rounded-xl overflow-hidden warm-shadow-enhanced">
                     <Image
                       src="/images_videos/Cafe Pics/Front Counter-1.png"
                       alt="Front counter at Moon River"
@@ -282,7 +282,7 @@ export default function OurStory() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="relative aspect-square rounded-xl overflow-hidden warm-shadow-enhanced">
+                  <div className="relative aspect-square rounded-lg sm:rounded-xl overflow-hidden warm-shadow-enhanced">
                     <Image
                       src="/images_videos/Cafe Pics/Statue and Books.png"
                       alt="Statue and books at Moon River"
@@ -295,13 +295,13 @@ export default function OurStory() {
 
               {/* The Dream */}
               <BlurFade delay={0.1} inView>
-                <p className="font-handwritten text-2xl md:text-3xl text-primary text-center my-12">
+                <p className="font-handwritten text-xl sm:text-2xl md:text-3xl text-primary text-center my-8 sm:my-12">
                   Some dreams fade over time. Ours didn&apos;t.
                 </p>
               </BlurFade>
 
               <BlurFade delay={0.15} inView>
-                <p className="text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-8">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-6 sm:mb-8">
                   Moon River Cafe was born from that stubborn, shining idea my mother and I carried
                   across oceans: to build a place where people felt safe, seen, and welcomed. A home
                   away from home filled with Italian espresso strong enough to revive the dead, Parisian
@@ -310,7 +310,7 @@ export default function OurStory() {
               </BlurFade>
 
               <BlurFade delay={0.2} inView>
-                <p className="text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-12">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-8 sm:mb-12">
                   But above all, Moon River exists for you: the artists, authors, musicians, wanderers, and
                   neighbors who give our little café its beating heart.
                 </p>
@@ -318,8 +318,8 @@ export default function OurStory() {
 
               {/* Final Image */}
               <BlurFade delay={0.25} inView>
-                <div className="my-12 md:my-16">
-                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden warm-shadow-enhanced">
+                <div className="my-8 sm:my-12 md:my-16">
+                  <div className="relative aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden warm-shadow-enhanced">
                     <Image
                       src="/images_videos/Cafe Pics/Books.png"
                       alt="Books and curiosities at Moon River"
@@ -332,14 +332,14 @@ export default function OurStory() {
 
               {/* Closing */}
               <BlurFade delay={0.1} inView>
-                <div className="text-center space-y-4 py-8">
+                <div className="text-center space-y-3 sm:space-y-4 py-6 sm:py-8">
                   <p
-                    className="text-3xl md:text-4xl font-bold"
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold"
                     style={{ fontFamily: 'TanNimbus, sans-serif' }}
                   >
                     Step inside. Take a seat.
                   </p>
-                  <p className="text-xl md:text-2xl text-muted-foreground font-casual">
+                  <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-casual">
                     Magic—of the everyday, extraordinary sort—lives here.
                   </p>
                 </div>
@@ -350,13 +350,13 @@ export default function OurStory() {
 
         {/* Press Section - Marquee */}
         <BlurFade delay={0.1} inView inViewMargin="-100px">
-          <section className="py-16 relative overflow-hidden">
+          <section className="py-12 sm:py-16 relative overflow-hidden">
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
                 <BlurFade delay={0.1} inView>
-                  <div className="text-center mb-12">
+                  <div className="text-center mb-8 sm:mb-12">
                     <h2
-                      className="text-4xl md:text-5xl font-bold"
+                      className="text-3xl sm:text-4xl md:text-5xl font-bold"
                       style={{ fontFamily: 'TanNimbus, sans-serif' }}
                     >
                       In the Press
@@ -367,13 +367,13 @@ export default function OurStory() {
             </div>
 
             {/* First row - scrolling left */}
-            <Marquee pauseOnHover className="[--duration:60s] mb-4">
+            <Marquee pauseOnHover className="[--duration:60s] mb-3 sm:mb-4">
               {pressArticles.slice(0, 9).map((article, index) => (
                 <StickyNote
                   key={`row1-${index}`}
                   color={article.color}
                   rotation={getStickyRotationType(article.rotation)}
-                  className="cursor-pointer mx-2 min-w-[280px]"
+                  className="cursor-pointer mx-2 min-w-[240px] sm:min-w-[280px]"
                 >
                   <Link
                     href={article.url}
@@ -403,7 +403,7 @@ export default function OurStory() {
                   key={`row2-${index}`}
                   color={article.color}
                   rotation={getStickyRotationType(article.rotation)}
-                  className="cursor-pointer mx-2 min-w-[280px]"
+                  className="cursor-pointer mx-2 min-w-[240px] sm:min-w-[280px]"
                 >
                   <Link
                     href={article.url}

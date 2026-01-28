@@ -143,7 +143,7 @@ export default function BlogPage() {
 
         {/* Hero Section with Tags */}
         <div className="relative z-10 bg-gradient-to-b from-background to-secondary/20">
-          <div className="p-6 pt-28 md:pt-32 pb-8">
+          <div className="p-4 sm:p-6 pt-24 sm:pt-28 md:pt-32 pb-6 sm:pb-8">
             <div className="max-w-7xl mx-auto w-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -152,8 +152,8 @@ export default function BlogPage() {
                 className="flex flex-col gap-6"
               >
                 {/* Header with Coffee Icons */}
-                <div className="flex items-center gap-3 mb-2">
-                  <Coffee className="h-5 w-5 text-primary" />
+                <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                  <Coffee className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   <AnimatedGradientText>
                     <span className={cn(
                       "inline animate-gradient bg-gradient-to-r from-[#AE8625] via-[#F7EF8A] to-[#D2AC47] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent text-sm font-medium uppercase tracking-wider"
@@ -161,31 +161,31 @@ export default function BlogPage() {
                       Stories from the Café
                     </span>
                   </AnimatedGradientText>
-                  <Newspaper className="h-5 w-5 text-primary" />
+                  <Newspaper className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                 </div>
 
                 {/* Title and Description with Journal Feel */}
-                <div className="space-y-4">
-                  <h1 className="font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground"
+                <div className="space-y-3 sm:space-y-4">
+                  <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground"
                     style={{ fontFamily: 'TanNimbus, serif' }}
                   >
                     The Moon River Journal
                   </h1>
-                  <p className="text-muted-foreground text-base md:text-lg max-w-2xl font-serif">
+                  <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl font-serif">
                     Pour yourself a cup and dive into our collection of stories, recipes, and musings.
                   </p>
                 </div>
 
                 {/* Search Bar - Clean and simple */}
-                <div className="relative max-w-md">
+                <div className="relative max-w-md w-full">
                   <div className="relative group">
-                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <input
                       type="search"
                       placeholder="Search our stories..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="relative w-full pl-11 pr-4 py-3 bg-background/50 border border-border rounded-lg focus:bg-background focus:border-primary/50 focus:outline-none transition-all duration-300 placeholder:text-muted-foreground"
+                      className="relative w-full pl-10 sm:pl-11 pr-4 py-2.5 sm:py-3 bg-background/50 border border-border rounded-lg focus:bg-background focus:border-primary/50 focus:outline-none transition-all duration-300 placeholder:text-muted-foreground text-sm sm:text-base min-h-[44px]"
                     />
                   </div>
                 </div>
@@ -196,9 +196,9 @@ export default function BlogPage() {
           {/* Tag Filter Section - Clean and simple */}
           {allTags.length > 0 && !loading && (
             <div className="border-y border-border/50 bg-accent/10">
-              <div className="max-w-7xl mx-auto px-6 py-5">
-                <div className="flex items-center gap-4 mb-3">
-                  <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">Browse by Category</h2>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+                <div className="flex items-center gap-3 sm:gap-4 mb-3">
+                  <h2 className="text-xs sm:text-sm font-semibold text-foreground uppercase tracking-wider">Browse by Category</h2>
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
                 </div>
                 <TagFilter
@@ -212,9 +212,9 @@ export default function BlogPage() {
         </div>
 
         {/* Blog Posts Grid */}
-        <div className="max-w-7xl mx-auto w-full px-6 py-12">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12">
           {loading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
               {Array.from({ length: 6 }).map((_, i) => (
                 <BlogCardSkeleton key={i} />
               ))}
@@ -253,7 +253,7 @@ export default function BlogPage() {
 
           {!loading && !error && filteredPosts.length > 0 && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 auto-rows-fr">
                 {filteredPosts.map((post, index) => (
                   <JournalBlogCard
                     key={post.id}

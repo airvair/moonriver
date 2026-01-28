@@ -32,16 +32,16 @@ export function SiteFooter() {
         }
       `}</style>
       <footer className="bg-gradient-to-b from-primary/10 to-primary/20 border-t-2 border-primary/20 relative z-10 paper-texture">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 py-8 sm:py-12">
           {/* Top Section - Main Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
             {/* Visit Us Card */}
-            <div className="bg-card/80 rounded-2xl p-6 warm-shadow">
-              <h3 className="font-handwritten text-2xl text-primary mb-4">Visit Us</h3>
+            <div className="bg-card/80 rounded-xl sm:rounded-2xl p-5 sm:p-6 warm-shadow">
+              <h3 className="font-handwritten text-xl sm:text-2xl text-primary mb-3 sm:mb-4">Visit Us</h3>
 
               {/* Open Status */}
               {openStatus && (
-                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm mb-4 ${
+                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs sm:text-sm mb-3 sm:mb-4 ${
                   openStatus.isOpen
                     ? 'bg-green-500/20 text-green-700 dark:text-green-400'
                     : 'bg-red-500/20 text-red-700 dark:text-red-400'
@@ -51,28 +51,28 @@ export function SiteFooter() {
                 </div>
               )}
 
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 <a
                   href="https://maps.google.com/?q=728+E+New+Haven+Avenue+Melbourne+FL+32901"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-start gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px] py-1"
                 >
-                  <MapPin className="h-4 w-4 mt-1 text-primary" />
+                  <MapPin className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
                   <span>728 E. New Haven Avenue<br />Melbourne, FL 32901</span>
                 </a>
 
                 <a
                   href="tel:+13213456789"
-                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px]"
                 >
-                  <Phone className="h-4 w-4 text-primary" />
+                  <Phone className="h-4 w-4 text-primary flex-shrink-0" />
                   <span>Coming Soon!</span>
                 </a>
 
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <Clock className="h-4 w-4 text-primary" />
-                  <span className="text-sm">
+                  <Clock className="h-4 w-4 text-primary flex-shrink-0" />
+                  <span className="text-xs sm:text-sm">
                     Mon: Closed | Tue-Thu: 9-3 | Fri-Sat: 9-8 | Sun: 9-3
                   </span>
                 </div>
@@ -80,36 +80,36 @@ export function SiteFooter() {
             </div>
 
             {/* Newsletter Signup */}
-            <div className="bg-card/80 rounded-2xl p-6 warm-shadow">
-              <h3 className="font-handwritten text-2xl text-primary mb-3">Join Our Coffee Family</h3>
+            <div className="bg-card/80 rounded-xl sm:rounded-2xl p-5 sm:p-6 warm-shadow">
+              <h3 className="font-handwritten text-xl sm:text-2xl text-primary mb-2 sm:mb-3">Join Our Coffee Family</h3>
 
-              <p className="text-muted-foreground mb-4 text-sm">
+              <p className="text-muted-foreground mb-3 sm:mb-4 text-xs sm:text-sm">
                 Weekly updates on new menu items, special events, and heartwarming stories.
               </p>
 
               {/* Newsletter Form */}
-              <div className="space-y-3 mb-4">
+              <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-background/50 border-primary/20 focus:border-primary/40 transition-all duration-300 text-sm"
+                  className="bg-background/50 border-primary/20 focus:border-primary/40 transition-all duration-300 text-sm min-h-[44px]"
                 />
-                <Button size="sm" className="w-full bg-primary hover:bg-primary/90 transform transition-all duration-300 hover:scale-[1.02] warm-shadow">
+                <Button size="sm" className="w-full bg-primary hover:bg-primary/90 transform transition-all duration-300 hover:scale-[1.02] warm-shadow min-h-[44px]">
                   Subscribe
                   <Mail className="ml-2 h-3 w-3" />
                 </Button>
               </div>
 
               {/* Social proof */}
-              <p className="text-xs text-muted-foreground text-center mb-4 font-casual">
+              <p className="text-xs text-muted-foreground text-center mb-3 sm:mb-4 font-casual">
                 ✨ Join 500+ coffee lovers • One email per week
               </p>
 
               {/* Social Media Links */}
-              <div className="flex gap-3 justify-center pt-3 border-t border-primary/10">
+              <div className="flex gap-2 sm:gap-3 justify-center pt-3 border-t border-primary/10">
                 <a
                   href="https://www.facebook.com/profile.php?id=61557348156870"
-                  className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Facebook"
                 >
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -118,7 +118,7 @@ export function SiteFooter() {
                 </a>
                 <a
                   href="https://www.instagram.com/themoonrivercafe/"
-                  className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Instagram"
                 >
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -127,7 +127,7 @@ export function SiteFooter() {
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="YouTube"
                 >
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -136,7 +136,7 @@ export function SiteFooter() {
                 </a>
                 <a
                   href="mailto:contact@themoonrivercafe.com"
-                  className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Email"
                 >
                   <Mail className="h-4 w-4" />
@@ -145,26 +145,26 @@ export function SiteFooter() {
             </div>
 
             {/* Quick Links */}
-            <div className="bg-card/80 rounded-2xl p-6 warm-shadow">
-              <h3 className="font-handwritten text-2xl text-primary mb-4">Explore</h3>
+            <div className="bg-card/80 rounded-xl sm:rounded-2xl p-5 sm:p-6 warm-shadow">
+              <h3 className="font-handwritten text-xl sm:text-2xl text-primary mb-3 sm:mb-4">Explore</h3>
 
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                <Link href="/menu10-25.pdf" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:gap-y-2">
+                <Link href="/menu10-25.pdf" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Menu
                 </Link>
-                <Link href="/calendar" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/calendar" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Events Calendar
                 </Link>
-                <Link href="/story" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/story" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Our Story
                 </Link>
-                <Link href="/afternoon-tea" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/afternoon-tea" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Afternoon Tea
                 </Link>
-                <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Blog
                 </Link>
-                <Link href="https://www.toasttab.com/moon-river-cafe-728-e-new-haven-ave/giftcards" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                <Link href="https://www.toasttab.com/moon-river-cafe-728-e-new-haven-ave/giftcards" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Gift Cards
                 </Link>
               </div>
@@ -178,17 +178,17 @@ export function SiteFooter() {
           </div>
 
           {/* Personal Message */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <div className="coffee-divider mb-4"></div>
-            <p className="font-handwritten text-2xl text-primary/80 italic">
+            <p className="font-handwritten text-xl sm:text-2xl text-primary/80 italic px-2">
               &ldquo;Thank you for being part of our coffee family!&rdquo;
             </p>
           </div>
 
           {/* Bottom Section - Copyright and Credits */}
-          <div className="pt-8 border-t border-primary/20">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-sm text-muted-foreground text-center md:text-left">
+          <div className="pt-6 sm:pt-8 border-t border-primary/20">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+              <p className="text-xs sm:text-sm text-muted-foreground text-center md:text-left">
                 © {new Date().getFullYear()} Moon River Café & Curiosities. Made with love in Melbourne, FL.
               </p>
               <div className="flex gap-4 text-xs text-muted-foreground">

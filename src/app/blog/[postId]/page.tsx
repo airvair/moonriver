@@ -150,10 +150,17 @@ export default function BlogPostPage() {
           scroll-margin-top: 5rem;
         }
 
-        .blog-content h1 { font-size: 2.5rem; }
-        .blog-content h2 { font-size: 2rem; }
-        .blog-content h3 { font-size: 1.75rem; }
-        .blog-content h4 { font-size: 1.5rem; }
+        .blog-content h1 { font-size: 1.75rem; }
+        .blog-content h2 { font-size: 1.5rem; }
+        .blog-content h3 { font-size: 1.25rem; }
+        .blog-content h4 { font-size: 1.125rem; }
+
+        @media (min-width: 640px) {
+          .blog-content h1 { font-size: 2.5rem; }
+          .blog-content h2 { font-size: 2rem; }
+          .blog-content h3 { font-size: 1.75rem; }
+          .blog-content h4 { font-size: 1.5rem; }
+        }
 
         .blog-content p {
           margin-bottom: 1.5rem;
@@ -271,10 +278,10 @@ export default function BlogPostPage() {
         {!loading && !error && post && (
           <>
             {/* Header Section */}
-            <div className="space-y-4 border-b border-border relative z-10 pt-20">
-              <div className="max-w-7xl mx-auto flex flex-col gap-6 p-6">
-                <div className="flex flex-wrap items-center gap-3 gap-y-5 text-sm text-muted-foreground">
-                  <Button variant="outline" asChild className="h-8 px-3">
+            <div className="space-y-3 sm:space-y-4 border-b border-border relative z-10 pt-20">
+              <div className="max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6 p-4 sm:p-6">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 gap-y-3 sm:gap-y-5 text-xs sm:text-sm text-muted-foreground">
+                  <Button variant="outline" asChild className="h-8 sm:h-8 px-2 sm:px-3 text-xs sm:text-sm">
                     <Link href="/blog">
                       <ArrowLeft className="w-4 h-4 mr-2" />
                       Back to all articles
@@ -315,7 +322,7 @@ export default function BlogPostPage() {
                 </div>
 
                 <h1
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-balance"
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-balance"
                   style={{ fontFamily: 'TanNimbus, sans-serif' }}
                 >
                   {post.title}
@@ -324,12 +331,12 @@ export default function BlogPostPage() {
             </div>
 
             {/* Content Section */}
-            <div className="flex divide-x divide-border relative max-w-7xl mx-auto px-4 md:px-0 z-10">
-              <div className="absolute max-w-7xl mx-auto left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] lg:w-full h-full border-x border-border p-0 pointer-events-none" />
+            <div className="flex divide-x divide-border relative max-w-7xl mx-auto px-0 sm:px-4 md:px-0 z-10">
+              <div className="absolute max-w-7xl mx-auto left-1/2 -translate-x-1/2 w-full sm:w-[calc(100%-2rem)] lg:w-full h-full border-x border-border p-0 pointer-events-none" />
 
               <main className="w-full p-0 overflow-hidden">
                 {thumbnail && (
-                  <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+                  <div className="relative w-full h-[250px] sm:h-[350px] md:h-[500px] overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={thumbnail}
@@ -340,9 +347,9 @@ export default function BlogPostPage() {
                   </div>
                 )}
 
-                <div className="p-6 lg:p-10">
+                <div className="p-4 sm:p-6 lg:p-10">
                   <article
-                    className="blog-content prose prose-lg max-w-none"
+                    className="blog-content prose prose-sm sm:prose-lg max-w-none"
                     dangerouslySetInnerHTML={{ __html: processedContent }}
                   />
                 </div>

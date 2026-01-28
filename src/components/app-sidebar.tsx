@@ -7,13 +7,13 @@ import {
   Home,
   BookOpen,
   Mic,
-  ShoppingBag,
-  Gift,
   Calendar,
   Coffee,
   Heart,
-  Users,
   ExternalLink,
+  Music,
+  Youtube,
+  UserCircle,
 } from "lucide-react"
 
 import {
@@ -37,17 +37,7 @@ const mainNavItems = [
   { title: "Menu", href: "/menu", icon: Coffee },
   { title: "Blog", href: "/blog", icon: BookOpen },
   { title: "Podcast", href: "/podcast", icon: Mic },
-]
-
-const shopNavItems = [
-  { title: "Merchandise", href: "/guides/merchandise", icon: ShoppingBag, disabled: true },
-  {
-    title: "Gift Cards",
-    href: "https://www.toasttab.com/moon-river-cafe-728-e-new-haven-ave/giftcards",
-    icon: Gift,
-    external: true,
-    disabled: true,
-  },
+  { title: "Our Story", href: "/story", icon: Heart },
 ]
 
 const eventsNavItems = [
@@ -55,10 +45,12 @@ const eventsNavItems = [
   { title: "Afternoon Tea", href: "/afternoon-tea", icon: Coffee },
 ]
 
-const aboutNavItems = [
-  { title: "Our Story", href: "/story", icon: Heart },
-  { title: "Our Team", href: "/our-team", icon: Users },
+const liveMusicNavItems = [
+  { title: "Preston Hunter", href: "/live-music/preston-hunter", icon: UserCircle },
+  { title: "Perform at Moon River", href: "/live-music/apply", icon: Music },
+  { title: "Watch Performances", href: "#", icon: Youtube, disabled: true },
 ]
+
 
 export function AppSidebar() {
   const pathname = usePathname()
@@ -118,28 +110,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Shop Navigation - Coming Soon */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-sm text-muted-foreground/50">Shop (Coming Soon)</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {shopNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    size="lg"
-                    disabled
-                    className="opacity-40 cursor-not-allowed"
-                  >
-                    <item.icon className="size-5" />
-                    <span className="text-base">{item.title}</span>
-                    {item.external && <ExternalLink className="ml-auto size-3 opacity-50" />}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
         {/* Events Navigation */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-sm">Events</SidebarGroupLabel>
@@ -159,24 +129,36 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* About Navigation */}
+        {/* Live Music Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sm">About</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sm">Live Music</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {aboutNavItems.map((item) => (
+              {liveMusicNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.href)} size="lg">
-                    <Link href={item.href} onClick={handleLinkClick}>
+                  {item.disabled ? (
+                    <SidebarMenuButton
+                      size="lg"
+                      disabled
+                      className="opacity-40 cursor-not-allowed"
+                    >
                       <item.icon className="size-5" />
                       <span className="text-base">{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                    </SidebarMenuButton>
+                  ) : (
+                    <SidebarMenuButton asChild isActive={isActive(item.href)} size="lg">
+                      <Link href={item.href} onClick={handleLinkClick}>
+                        <item.icon className="size-5" />
+                        <span className="text-base">{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
       </SidebarContent>
 
       <SidebarFooter className="p-4">

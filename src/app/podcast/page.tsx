@@ -104,7 +104,7 @@ export default function PodcastPage() {
       <main className="min-h-screen unified-background relative overflow-x-hidden">
         {/* Hero Section */}
         <div className="relative z-10 bg-gradient-to-b from-background to-secondary/20">
-          <div className="p-6 pt-28 md:pt-32 pb-12">
+          <div className="p-4 sm:p-6 pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12">
             <div className="max-w-7xl mx-auto w-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -113,8 +113,8 @@ export default function PodcastPage() {
                 className="flex flex-col gap-6 text-center"
               >
                 {/* Header with Icons */}
-                <div className="flex items-center justify-center gap-3 mb-2">
-                  <Mic2 className="h-5 w-5 text-primary" />
+                <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
+                  <Mic2 className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   <AnimatedGradientText>
                     <span
                       className={cn(
@@ -124,24 +124,24 @@ export default function PodcastPage() {
                       Conversations with Creatives
                     </span>
                   </AnimatedGradientText>
-                  <Mic2 className="h-5 w-5 text-primary" />
+                  <Mic2 className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                 </div>
 
                 {/* Title */}
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <h1
-                    className="font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground"
+                    className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-foreground"
                     style={{ fontFamily: "TanNimbus, serif" }}
                   >
                     Moon River Podcast
                   </h1>
-                  <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto font-casual">
+                  <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto font-casual px-2">
                     Join us as we sit down with local creatives, artists, and makers to explore their stories, inspiration, and craft over a cup of coffee.
                   </p>
                 </div>
 
                 {/* Platform Links */}
-                <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+                <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-3 sm:pt-4">
                   <Button
                     variant="outline"
                     size="sm"
@@ -214,8 +214,8 @@ export default function PodcastPage() {
 
         {/* Latest Episode Section */}
         {!loading && !error && latestEpisode && (
-          <section className="py-16 relative">
-            <div className="container mx-auto px-6">
+          <section className="py-10 sm:py-16 relative">
+            <div className="container mx-auto px-4 sm:px-6">
               <div className="max-w-5xl mx-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -223,9 +223,9 @@ export default function PodcastPage() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="space-y-6"
                 >
-                  <div className="text-center mb-8">
+                  <div className="text-center mb-6 sm:mb-8">
                     <h2
-                      className="text-3xl md:text-4xl font-bold mb-3 handwritten-underline"
+                      className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 handwritten-underline"
                       style={{ fontFamily: "TanNimbus, sans-serif" }}
                     >
                       Latest Episode
@@ -235,8 +235,8 @@ export default function PodcastPage() {
                     </p>
                   </div>
 
-                  <div className="bg-card/95 rounded-3xl p-6 md:p-8 warm-shadow-enhanced vintage-paper">
-                    <div className="space-y-6">
+                  <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper">
+                    <div className="space-y-4 sm:space-y-6">
                       {/* Video Player */}
                       {latestEpisode.platforms.youtube && (
                         <EpisodePlayer
@@ -246,13 +246,13 @@ export default function PodcastPage() {
                       )}
 
                       {/* Episode Details */}
-                      <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-handwritten text-primary">
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-handwritten text-primary">
                           {latestEpisode.title}
                         </h3>
 
                         {latestEpisode.guest && (
-                          <p className="text-lg text-muted-foreground font-casual">
+                          <p className="text-base sm:text-lg text-muted-foreground font-casual">
                             <span className="text-foreground font-semibold">Guest:</span>{" "}
                             {latestEpisode.guest}
                           </p>
@@ -263,7 +263,7 @@ export default function PodcastPage() {
                         </p>
 
                         {/* Platform Links */}
-                        <div className="flex flex-wrap gap-3 pt-4">
+                        <div className="flex flex-wrap gap-2 sm:gap-3 pt-3 sm:pt-4">
                           {latestEpisode.platforms.spotify && (
                             <Button
                               variant="outline"
@@ -307,12 +307,12 @@ export default function PodcastPage() {
         )}
 
         {/* All Episodes Section */}
-        <section className="py-16 relative">
-          <div className="container mx-auto px-6">
+        <section className="py-10 sm:py-16 relative">
+          <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-12">
+              <div className="text-center mb-8 sm:mb-12">
                 <h2
-                  className="text-3xl md:text-4xl font-bold mb-3 handwritten-underline"
+                  className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 handwritten-underline"
                   style={{ fontFamily: "TanNimbus, sans-serif" }}
                 >
                   All Episodes
@@ -324,7 +324,7 @@ export default function PodcastPage() {
 
               {/* Search and Filters */}
               {!loading && !error && episodes.length > 0 && (
-                <div className="mb-12">
+                <div className="mb-8 sm:mb-12">
                   <SearchFilter
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
@@ -340,7 +340,7 @@ export default function PodcastPage() {
 
               {/* Loading State */}
               {loading && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
                   {Array.from({ length: 6 }).map((_, i) => (
                     <EpisodeSkeleton key={i} />
                   ))}
@@ -385,7 +385,7 @@ export default function PodcastPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr"
                 >
                   {filteredEpisodes.slice(1).map((episode, index) => (
                     <EpisodeCard key={episode.id} episode={episode} />

@@ -51,15 +51,15 @@ export default function AfternoonTea() {
         }
       `}</style>
       <SiteHeader />
-      <main className="flex flex-col relative unified-background overflow-hidden h-screen">
+      <main className="flex flex-col relative unified-background overflow-hidden min-h-screen">
         {/* Single Viewport Layout */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden" role="main" aria-label="Afternoon Tea Service Information">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 sm:py-8" role="main" aria-label="Afternoon Tea Service Information">
 
           {/* Content Container */}
-          <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4 py-8">
+          <div className="relative z-10 w-full flex flex-col items-center justify-center px-4 py-6 sm:py-8">
             <div className="max-w-6xl mx-auto w-full">
               {/* Header */}
-              <header className="text-center mb-8">
+              <header className="text-center mb-6 sm:mb-8">
                 <div className="mb-4">
                   <span
                     className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full border border-primary/20 font-handwritten text-base stamp"
@@ -71,7 +71,7 @@ export default function AfternoonTea() {
                   </span>
                 </div>
                 <h1
-                  className="text-5xl md:text-7xl font-bold mb-4 handwritten-underline"
+                  className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 handwritten-underline"
                   style={{
                     fontFamily: 'TanNimbus, serif',
                     color: '#926F34'
@@ -79,21 +79,21 @@ export default function AfternoonTea() {
                 >
                   Afternoon Tea
                 </h1>
-                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-casual">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-casual px-2">
                   Luxurious pastries, finest teas, and live music in timeless sophistication
                 </p>
               </header>
 
               {/* Info Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-4 sm:mb-6">
                 {/* Highlights Card */}
-                <Card className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl paper-texture hover:shadow-xl transition-all duration-300 group">
-                  <CardContent className="p-6">
-                    <h2 className="text-xl font-handwritten text-primary mb-4 flex items-center gap-2">
+                <Card className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-xl sm:rounded-2xl paper-texture hover:shadow-xl transition-all duration-300 group">
+                  <CardContent className="p-4 sm:p-6">
+                    <h2 className="text-lg sm:text-xl font-handwritten text-primary mb-3 sm:mb-4 flex items-center gap-2">
                       <Sparkles className="w-5 h-5" aria-hidden="true" />
                       What&apos;s Included
                     </h2>
-                    <ul className="grid grid-cols-2 gap-3" role="list" aria-label="Afternoon tea inclusions">
+                    <ul className="grid grid-cols-2 gap-2 sm:gap-3" role="list" aria-label="Afternoon tea inclusions">
                       {highlights.map((item) => {
                         const Icon = item.icon;
                         return (
@@ -112,8 +112,8 @@ export default function AfternoonTea() {
                 </Card>
 
                 {/* Reservation Card */}
-                <Card className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-2xl paper-texture hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                  <div className="relative h-32 overflow-hidden">
+                <Card className="backdrop-blur-sm border-2 border-primary/20 warm-shadow-enhanced rounded-xl sm:rounded-2xl paper-texture hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                  <div className="relative h-24 sm:h-32 overflow-hidden">
                     <Image
                       src="/images_videos/afternoon_tea/high_tea.jpg"
                       alt="Elegant afternoon tea setup with fine china, pastries, and tea service"
@@ -123,15 +123,15 @@ export default function AfternoonTea() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
                   </div>
-                  <CardContent className="p-6 -mt-4 relative z-10">
-                    <h2 className="text-xl font-handwritten text-primary mb-3">Reserve Now</h2>
-                    <div className="space-y-3">
+                  <CardContent className="p-4 sm:p-6 -mt-4 relative z-10">
+                    <h2 className="text-lg sm:text-xl font-handwritten text-primary mb-2 sm:mb-3">Reserve Now</h2>
+                    <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-baseline gap-2" role="text" aria-label="Price: 65 dollars per person">
-                        <span className="text-3xl font-handwritten text-primary">$65</span>
+                        <span className="text-2xl sm:text-3xl font-handwritten text-primary">$65</span>
                         <span className="text-sm font-casual text-muted-foreground">per person</span>
                       </div>
                       <Button
-                        className="w-full bg-primary hover:bg-primary/90 text-white font-handwritten text-base focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+                        className="w-full bg-primary hover:bg-primary/90 text-white font-handwritten text-sm sm:text-base focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all min-h-[44px]"
                         asChild
                       >
                         <Link
@@ -144,7 +144,7 @@ export default function AfternoonTea() {
                         </Link>
                       </Button>
                       <Button
-                        className="w-full font-handwritten text-base focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all border-primary/30 hover:bg-primary/10"
+                        className="w-full font-handwritten text-sm sm:text-base focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all border-primary/30 hover:bg-primary/10 min-h-[44px]"
                         variant="outline"
                         aria-label="Call to reserve afternoon tea"
                       >
