@@ -106,9 +106,6 @@ export function SiteHeader() {
                     <ListItem href="/afternoon-tea" title="Afternoon Tea">
                         Reserve a classic tiered tea service with fresh pastries and savories.
                     </ListItem>
-                    <ListItem href="/guides/private-events" title="Private Events">
-                        Plan a private gathering with us.
-                    </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>

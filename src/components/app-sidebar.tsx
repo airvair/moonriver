@@ -11,7 +11,6 @@ import {
   Gift,
   Calendar,
   Coffee,
-  PartyPopper,
   Heart,
   Users,
   ExternalLink,
@@ -54,7 +53,6 @@ const shopNavItems = [
 const eventsNavItems = [
   { title: "Calendar", href: "/calendar", icon: Calendar },
   { title: "Afternoon Tea", href: "/afternoon-tea", icon: Coffee },
-  { title: "Private Events", href: "/guides/private-events", icon: PartyPopper },
 ]
 
 const aboutNavItems = [
