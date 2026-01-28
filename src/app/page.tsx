@@ -143,10 +143,6 @@ export default function Home() {
                 <p className="text-muted-foreground mb-4 font-casual">
                   A delightful Italian-inspired creation that captures the essence of the Mediterranean
                 </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-handwritten text-primary">$12.00</span>
-                  <span className="text-sm text-muted-foreground">⭐ 4.9/5</span>
-                </div>
               </div>
 
               {/* Regency Toast */}
@@ -165,10 +161,6 @@ export default function Home() {
                 <p className="text-muted-foreground mb-4 font-casual">
                   Thick-cut brioche French toast with seasonal toppings, made fresh every morning
                 </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-handwritten text-primary">$14.00</span>
-                  <span className="text-sm text-muted-foreground">⭐ 5.0/5</span>
-                </div>
               </div>
 
               {/* Belgian Waffle and Baron */}
@@ -187,10 +179,6 @@ export default function Home() {
                 <p className="text-muted-foreground mb-4 font-casual">
                   Crispy Belgian waffle paired with our signature Baron coffee — the perfect brunch combo
                 </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-handwritten text-primary">$16.00</span>
-                  <span className="text-sm text-muted-foreground">⭐ 4.8/5</span>
-                </div>
               </div>
             </div>
           </div>
