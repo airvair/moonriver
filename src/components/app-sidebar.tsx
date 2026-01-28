@@ -14,6 +14,7 @@ import {
   Music,
   Youtube,
   UserCircle,
+  Sparkles,
 } from "lucide-react"
 
 import {
@@ -35,14 +36,17 @@ import { Button } from "@/components/ui/button"
 const mainNavItems = [
   { title: "Home", href: "/", icon: Home },
   { title: "Menu", href: "/menu", icon: Coffee },
-  { title: "Blog", href: "/blog", icon: BookOpen },
-  { title: "Podcast", href: "/podcast", icon: Mic },
-  { title: "Our Story", href: "/story", icon: Heart },
 ]
 
 const eventsNavItems = [
   { title: "Calendar", href: "/calendar", icon: Calendar },
   { title: "Afternoon Tea", href: "/afternoon-tea", icon: Coffee },
+]
+
+const discoverNavItems = [
+  { title: "The Journal", href: "/blog", icon: BookOpen },
+  { title: "Podcast", href: "/podcast", icon: Mic },
+  { title: "Our Story", href: "/story", icon: Heart },
 ]
 
 const liveMusicNavItems = [
@@ -90,6 +94,24 @@ export function AppSidebar() {
 
       <SidebarSeparator />
 
+      {/* Featured Section - Highlight current promotion or event */}
+      <div className="px-3 py-3">
+        <Link
+          href="/calendar"
+          onClick={handleLinkClick}
+          className="block p-4 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/15 active:bg-primary/20 transition-colors min-h-[44px]"
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span className="text-xs font-medium text-primary uppercase tracking-wide">Featured</span>
+          </div>
+          <p className="font-handwritten text-base text-foreground leading-snug">Open Mic Night Every Friday</p>
+          <p className="text-xs text-muted-foreground mt-1">View all events</p>
+        </Link>
+      </div>
+
+      <SidebarSeparator />
+
       <SidebarContent>
         {/* Main Navigation */}
         <SidebarGroup>
@@ -116,6 +138,25 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {eventsNavItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={isActive(item.href)} size="lg">
+                    <Link href={item.href} onClick={handleLinkClick}>
+                      <item.icon className="size-5" />
+                      <span className="text-base">{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Discover Navigation */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-sm">Discover</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {discoverNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={isActive(item.href)} size="lg">
                     <Link href={item.href} onClick={handleLinkClick}>
@@ -162,7 +203,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="p-4">
-        <Button asChild className="w-full" size="lg">
+        <Button asChild className="w-full warm-shadow" size="lg">
           <a
             href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave"
             target="_blank"

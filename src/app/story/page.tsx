@@ -160,16 +160,6 @@ const pressArticles = [
 export default function OurStory() {
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
-
       <SiteHeader />
 
       <main className="flex flex-col unified-background">

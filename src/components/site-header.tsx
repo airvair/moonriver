@@ -11,8 +11,11 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar"
+import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { ExternalLink } from "lucide-react"
+
 export function SiteHeader() {
   const [visible, setVisible] = React.useState(true)
   const [prevScrollPos, setPrevScrollPos] = React.useState(0)
@@ -33,15 +36,6 @@ export function SiteHeader() {
 
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
       {/* Mobile Sidebar Trigger - visible on smaller screens, hidden when sidebar is open */}
       <div
         className={cn(
@@ -62,7 +56,7 @@ export function SiteHeader() {
           <div className="container mx-auto flex justify-center">
             <NavigationMenu viewport={false}>
               <NavigationMenuList className="items-center flex-nowrap">
-                {/* Cafe name text with red border - properly wrapped in NavigationMenuItem */}
+                {/* Cafe name text with gold border */}
                 <NavigationMenuItem className="mr-6">
                   <NavigationMenuLink asChild>
                     <Link href="/" className="flex items-center">
@@ -103,6 +97,24 @@ export function SiteHeader() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
+              {/* Discover Dropdown - grouped content pages */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Discover</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-2 p-4 md:w-[400px]">
+                    <ListItem href="/blog" title="The Journal">
+                      Stories, recipes, and musings from our little corner of Melbourne.
+                    </ListItem>
+                    <ListItem href="/podcast" title="Podcast">
+                      Conversations with local creatives and community voices.
+                    </ListItem>
+                    <ListItem href="/story" title="Our Story">
+                      The journey behind Moon River — a mother-daughter dream.
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Live Music</NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -120,36 +132,18 @@ export function SiteHeader() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/blog" className={navigationMenuTriggerStyle()}>
-                    Blog
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/podcast" className={navigationMenuTriggerStyle()}>
-                    Podcast
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="/story" className={navigationMenuTriggerStyle()}>
-                    Our Story
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave" className={navigationMenuTriggerStyle()}>
-                      Order Online
-                  </Link>
-                </NavigationMenuLink>
+              {/* Order Online - styled as primary CTA button */}
+              <NavigationMenuItem className="ml-2">
+                <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 warm-shadow">
+                  <a
+                    href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Order Online
+                    <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                  </a>
+                </Button>
               </NavigationMenuItem>
 
               </NavigationMenuList>

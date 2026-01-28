@@ -8,6 +8,11 @@ import { cn } from "@/lib/utils";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
 import { useState, useEffect } from "react";
 import { getOpenStatus } from "@/lib/hours";
+import { Button } from "@/components/ui/button";
+import { SectionHeader } from "@/components/section-header";
+import { MagicCard } from "@/components/ui/magic-card";
+import Link from "next/link";
+import { BookOpen, Calendar, Mic, Coffee, ArrowRight } from "lucide-react";
 
 export default function Home() {
   const [openStatus, setOpenStatus] = useState<{ isOpen: boolean; message: string } | null>(null);
@@ -27,15 +32,6 @@ export default function Home() {
 
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
       <SiteHeader />
       <main className="flex flex-col relative unified-background overflow-x-hidden">
         {/* Hero Section */}
@@ -91,6 +87,21 @@ export default function Home() {
                 >
                   Moon River Café
                 </h1>
+
+                {/* Hero CTA Button */}
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start w-full sm:w-auto">
+                  <Button asChild size="lg" className="text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-11 warm-shadow-enhanced w-full sm:w-auto">
+                    <Link href="/menu">
+                      View Menu
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-11 bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm w-full sm:w-auto">
+                    <Link href="/story">
+                      Our Story
+                    </Link>
+                  </Button>
+                </div>
               </div>
 
               {/* Right side - Info boxes */}
@@ -109,27 +120,44 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Value Proposition Section */}
+        <section className="py-10 sm:py-14 md:py-20 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 text-primary/90 leading-tight"
+                style={{ fontFamily: 'TanNimbus, sans-serif' }}
+              >
+                Where coffee meets culture in downtown Melbourne
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground font-casual leading-relaxed mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
+                Born from a mother-daughter dream and inspired by European cafés, Moon River is more than a coffee shop —
+                it&apos;s a gathering place for artists, writers, dreamers, and neighbors. A home away from home where
+                every cup poured is an invitation to connect.
+              </p>
+              <Button asChild variant="outline" size="lg" className="warm-glow h-12 sm:h-11 px-6 sm:px-8">
+                <Link href="/story">
+                  Read Our Story
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
         {/* Signature Items - 3 Column Grid */}
         <section className="py-16 sm:py-24 md:py-32 relative overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-10 sm:mb-16">
-              <div className="mb-4">
-                <span className="text-sm font-medium uppercase tracking-wider text-primary badge-handwritten">
-                  House Favorites
-                </span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 handwritten-underline" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
-                Our Signature Items
-              </h2>
-              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto font-casual px-2">
-                The creations that keep our community coming back
-              </p>
-            </div>
+            <SectionHeader
+              badge="House Favorites"
+              title="Our Signature Items"
+              description="The creations that keep our community coming back"
+            />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
               {/* Bella Capri */}
-              <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-6 sm:p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
+              <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
+                <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
                   <img
                     src="/images_videos/food/Moon River_Food Pics_Jan 2026/Bella Capri.png"
                     alt="Bella Capri"
@@ -137,17 +165,17 @@ export default function Home() {
                   />
                 </div>
                 <span className="stamp stamp-fresh text-xs">Best Seller</span>
-                <h3 className="text-2xl font-handwritten text-primary mt-4 mb-2">
+                <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
                   Bella Capri
                 </h3>
-                <p className="text-muted-foreground mb-4 font-casual">
+                <p className="text-sm sm:text-base text-muted-foreground font-casual">
                   A delightful Italian-inspired creation that captures the essence of the Mediterranean
                 </p>
               </div>
 
               {/* Regency Toast */}
-              <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-6 sm:p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
+              <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
+                <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
                   <img
                     src="/images_videos/food/Moon River_Food Pics_Jan 2026/Regency Toast-2.png"
                     alt="Regency Toast"
@@ -155,17 +183,17 @@ export default function Home() {
                   />
                 </div>
                 <span className="stamp stamp-fresh stamp-tilted text-xs">Fresh</span>
-                <h3 className="text-2xl font-handwritten text-primary mt-4 mb-2">
+                <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
                   Regency Toast
                 </h3>
-                <p className="text-muted-foreground mb-4 font-casual">
+                <p className="text-sm sm:text-base text-muted-foreground font-casual">
                   Thick-cut brioche French toast with seasonal toppings, made fresh every morning
                 </p>
               </div>
 
               {/* Belgian Waffle and Baron */}
-              <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-6 sm:p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
+              <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card sm:col-span-2 md:col-span-1">
+                <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
                   <img
                     src="/images_videos/food/Moon River_Food Pics_Jan 2026/Belgian Waffle and Baron.png"
                     alt="Belgian Waffle and Baron"
@@ -173,12 +201,171 @@ export default function Home() {
                   />
                 </div>
                 <span className="stamp stamp-fresh text-xs">Local Favorite</span>
-                <h3 className="text-2xl font-handwritten text-primary mt-4 mb-2">
+                <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
                   Belgian Waffle & Baron
                 </h3>
-                <p className="text-muted-foreground mb-4 font-casual">
+                <p className="text-sm sm:text-base text-muted-foreground font-casual">
                   Crispy Belgian waffle paired with our signature Baron coffee — the perfect brunch combo
                 </p>
+              </div>
+            </div>
+
+            {/* See Full Menu CTA */}
+            <div className="text-center mt-8 sm:mt-10 md:mt-12 px-4 sm:px-0">
+              <Button asChild size="lg" className="warm-shadow-enhanced h-12 sm:h-11 px-8 w-full sm:w-auto">
+                <Link href="/menu">
+                  See Full Menu
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Content Discovery Section */}
+        <section className="py-16 sm:py-24 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <SectionHeader
+              badge="Explore"
+              title="Discover Moon River"
+              description="Stories, events, and experiences waiting for you"
+            />
+
+            <div className="max-w-6xl mx-auto">
+              {/* Featured Row - Journal & Afternoon Tea */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                {/* The Journal - Featured */}
+                <Link href="/blog" className="group block">
+                  <MagicCard
+                    className="h-full rounded-2xl sm:rounded-3xl overflow-hidden"
+                    gradientColor="#926F34"
+                    gradientFrom="#D4AF37"
+                    gradientTo="#926F34"
+                    gradientOpacity={0.15}
+                  >
+                    <div className="relative h-full min-h-[280px] sm:min-h-[320px] p-5 sm:p-6 md:p-8 flex flex-col justify-between">
+                      {/* Background Pattern */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/10 via-transparent to-orange-100/10 pointer-events-none" />
+
+                      <div className="relative z-10">
+                        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-primary/10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <BookOpen className="w-6 h-6 sm:w-7 sm:h-7" />
+                        </div>
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 group-hover:text-primary transition-colors" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
+                          The Journal
+                        </h3>
+                        <p className="text-sm sm:text-base text-muted-foreground font-casual leading-relaxed max-w-sm">
+                          Stories, recipes, and musings from our little corner of Melbourne
+                        </p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center gap-2 text-primary font-medium text-sm sm:text-base group-hover:gap-3 transition-all duration-300">
+                        Read the Journal
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </MagicCard>
+                </Link>
+
+                {/* Afternoon Tea - Featured */}
+                <Link href="/afternoon-tea" className="group block">
+                  <MagicCard
+                    className="h-full rounded-2xl sm:rounded-3xl overflow-hidden"
+                    gradientColor="#926F34"
+                    gradientFrom="#FE8BBB"
+                    gradientTo="#D4AF37"
+                    gradientOpacity={0.15}
+                  >
+                    <div className="relative h-full min-h-[280px] sm:min-h-[320px] p-5 sm:p-6 md:p-8 flex flex-col justify-between">
+                      {/* Background Pattern */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-pink-100/10 via-transparent to-amber-100/10 pointer-events-none" />
+
+                      <div className="relative z-10">
+                        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-primary/10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <Coffee className="w-6 h-6 sm:w-7 sm:h-7" />
+                        </div>
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 group-hover:text-primary transition-colors" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
+                          Afternoon Tea
+                        </h3>
+                        <p className="text-sm sm:text-base text-muted-foreground font-casual leading-relaxed max-w-sm">
+                          A classic tiered tea service with fresh pastries, savories, and premium teas
+                        </p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center gap-2 text-primary font-medium text-sm sm:text-base group-hover:gap-3 transition-all duration-300">
+                        Reserve Now
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </MagicCard>
+                </Link>
+              </div>
+
+              {/* Secondary Row - Podcast & Events */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                {/* Podcast Card */}
+                <Link href="/podcast" className="group block">
+                  <MagicCard
+                    className="h-full rounded-2xl sm:rounded-3xl overflow-hidden"
+                    gradientColor="#926F34"
+                    gradientFrom="#9E7AFF"
+                    gradientTo="#FE8BBB"
+                    gradientOpacity={0.12}
+                  >
+                    <div className="relative h-full min-h-[200px] sm:min-h-[220px] p-5 sm:p-6 flex flex-col justify-between">
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-100/10 via-transparent to-pink-100/10 pointer-events-none" />
+
+                      <div className="relative z-10">
+                        <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 text-primary mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <Mic className="w-5 h-5 sm:w-6 sm:h-6" />
+                        </div>
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
+                          Moon River Podcast
+                        </h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-casual leading-relaxed">
+                          Conversations with local creatives and community voices
+                        </p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all duration-300 mt-3">
+                        Listen Now
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </MagicCard>
+                </Link>
+
+                {/* Events Card */}
+                <Link href="/calendar" className="group block">
+                  <MagicCard
+                    className="h-full rounded-2xl sm:rounded-3xl overflow-hidden"
+                    gradientColor="#926F34"
+                    gradientFrom="#60A5FA"
+                    gradientTo="#34D399"
+                    gradientOpacity={0.12}
+                  >
+                    <div className="relative h-full min-h-[200px] sm:min-h-[220px] p-5 sm:p-6 flex flex-col justify-between">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-100/10 via-transparent to-emerald-100/10 pointer-events-none" />
+
+                      <div className="relative z-10">
+                        <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 text-primary mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                          <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
+                        </div>
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
+                          Upcoming Events
+                        </h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground font-casual leading-relaxed">
+                          Open mics, poetry nights, live music, and more
+                        </p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all duration-300 mt-3">
+                        View Calendar
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </MagicCard>
+                </Link>
               </div>
             </div>
           </div>
@@ -187,19 +374,11 @@ export default function Home() {
         {/* Testimonials Section */}
         <section className="py-16 sm:py-24 relative overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-10 sm:mb-16">
-              <div className="mb-4">
-                <span className="text-sm font-medium uppercase tracking-wider text-primary badge-handwritten">
-                  From Our Coffee Family
-                </span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 handwritten-underline" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
-                What Our Friends Say
-              </h2>
-              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
-                Real stories from the wonderful people who make Moon River special
-              </p>
-            </div>
+            <SectionHeader
+              badge="From Our Coffee Family"
+              title="What Our Friends Say"
+              description="Real stories from the wonderful people who make Moon River special"
+            />
 
             <TestimonialMarquee />
           </div>

@@ -21,17 +21,7 @@ export function SiteFooter() {
   }, []);
 
   return (
-    <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
-      <footer className="bg-gradient-to-b from-primary/10 to-primary/20 border-t-2 border-primary/20 relative z-10 paper-texture">
+    <footer className="bg-gradient-to-b from-primary/10 to-primary/20 border-t-2 border-primary/20 relative z-10 paper-texture">
         <div className="container mx-auto px-4 py-8 sm:py-12">
           {/* Top Section - Main Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
@@ -227,6 +217,5 @@ export function SiteFooter() {
           </div>
         </div>
       </footer>
-    </>
   )
 }

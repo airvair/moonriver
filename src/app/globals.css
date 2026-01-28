@@ -784,3 +784,8 @@
 .story-divider::after {
   right: 5%;
 }
+
+/* Section spacing utility for consistent vertical rhythm */
+.section-spacing {
+  @apply py-16 sm:py-20 md:py-24 lg:py-32;
+}
