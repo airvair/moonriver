@@ -13,7 +13,6 @@ import {
   ExternalLink,
   Music,
   Youtube,
-  UserCircle,
   Sparkles,
 } from "lucide-react"
 
@@ -50,7 +49,6 @@ const discoverNavItems = [
 ]
 
 const liveMusicNavItems = [
-  { title: "Preston Hunter", href: "/live-music/preston-hunter", icon: UserCircle },
   { title: "Perform at Moon River", href: "/live-music/apply", icon: Music },
   { title: "Watch Performances", href: "#", icon: Youtube, disabled: true },
 ]

@@ -119,9 +119,6 @@ export function SiteHeader() {
                 <NavigationMenuTrigger>Live Music</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-2 p-4 md:w-[400px]">
-                    <ListItem href="/live-music/preston-hunter" title="Preston Hunter">
-                      Featured artist appearances and music.
-                    </ListItem>
                     <ListItem href="/live-music/apply" title="Perform at Moon River">
                       Apply to perform at the café.
                     </ListItem>
