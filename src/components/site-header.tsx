@@ -46,10 +46,10 @@ export function SiteHeader() {
       <div
         className={cn(
           "fixed top-3 left-3 z-[60] lg:hidden transition-all duration-300",
-          (!visible || openMobile) ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100 translate-y-0"
+          openMobile ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100 translate-y-0"
         )}
       >
-        <SidebarTrigger className="bg-background/95 backdrop-blur-sm border border-primary/20 warm-shadow size-10" />
+        <SidebarTrigger className="bg-background/95 backdrop-blur-sm border border-primary/20 warm-shadow size-14" />
       </div>
       {/* Desktop Navigation - only on larger screens */}
       <div
