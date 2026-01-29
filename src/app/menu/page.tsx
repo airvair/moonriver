@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BlurFade } from "@/components/ui/blur-fade";
 
 const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
   ssr: false,
@@ -45,43 +46,55 @@ export default function MenuPage() {
       <SiteHeader />
       <main className="flex flex-col relative unified-background overflow-x-hidden">
         {/* Hero Section */}
-        <section className="relative pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              {/* Decorative badge */}
-              <div className="mb-6">
-                <span className="text-sm font-medium uppercase tracking-wider text-primary badge-handwritten">
-                  Fresh Daily
-                </span>
+        <BlurFade delay={0} duration={0.6}>
+          <section className="relative pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                {/* Decorative badge */}
+                <BlurFade delay={0.1}>
+                  <div className="mb-6">
+                    <span className="text-sm font-medium uppercase tracking-wider text-primary badge-handwritten">
+                      Fresh Daily
+                    </span>
+                  </div>
+                </BlurFade>
+
+                {/* Main heading */}
+                <BlurFade delay={0.2}>
+                  <h1
+                    className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 handwritten-underline inline-block"
+                    style={{ fontFamily: 'TanNimbus, sans-serif' }}
+                  >
+                    Our Menu
+                  </h1>
+                </BlurFade>
+
+                {/* Subtitle */}
+                <BlurFade delay={0.3}>
+                  <p className="text-lg sm:text-xl text-muted-foreground font-casual max-w-xl mx-auto mt-6">
+                    Lovingly crafted drinks and treats, made fresh every morning just for you
+                  </p>
+                </BlurFade>
+
+                {/* Decorative coffee divider */}
+                <BlurFade delay={0.4}>
+                  <div className="coffee-divider mt-8" />
+                </BlurFade>
               </div>
-
-              {/* Main heading */}
-              <h1
-                className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 handwritten-underline inline-block"
-                style={{ fontFamily: 'TanNimbus, sans-serif' }}
-              >
-                Our Menu
-              </h1>
-
-              {/* Subtitle */}
-              <p className="text-lg sm:text-xl text-muted-foreground font-casual max-w-xl mx-auto mt-6">
-                Lovingly crafted drinks and treats, made fresh every morning just for you
-              </p>
-
-              {/* Decorative coffee divider */}
-              <div className="coffee-divider mt-8" />
             </div>
-          </div>
-        </section>
+          </section>
+        </BlurFade>
 
         {/* Menu Content */}
-        <section className="pb-16 sm:pb-24 relative">
-          <div className="container mx-auto px-3 sm:px-4">
-            <div className="max-w-4xl mx-auto">
-              <PDFViewer file="/menu10-25.pdf" />
+        <BlurFade delay={0.1} inView>
+          <section className="pb-16 sm:pb-24 relative">
+            <div className="container mx-auto px-3 sm:px-4">
+              <div className="max-w-4xl mx-auto">
+                <PDFViewer file="/menu10-25.pdf" />
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </BlurFade>
 
         <SiteFooter />
       </main>

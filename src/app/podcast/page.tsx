@@ -5,30 +5,19 @@ import { SiteFooter } from "@/components/site-footer";
 import { EpisodeCard } from "@/components/podcast/episode-card";
 import { EpisodeSkeleton } from "@/components/podcast/episode-skeleton";
 import { EpisodePlayer } from "@/components/podcast/episode-player";
-import { SearchFilter } from "@/components/podcast/search-filter";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, Mic2, Youtube, Music2, Instagram } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import type { PodcastEpisode } from "@/lib/types/podcast";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
-import {
-  extractAllGuests,
-  extractAllTopics,
-  filterEpisodesByGuest,
-  filterEpisodesByTopic,
-  searchEpisodes,
-  sortEpisodesByDate,
-} from "@/lib/podcast-utils";
+import { sortEpisodesByDate } from "@/lib/podcast-utils";
 
 export default function PodcastPage() {
   const [episodes, setEpisodes] = useState<PodcastEpisode[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedGuest, setSelectedGuest] = useState<string>("all");
-  const [selectedTopic, setSelectedTopic] = useState<string>("all");
 
   const fetchEpisodes = async () => {
     try {
@@ -62,28 +51,6 @@ export default function PodcastPage() {
   useEffect(() => {
     fetchEpisodes();
   }, []);
-
-  // Extract all unique guests and topics
-  const allGuests = useMemo(() => extractAllGuests(episodes), [episodes]);
-  const allTopics = useMemo(() => extractAllTopics(episodes), [episodes]);
-
-  // Filter and search episodes
-  const filteredEpisodes = useMemo(() => {
-    let filtered = episodes;
-
-    // Apply guest filter
-    filtered = filterEpisodesByGuest(filtered, selectedGuest);
-
-    // Apply topic filter
-    filtered = filterEpisodesByTopic(filtered, selectedTopic);
-
-    // Apply search
-    if (searchQuery) {
-      filtered = searchEpisodes(filtered, searchQuery);
-    }
-
-    return filtered;
-  }, [episodes, selectedGuest, selectedTopic, searchQuery]);
 
   const latestEpisode = episodes[0];
 
@@ -322,22 +289,6 @@ export default function PodcastPage() {
                 </p>
               </div>
 
-              {/* Search and Filters */}
-              {!loading && !error && episodes.length > 0 && (
-                <div className="mb-8 sm:mb-12">
-                  <SearchFilter
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    guests={allGuests}
-                    selectedGuest={selectedGuest}
-                    onGuestSelect={setSelectedGuest}
-                    topics={allTopics}
-                    selectedTopic={selectedTopic}
-                    onTopicSelect={setSelectedTopic}
-                  />
-                </div>
-              )}
-
               {/* Loading State */}
               {loading && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr">
@@ -365,29 +316,25 @@ export default function PodcastPage() {
               )}
 
               {/* No Results State */}
-              {!loading && !error && filteredEpisodes.length === 0 && (
+              {!loading && !error && episodes.length <= 1 && (
                 <div className="py-16 text-center">
                   <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8 paper-texture">
                     <p className="text-muted-foreground text-lg">
-                      {searchQuery
-                        ? `No episodes found matching "${searchQuery}"`
-                        : selectedGuest !== "all" || selectedTopic !== "all"
-                        ? "No episodes found with selected filters"
-                        : "No podcast episodes available yet. Check back soon!"}
+                      No additional episodes available yet. Check back soon!
                     </p>
                   </div>
                 </div>
               )}
 
               {/* Episodes Grid */}
-              {!loading && !error && filteredEpisodes.length > 0 && (
+              {!loading && !error && episodes.length > 1 && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6 }}
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr"
                 >
-                  {filteredEpisodes.slice(1).map((episode, index) => (
+                  {episodes.slice(1).map((episode) => (
                     <EpisodeCard key={episode.id} episode={episode} />
                   ))}
                 </motion.div>

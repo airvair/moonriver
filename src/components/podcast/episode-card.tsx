@@ -2,10 +2,9 @@
 
 import type { PodcastEpisode } from "@/lib/types/podcast";
 import { formatPublishDate, formatDuration } from "@/lib/podcast-utils";
-import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, User, Play } from "lucide-react";
+import { Calendar, Clock, Play } from "lucide-react";
 import { useState } from "react";
 import { EpisodePlayer } from "./episode-player";
 import { cn } from "@/lib/utils";
@@ -21,15 +20,15 @@ export function EpisodeCard({ episode, className }: EpisodeCardProps) {
   return (
     <Card
       className={cn(
-        "bg-card/95 rounded-3xl p-6 warm-shadow-enhanced vintage-paper cozy-card transition-all duration-300 hover:scale-[1.02] overflow-hidden",
+        "bg-card/95 rounded-3xl p-6 warm-shadow-enhanced vintage-paper cozy-card transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full",
         className
       )}
     >
       {!isPlaying ? (
         // Thumbnail view
-        <div className="space-y-4">
+        <div className="flex flex-col h-full">
           {/* Thumbnail with play overlay */}
-          <div className="relative aspect-video rounded-2xl overflow-hidden warm-shadow group cursor-pointer"
+          <div className="relative aspect-video rounded-2xl overflow-hidden warm-shadow group cursor-pointer flex-shrink-0"
             onClick={() => setIsPlaying(true)}
           >
             <img
@@ -50,94 +49,41 @@ export function EpisodeCard({ episode, className }: EpisodeCardProps) {
           </div>
 
           {/* Episode info */}
-          <div className="space-y-3">
+          <div className="flex flex-col flex-1 pt-4">
             <h3 className="text-xl font-handwritten text-primary line-clamp-2 leading-snug">
               {episode.title}
             </h3>
 
-            {episode.guest && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <User className="h-4 w-4" />
-                <span className="font-medium">{episode.guest}</span>
-              </div>
-            )}
-
-            <p className="text-sm text-muted-foreground font-casual line-clamp-2">
+            <p className="text-sm text-muted-foreground font-casual line-clamp-3 mt-2 flex-1">
               {episode.description}
             </p>
 
-            {/* Metadata */}
-            <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Calendar className="h-3 w-3" />
-                <span>{formatPublishDate(episode.publishedAt)}</span>
-              </div>
-              {episode.duration && (
+            {/* Bottom section - always at bottom */}
+            <div className="mt-auto pt-4 space-y-3">
+              {/* Metadata */}
+              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
                 <div className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  <span>{formatDuration(episode.duration)}</span>
+                  <Calendar className="h-3 w-3" />
+                  <span>{formatPublishDate(episode.publishedAt)}</span>
                 </div>
-              )}
-            </div>
-
-            {/* Topics */}
-            {episode.topics && episode.topics.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {episode.topics.slice(0, 3).map((topic) => (
-                  <Badge
-                    key={topic}
-                    variant="secondary"
-                    className="text-xs font-casual bg-primary/10 text-primary border-primary/20"
-                  >
-                    {topic}
-                  </Badge>
-                ))}
+                {episode.duration && (
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    <span>{formatDuration(episode.duration)}</span>
+                  </div>
+                )}
               </div>
-            )}
 
-            {/* Platform links */}
-            <div className="flex gap-2 pt-2">
+              {/* Watch button */}
               {episode.platforms.youtube && (
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex-1 border-primary/30 hover:bg-primary/10"
+                  className="w-full border-primary/30 hover:bg-primary/10"
                   onClick={() => setIsPlaying(true)}
                 >
                   <Play className="h-3 w-3 mr-1" />
                   Watch
-                </Button>
-              )}
-              {episode.platforms.spotify && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-primary/30 hover:bg-primary/10"
-                  asChild
-                >
-                  <a
-                    href={episode.platforms.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Spotify
-                  </a>
-                </Button>
-              )}
-              {episode.platforms.apple && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-primary/30 hover:bg-primary/10"
-                  asChild
-                >
-                  <a
-                    href={episode.platforms.apple}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Apple
-                  </a>
                 </Button>
               )}
             </div>

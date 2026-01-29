@@ -6,6 +6,7 @@ import { TableOfContents, type TOCItem } from "@/components/blog/table-of-conten
 import { AuthorCard } from "@/components/blog/author-card";
 import { ReadMoreSection } from "@/components/blog/read-more-section";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
+import { BlurFade } from "@/components/ui/blur-fade";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -278,57 +279,63 @@ export default function BlogPostPage() {
         {!loading && !error && post && (
           <>
             {/* Header Section */}
-            <div className="space-y-3 sm:space-y-4 border-b border-border relative z-10 pt-20">
-              <div className="max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6 p-4 sm:p-6">
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3 gap-y-3 sm:gap-y-5 text-xs sm:text-sm text-muted-foreground">
-                  <Button variant="outline" asChild className="h-8 sm:h-8 px-2 sm:px-3 text-xs sm:text-sm">
-                    <Link href="/blog">
-                      <ArrowLeft className="w-4 h-4 mr-2" />
-                      Back to all articles
-                    </Link>
-                  </Button>
-                  {post.labels && post.labels.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {post.labels.map((label) => (
-                        <Badge
-                          key={label}
-                          variant="secondary"
-                          className="bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20 text-[#926F34] border-[#AE8625]/30"
-                        >
-                          {label}
-                        </Badge>
-                      ))}
+            <BlurFade delay={0} duration={0.6}>
+              <div className="space-y-3 sm:space-y-4 border-b border-border relative z-10 pt-20">
+                <div className="max-w-7xl mx-auto flex flex-col gap-4 sm:gap-6 p-4 sm:p-6">
+                  <BlurFade delay={0.1}>
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 gap-y-3 sm:gap-y-5 text-xs sm:text-sm text-muted-foreground">
+                      <Button variant="outline" asChild className="h-8 sm:h-8 px-2 sm:px-3 text-xs sm:text-sm">
+                        <Link href="/blog">
+                          <ArrowLeft className="w-4 h-4 mr-2" />
+                          Back to all articles
+                        </Link>
+                      </Button>
+                      {post.labels && post.labels.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {post.labels.map((label) => (
+                            <Badge
+                              key={label}
+                              variant="secondary"
+                              className="bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20 text-[#926F34] border-[#AE8625]/30"
+                            >
+                              {label}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                      <div className="flex items-center gap-4 text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-4 w-4" />
+                          <time>{formatDate(post.published)}</time>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{readingTime}</span>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleShare}
+                        className="ml-auto"
+                      >
+                        <Share2 className="h-4 w-4 mr-2" />
+                        Share
+                      </Button>
                     </div>
-                  )}
-                  <div className="flex items-center gap-4 text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <time>{formatDate(post.published)}</time>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      <span>{readingTime}</span>
-                    </div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleShare}
-                    className="ml-auto"
-                  >
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
-                </div>
+                  </BlurFade>
 
-                <h1
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-balance"
-                  style={{ fontFamily: 'TanNimbus, sans-serif' }}
-                >
-                  {post.title}
-                </h1>
+                  <BlurFade delay={0.2}>
+                    <h1
+                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-balance"
+                      style={{ fontFamily: 'TanNimbus, sans-serif' }}
+                    >
+                      {post.title}
+                    </h1>
+                  </BlurFade>
+                </div>
               </div>
-            </div>
+            </BlurFade>
 
             {/* Content Section */}
             <div className="flex divide-x divide-border relative max-w-7xl mx-auto px-0 sm:px-4 md:px-0 z-10">
@@ -336,45 +343,53 @@ export default function BlogPostPage() {
 
               <main className="w-full p-0 overflow-hidden">
                 {thumbnail && (
-                  <div className="relative w-full h-[250px] sm:h-[350px] md:h-[500px] overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={thumbnail}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-                  </div>
+                  <BlurFade delay={0.3}>
+                    <div className="relative w-full h-[250px] sm:h-[350px] md:h-[500px] overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={thumbnail}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+                    </div>
+                  </BlurFade>
                 )}
 
-                <div className="p-4 sm:p-6 lg:p-10">
-                  <article
-                    className="blog-content prose prose-sm sm:prose-lg max-w-none"
-                    dangerouslySetInnerHTML={{ __html: processedContent }}
-                  />
-                </div>
+                <BlurFade delay={0.4}>
+                  <div className="p-4 sm:p-6 lg:p-10">
+                    <article
+                      className="blog-content prose prose-sm sm:prose-lg max-w-none"
+                      dangerouslySetInnerHTML={{ __html: processedContent }}
+                    />
+                  </div>
+                </BlurFade>
 
                 {/* Related Posts */}
-                <div className="mt-10">
-                  <ReadMoreSection
-                    currentPostId={post.id}
-                    currentTags={post.labels}
-                  />
-                </div>
+                <BlurFade delay={0.1} inView>
+                  <div className="mt-10">
+                    <ReadMoreSection
+                      currentPostId={post.id}
+                      currentTags={post.labels}
+                    />
+                  </div>
+                </BlurFade>
               </main>
 
               {/* Sidebar */}
               <aside className="hidden lg:block w-[350px] flex-shrink-0 p-6 lg:p-10 bg-muted/30">
-                <div className="sticky top-32 space-y-8">
-                  {author && <AuthorCard author={author} />}
+                <BlurFade delay={0.5}>
+                  <div className="sticky top-32 space-y-8">
+                    {author && <AuthorCard author={author} />}
 
-                  {tocItems.length > 0 && (
-                    <>
-                      <Separator />
-                      <TableOfContents items={tocItems} />
-                    </>
-                  )}
-                </div>
+                    {tocItems.length > 0 && (
+                      <>
+                        <Separator />
+                        <TableOfContents items={tocItems} />
+                      </>
+                    )}
+                  </div>
+                </BlurFade>
               </aside>
             </div>
 

@@ -128,6 +128,37 @@ function getNextOpeningTime(storeTime: Date): { date: Date; dayName: string } | 
   return null;
 }
 
+// Get minutes until closing for the current period
+function getMinutesUntilClosing(hoursStr: string): number | null {
+  if (hoursStr === "Closed") return null;
+
+  const now = getStoreTime();
+  const currentHours = now.getHours();
+  const currentMinutes = now.getMinutes();
+  const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+
+  // Split by comma to handle multiple periods
+  const periods = hoursStr.split(',').map(p => p.trim());
+
+  for (const period of periods) {
+    const match = period.match(/(.+?)\s*[–-]\s*(.+)/);
+    if (!match) continue;
+
+    const startHours = parseTime(match[1]);
+    const endHours = parseTime(match[2]);
+
+    const startTimeInMinutes = startHours * 60;
+    const endTimeInMinutes = endHours * 60;
+
+    // Check if we're currently in this period
+    if (currentTimeInMinutes >= startTimeInMinutes && currentTimeInMinutes < endTimeInMinutes) {
+      return endTimeInMinutes - currentTimeInMinutes;
+    }
+  }
+
+  return null;
+}
+
 // Get friendly status message with opening information
 export function getOpenStatus() {
   const now = getStoreTime();
@@ -136,8 +167,23 @@ export function getOpenStatus() {
   const isOpen = isCurrentlyOpen(currentDayHours.hours);
 
   if (isOpen) {
+    const minutesUntilClose = getMinutesUntilClosing(currentDayHours.hours);
+
+    // Check if closing within 15 minutes
+    if (minutesUntilClose !== null && minutesUntilClose <= 15) {
+      return {
+        isOpen: true,
+        closesSoon: true,
+        message: `Closes in ${minutesUntilClose} ${minutesUntilClose === 1 ? 'min' : 'mins'}`,
+        shortMessage: "Closes soon",
+        hours: currentDayHours.hours,
+        minutesUntilClose,
+      };
+    }
+
     return {
       isOpen: true,
+      closesSoon: false,
       message: "We're open!",
       shortMessage: "Open",
       hours: currentDayHours.hours,
