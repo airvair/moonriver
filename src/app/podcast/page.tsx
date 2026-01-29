@@ -128,34 +128,22 @@ export default function PodcastPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-primary/30 hover:bg-primary/10 transition-colors"
-                    asChild
+                    className="border-muted-foreground/20 text-muted-foreground/50 cursor-not-allowed"
+                    disabled
                   >
-                    <a
-                      href="https://spotify.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2"
-                    >
-                      <Music2 className="h-4 w-4" />
-                      <span>Spotify</span>
-                    </a>
+                    <Music2 className="h-4 w-4" />
+                    <span>Spotify</span>
+                    <span className="text-xs ml-1">(Coming Soon)</span>
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-primary/30 hover:bg-primary/10 transition-colors"
-                    asChild
+                    className="border-muted-foreground/20 text-muted-foreground/50 cursor-not-allowed"
+                    disabled
                   >
-                    <a
-                      href="https://podcasts.apple.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2"
-                    >
-                      <Music2 className="h-4 w-4" />
-                      <span>Apple Podcasts</span>
-                    </a>
+                    <Music2 className="h-4 w-4" />
+                    <span>Apple Podcasts</span>
+                    <span className="text-xs ml-1">(Coming Soon)</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -229,41 +217,6 @@ export default function PodcastPage() {
                           {latestEpisode.description}
                         </p>
 
-                        {/* Platform Links */}
-                        <div className="flex flex-wrap gap-2 sm:gap-3 pt-3 sm:pt-4">
-                          {latestEpisode.platforms.spotify && (
-                            <Button
-                              variant="outline"
-                              className="border-primary/30 hover:bg-primary/10"
-                              asChild
-                            >
-                              <a
-                                href={latestEpisode.platforms.spotify}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <Music2 className="h-4 w-4 mr-2" />
-                                Listen on Spotify
-                              </a>
-                            </Button>
-                          )}
-                          {latestEpisode.platforms.apple && (
-                            <Button
-                              variant="outline"
-                              className="border-primary/30 hover:bg-primary/10"
-                              asChild
-                            >
-                              <a
-                                href={latestEpisode.platforms.apple}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <Music2 className="h-4 w-4 mr-2" />
-                                Listen on Apple Podcasts
-                              </a>
-                            </Button>
-                          )}
-                        </div>
                       </div>
                     </div>
                   </div>

@@ -111,9 +111,11 @@ export function NextEvent({ calendarType = "primary", title }: NextEventProps) {
     fetchEvent();
   }, [calendarType]);
 
+  const hasMinimalContent = !event?.description && !event?.location;
+
   return (
     <div className="w-full h-full p-4 sm:p-5 lg:p-6 flex flex-col overflow-hidden">
-      <div className="flex items-center gap-2 mb-2 sm:mb-3 lg:mb-4 flex-shrink-0">
+      <div className="flex items-center gap-2 mb-2 sm:mb-3 flex-shrink-0">
         <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-[#926F34]" />
         <h3 className="font-semibold text-sm sm:text-base">{title || "Next Event"}</h3>
       </div>
@@ -130,33 +132,42 @@ export function NextEvent({ calendarType = "primary", title }: NextEventProps) {
           />
         </div>
       ) : error ? (
-        <div className="text-xs sm:text-sm text-muted-foreground flex-1 min-h-0">
+        <div className="text-xs sm:text-sm text-muted-foreground flex-1 min-h-0 flex items-center">
           {errorMessage || "Unable to load events"}
         </div>
       ) : !event ? (
-        <div className="text-xs sm:text-sm text-muted-foreground flex-1 min-h-0">
+        <div className="text-xs sm:text-sm text-muted-foreground flex-1 min-h-0 flex items-center">
           No upcoming events
         </div>
       ) : (
-        <div className="flex flex-col gap-2 sm:gap-3 flex-1 min-h-0 overflow-hidden">
-          <div className="flex-shrink-0">
-            <h4 className="font-semibold text-sm sm:text-base line-clamp-1">
+        <div className={`flex flex-col flex-1 min-h-0 overflow-hidden ${hasMinimalContent ? 'justify-center' : ''}`}>
+          {/* Event card with subtle background */}
+          <div className={`rounded-xl ${hasMinimalContent ? 'bg-[#926F34]/5 p-3 sm:p-4' : ''}`}>
+            {/* Event Title */}
+            <h4 className={`font-bold text-[#926F34] line-clamp-2 leading-snug ${hasMinimalContent ? 'text-center text-base sm:text-lg' : 'text-sm sm:text-base'}`}>
               {event.summary || "Untitled Event"}
             </h4>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">
-              {formatEventDate(event.start, event.end)}
-            </p>
+
+            {/* Date/Time */}
+            <div className={`flex items-center gap-1.5 mt-2 ${hasMinimalContent ? 'justify-center' : ''}`}>
+              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#926F34]/50 flex-shrink-0" />
+              <p className="text-xs sm:text-sm text-foreground/70">
+                {formatEventDate(event.start, event.end)}
+              </p>
+            </div>
+
+            {/* Location - If available */}
+            {event.location && (
+              <div className="flex items-center gap-1.5 mt-1.5 text-xs sm:text-sm text-muted-foreground justify-center">
+                <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0 text-[#926F34]/40" />
+                <span className="line-clamp-1">{event.location}</span>
+              </div>
+            )}
           </div>
 
-          {event.location && (
-            <div className="flex items-start gap-1.5 text-xs sm:text-sm text-muted-foreground flex-shrink-0">
-              <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 mt-0.5 flex-shrink-0" />
-              <span className="line-clamp-1">{event.location}</span>
-            </div>
-          )}
-
+          {/* Description - If available, shown below the card */}
           {event.description && (
-            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 hidden sm:block flex-1 min-h-0 overflow-hidden">
+            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 hidden sm:block mt-3 leading-relaxed">
               {event.description}
             </p>
           )}

@@ -203,7 +203,7 @@ export function AppSidebar() {
       <SidebarFooter className="p-4">
         <Button asChild className="w-full warm-shadow" size="lg">
           <a
-            href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave"
+            href="https://online.skytab.com/s/moonrivercafeandcuriosities"
             target="_blank"
             rel="noopener noreferrer"
             onClick={handleLinkClick}

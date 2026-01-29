@@ -133,7 +133,7 @@ export function SiteHeader() {
               <NavigationMenuItem className="ml-2">
                 <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 warm-shadow">
                   <a
-                    href="https://order.toasttab.com/online/moon-river-cafe-728-e-new-haven-ave"
+                    href="https://online.skytab.com/s/moonrivercafeandcuriosities"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
