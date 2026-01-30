@@ -79,12 +79,12 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
           onClick={() => handleClick(item.id)}
           className={cn(
             "block w-full text-left px-3 py-2 text-sm rounded-md transition-colors",
-            "hover:bg-[#AE8625]/10 hover:text-[#AE8625]",
+            "hover:bg-[#D2AC47]/20 hover:text-[#F7EF8A]",
             item.level > 2 && "pl-6",
             item.level > 3 && "pl-9",
             activeId === item.id
-              ? "bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20 text-[#926F34] font-medium"
-              : "text-muted-foreground"
+              ? "bg-gradient-to-r from-[#D2AC47]/30 to-[#F7EF8A]/20 text-[#F7EF8A] font-medium"
+              : "text-[#d4c9b8]"
           )}
         >
           {item.text}
@@ -102,7 +102,7 @@ export function TableOfContents({ items, className }: TableOfContentsProps) {
       {/* Desktop Table of Contents */}
       <div className={cn("hidden lg:block", className)}>
         <div className="sticky top-32">
-          <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-[#AE8625]">
+          <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-[#F7EF8A]">
             On This Page
           </h3>
           <ScrollArea className="h-[calc(100vh-12rem)] pr-4">

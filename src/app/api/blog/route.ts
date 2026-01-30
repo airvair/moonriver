@@ -30,7 +30,6 @@ export async function GET(request: Request) {
   // Check cache first
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    console.log('Serving from cache:', cacheKey);
     return NextResponse.json(cached.data, {
       headers: {
         "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",

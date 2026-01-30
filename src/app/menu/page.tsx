@@ -12,7 +12,7 @@ const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
     <div className="flex flex-col gap-8 sm:gap-12">
       <div className="flex flex-col items-center gap-10 sm:gap-14 w-full">
         {[1, 2].map((i) => (
-          <div key={i} className="w-full max-w-[680px] mx-auto">
+          <div key={i} className="w-full max-w-[680px] md:max-w-[750px] lg:max-w-[820px] xl:max-w-[900px] mx-auto">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-primary/20" />
               <Skeleton className="h-6 w-20 rounded-full" />
@@ -21,7 +21,7 @@ const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
             <div className="relative p-4 sm:p-6 bg-card/95 rounded-2xl sm:rounded-3xl warm-shadow-enhanced border border-primary/10">
               <Skeleton
                 className="rounded-lg mx-auto w-full"
-                style={{ maxWidth: "595px", aspectRatio: "595 / 842" }}
+                style={{ aspectRatio: "595 / 842" }}
               />
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function MenuPage() {
         <BlurFade delay={0.1} inView>
           <section className="pb-16 sm:pb-24 relative">
             <div className="container mx-auto px-3 sm:px-4">
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
                 <PDFViewer file="/menu10-25.pdf" />
               </div>
             </div>

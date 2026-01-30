@@ -60,6 +60,14 @@ export function SiteFooter() {
                   <span>(321) 210-9704</span>
                 </a>
 
+                <a
+                  href="mailto:contact@themoonriver.com"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px]"
+                >
+                  <Mail className="h-4 w-4 text-primary flex-shrink-0" />
+                  <span>contact@themoonriver.com</span>
+                </a>
+
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Clock className="h-4 w-4 text-primary flex-shrink-0" />
                   <span className="text-xs sm:text-sm">

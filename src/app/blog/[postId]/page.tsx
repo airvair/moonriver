@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, Clock, ArrowLeft, RefreshCw, Share2 } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, RefreshCw, Share2, Check } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { BloggerPost, BloggerApiError } from "@/lib/types/blogger";
@@ -33,6 +33,7 @@ export default function BlogPostPage() {
   const [post, setPost] = useState<BloggerPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const fetchPost = async () => {
     try {
@@ -109,11 +110,16 @@ export default function BlogPostPage() {
       try {
         await navigator.share(shareData);
       } catch (err) {
-        console.error("Error sharing:", err);
+        // User cancelled or error - fall back to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
       }
     } else {
       // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
@@ -128,9 +134,10 @@ export default function BlogPostPage() {
           font-display: swap;
         }
 
-        /* Blog content styling */
+        /* Blog content styling - optimized for dark brown background */
         .blog-content {
           line-height: 1.8;
+          color: #f5efe6;
         }
 
         .blog-content img {
@@ -149,6 +156,7 @@ export default function BlogPostPage() {
           margin-bottom: 1rem;
           font-weight: bold;
           scroll-margin-top: 5rem;
+          color: #faf6f0;
         }
 
         .blog-content h1 { font-size: 1.75rem; }
@@ -165,21 +173,23 @@ export default function BlogPostPage() {
 
         .blog-content p {
           margin-bottom: 1.5rem;
+          color: #e8e0d5;
         }
 
         .blog-content a {
-          color: #AE8625;
+          color: #F7EF8A;
           text-decoration: underline;
           transition: color 0.2s;
         }
 
         .blog-content a:hover {
-          color: #D2AC47;
+          color: #fffacd;
         }
 
         .blog-content ul, .blog-content ol {
           margin: 1.5rem 0;
           padding-left: 2rem;
+          color: #e8e0d5;
         }
 
         .blog-content li {
@@ -187,31 +197,51 @@ export default function BlogPostPage() {
         }
 
         .blog-content blockquote {
-          border-left: 4px solid #AE8625;
+          border-left: 4px solid #D2AC47;
           padding-left: 1.5rem;
           margin: 2rem 0;
           font-style: italic;
-          color: hsl(var(--muted-foreground));
+          color: #d4c9b8;
+          background: rgba(210, 172, 71, 0.08);
+          padding: 1rem 1.5rem;
+          border-radius: 0 0.5rem 0.5rem 0;
         }
 
         .blog-content code {
-          background: hsl(var(--muted));
+          background: rgba(255, 255, 255, 0.1);
+          color: #F7EF8A;
           padding: 0.2rem 0.4rem;
           border-radius: 0.25rem;
           font-size: 0.9em;
         }
 
         .blog-content pre {
-          background: hsl(var(--muted));
+          background: rgba(0, 0, 0, 0.3);
           padding: 1rem;
           border-radius: 0.5rem;
           overflow-x: auto;
           margin: 1.5rem 0;
+          border: 1px solid rgba(210, 172, 71, 0.2);
         }
 
         .blog-content pre code {
           background: transparent;
           padding: 0;
+          color: #e8e0d5;
+        }
+
+        .blog-content strong {
+          color: #faf6f0;
+          font-weight: 600;
+        }
+
+        .blog-content em {
+          color: #d4c9b8;
+        }
+
+        .blog-content hr {
+          border-color: rgba(210, 172, 71, 0.3);
+          margin: 2rem 0;
         }
       `}</style>
 
@@ -296,38 +326,51 @@ export default function BlogPostPage() {
                             <Badge
                               key={label}
                               variant="secondary"
-                              className="bg-gradient-to-r from-[#AE8625]/20 to-[#D2AC47]/20 text-[#926F34] border-[#AE8625]/30"
+                              className="bg-gradient-to-r from-[#D2AC47]/30 to-[#F7EF8A]/20 text-[#F7EF8A] border-[#D2AC47]/40 font-medium"
                             >
                               {label}
                             </Badge>
                           ))}
                         </div>
                       )}
-                      <div className="flex items-center gap-4 text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
+                      <div className="flex items-center gap-4 text-[#d4c9b8]">
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="h-4 w-4 text-[#D2AC47]" />
                           <time>{formatDate(post.published)}</time>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="h-4 w-4 text-[#D2AC47]" />
                           <span>{readingTime}</span>
                         </div>
                       </div>
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={handleShare}
-                        className="ml-auto"
+                        className={`ml-auto border-[#D2AC47]/40 hover:bg-[#D2AC47]/20 transition-all ${
+                          copied
+                            ? "text-green-400 border-green-400/40"
+                            : "text-[#F7EF8A] hover:text-[#fffacd]"
+                        }`}
                       >
-                        <Share2 className="h-4 w-4 mr-2" />
-                        Share
+                        {copied ? (
+                          <>
+                            <Check className="h-4 w-4 mr-2" />
+                            Copied!
+                          </>
+                        ) : (
+                          <>
+                            <Share2 className="h-4 w-4 mr-2" />
+                            Share
+                          </>
+                        )}
                       </Button>
                     </div>
                   </BlurFade>
 
                   <BlurFade delay={0.2}>
                     <h1
-                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-balance"
+                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-balance text-[#faf6f0]"
                       style={{ fontFamily: 'TanNimbus, sans-serif' }}
                     >
                       {post.title}

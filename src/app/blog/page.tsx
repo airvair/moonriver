@@ -223,31 +223,68 @@ export default function BlogPage() {
 
           {error && (
             <div className="py-16 text-center">
-              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8 paper-texture">
-                <p className="text-destructive mb-4">{error}</p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="max-w-md mx-auto bg-gradient-to-br from-[#fdfbf7] to-[#f5f1e8] dark:from-card dark:to-card/80 backdrop-blur-sm border border-[#e5d5c7]/50 dark:border-border/50 rounded-2xl p-8 shadow-lg"
+              >
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-destructive/10 flex items-center justify-center">
+                  <RefreshCw className="h-8 w-8 text-destructive" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Something went wrong</h3>
+                <p className="text-muted-foreground mb-6">{error}</p>
                 <Button
                   onClick={() => fetchPosts()}
                   variant="outline"
-                  className="border-[#AE8625] text-[#AE8625] hover:bg-[#AE8625]/10 transition-colors"
+                  className="border-[#926F34]/30 text-[#926F34] hover:bg-[#926F34]/10 transition-colors"
                 >
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Try Again
                 </Button>
-              </div>
+              </motion.div>
             </div>
           )}
 
           {!loading && !error && filteredPosts.length === 0 && (
             <div className="py-16 text-center">
-              <div className="max-w-md mx-auto bg-background/60 backdrop-blur-sm border border-border/50 rounded-xl p-8 paper-texture">
-                <p className="text-muted-foreground text-lg">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="max-w-md mx-auto bg-gradient-to-br from-[#fdfbf7] to-[#f5f1e8] dark:from-card dark:to-card/80 backdrop-blur-sm border border-[#e5d5c7]/50 dark:border-border/50 rounded-2xl p-8 shadow-lg"
+              >
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#926F34]/10 to-[#AE8625]/10 flex items-center justify-center">
+                  <Coffee className="h-10 w-10 text-[#926F34]" />
+                </div>
+                <h3 className="text-xl font-semibold text-foreground mb-2" style={{ fontFamily: 'TanNimbus, serif' }}>
                   {searchQuery
-                    ? `No posts found matching "${searchQuery}"`
+                    ? "No stories found"
                     : selectedTag !== "all"
-                    ? `No posts found with tag "${selectedTag}"`
-                    : "No blog posts available yet. Check back soon!"}
+                    ? "No stories in this category"
+                    : "Stories brewing soon"}
+                </h3>
+                <p className="text-muted-foreground">
+                  {searchQuery
+                    ? `We couldn't find any posts matching "${searchQuery}". Try a different search term.`
+                    : selectedTag !== "all"
+                    ? `No posts found with the tag "${selectedTag}". Check out other categories!`
+                    : "We're crafting our first journal entries. Check back soon for stories, recipes, and café musings."}
                 </p>
-              </div>
+                {(searchQuery || selectedTag !== "all") && (
+                  <Button
+                    onClick={() => {
+                      setSearchQuery("");
+                      setSelectedTag("all");
+                    }}
+                    variant="outline"
+                    className="mt-6 border-[#926F34]/30 text-[#926F34] hover:bg-[#926F34]/10"
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    View all stories
+                  </Button>
+                )}
+              </motion.div>
             </div>
           )}
 

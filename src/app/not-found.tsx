@@ -2,12 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { SiteHeader } from "@/components/site-header";
 import Link from "next/link";
 import { Home, Coffee } from "lucide-react";
 
 export default function NotFound() {
   return (
     <main className="h-screen flex flex-col items-center justify-center unified-background overflow-hidden px-4">
+      <SiteHeader />
       <div className="max-w-lg mx-auto text-center">
         {/* Animated Video */}
         <BlurFade delay={0.1}>

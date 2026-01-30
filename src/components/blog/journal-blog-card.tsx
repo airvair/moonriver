@@ -15,16 +15,16 @@ interface JournalBlogCardProps {
 // Author mapping for personal touches
 const AUTHORS: Record<string, { name: string; avatar: string; role: string; signature: string }> = {
   "Moon River Blog": {
-    name: "Mary & Kate",
-    avatar: "/mary-kate-avatar.jpg", // We'll add these images later
-    role: "Coffee Shop Owners",
-    signature: "M & K",
+    name: "Moon River Café",
+    avatar: "/moonriver_logo.png",
+    role: "Stories from the café",
+    signature: "MR",
   },
   default: {
-    name: "Guest Writer",
-    avatar: "/guest-avatar.jpg",
-    role: "Coffee Enthusiast",
-    signature: "Guest",
+    name: "Moon River Café",
+    avatar: "/moonriver_logo.png",
+    role: "Stories from the café",
+    signature: "MR",
   },
 };
 
@@ -34,7 +34,7 @@ export function JournalBlogCard({
   variant = "journal"
 }: JournalBlogCardProps) {
   // Helper to extract excerpt from HTML content
-  const getExcerpt = (html: string, maxLength = 120): string => {
+  const getExcerpt = (html: string, maxLength = 180): string => {
     const text = html.replace(/<[^>]*>/g, "");
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
@@ -144,25 +144,27 @@ export function JournalBlogCard({
             </div>
 
             {/* Main Content Area */}
-            <div className="p-6 flex flex-col flex-grow">
+            <div className="p-7 sm:p-8 flex flex-col flex-grow">
               {/* Author Section */}
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-5">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#926F34] to-[#AE8625] p-0.5">
-                    <div className="w-full h-full rounded-full bg-[#fdfbf7] flex items-center justify-center">
-                      <span className="text-sm font-handwriting text-[#926F34]">
-                        {author.signature}
-                      </span>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#926F34] to-[#AE8625] p-0.5">
+                    <div className="w-full h-full rounded-full bg-[#fdfbf7] flex items-center justify-center overflow-hidden">
+                      <img
+                        src={author.avatar}
+                        alt={author.name}
+                        className="w-8 h-8 object-contain"
+                      />
                     </div>
                   </div>
                   {/* Small coffee cup icon */}
                   <Coffee className="absolute -bottom-1 -right-1 w-4 h-4 text-[#926F34] bg-[#fdfbf7] rounded-full p-0.5" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground/80">
+                  <p className="text-sm font-bold text-[#2c2416]">
                     {author.name}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-[#5a4a3a]">
                     {author.role}
                   </p>
                 </div>
@@ -170,38 +172,38 @@ export function JournalBlogCard({
 
               {/* Image as Polaroid if present */}
               {firstImage && (
-                <div className="mb-4 -mx-2">
-                  <div className="bg-white p-1 shadow-md rotate-1 group-hover:rotate-0 transition-transform duration-300">
+                <div className="mb-5 -mx-2">
+                  <div className="bg-white p-1.5 shadow-md rotate-1 group-hover:rotate-0 transition-transform duration-300">
                     <img
                       src={firstImage}
                       alt={post.title}
-                      className="w-full h-40 object-cover"
+                      className="w-full h-48 sm:h-52 object-cover"
                     />
                   </div>
                 </div>
               )}
 
               {/* Title with handwritten style */}
-              <h3 className="font-bold text-xl mb-3 text-[#2c2416] group-hover:text-[#926F34] transition-colors leading-tight"
+              <h3 className="font-bold text-xl sm:text-2xl mb-3 text-[#2c2416] group-hover:text-[#926F34] transition-colors leading-tight"
                 style={{ fontFamily: 'TanNimbus, cursive' }}
               >
                 {post.title}
               </h3>
 
               {/* Excerpt */}
-              <p className="text-sm text-[#4a3f2f]/80 leading-relaxed mb-4 flex-grow font-serif">
+              <p className="text-sm sm:text-base text-[#3d3225] leading-relaxed mb-5 flex-grow font-serif">
                 {getExcerpt(post.content)}
               </p>
 
               {/* Tags as coffee beans */}
               {post.labels && post.labels.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-5">
                   {post.labels.slice(0, 3).map((label) => (
                     <span
                       key={label}
-                      className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-[#f5e6d3] text-[#926F34] border border-[#926F34]/20"
+                      className="inline-flex items-center gap-1 text-xs sm:text-sm px-3 py-1.5 rounded-full bg-[#f5e6d3] text-[#6b4f26] border border-[#926F34]/20 font-medium"
                     >
-                      <span className="w-1 h-1 rounded-full bg-[#926F34]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#926F34]" />
                       {label}
                     </span>
                   ))}
@@ -209,19 +211,19 @@ export function JournalBlogCard({
               )}
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-3 border-t border-[#e5d5c7]/50">
-                <div className="flex items-center gap-3 text-xs text-[#4a3f2f]/60">
-                  <div className="flex items-center gap-1">
-                    <Coffee className="h-3.5 w-3.5" />
+              <div className="flex items-center justify-between pt-4 border-t border-[#e5d5c7]/50">
+                <div className="flex items-center gap-4 text-xs sm:text-sm text-[#5a4a3a]">
+                  <div className="flex items-center gap-1.5">
+                    <Coffee className="h-4 w-4" />
                     <span>{readingTime}</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-3.5 w-3.5" />
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="h-4 w-4" />
                     <span>Moon River</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1 text-[#926F34]">
-                  <Heart className="h-3.5 w-3.5 fill-current opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Heart className="h-4 w-4 fill-current opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
               </div>
             </div>

@@ -21,18 +21,18 @@ export function AuthorCard({ author, className }: AuthorCardProps) {
         <img
           src={avatar}
           alt={name}
-          className="rounded-full w-10 h-10 border-2 border-[#AE8625]/30 object-cover"
+          className="rounded-full w-12 h-12 border-2 border-[#D2AC47]/50 object-contain bg-[#fdfbf7] p-1"
         />
       ) : (
-        <div className="rounded-full w-10 h-10 border-2 border-[#AE8625]/30 bg-gradient-to-br from-[#AE8625]/20 to-[#D2AC47]/20 flex items-center justify-center">
-          <User className="h-5 w-5 text-[#926F34]" />
+        <div className="rounded-full w-12 h-12 border-2 border-[#D2AC47]/50 bg-gradient-to-br from-[#D2AC47]/30 to-[#F7EF8A]/20 flex items-center justify-center">
+          <User className="h-6 w-6 text-[#F7EF8A]" />
         </div>
       )}
       <div className="flex-1">
-        <h3 className="text-sm tracking-tight text-balance font-semibold">
+        <h3 className="text-sm tracking-tight text-balance font-bold text-[#faf6f0]">
           {name}
         </h3>
-        <p className="text-xs text-muted-foreground text-balance">
+        <p className="text-xs text-[#d4c9b8] text-balance">
           {position}
         </p>
       </div>

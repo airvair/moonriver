@@ -16,28 +16,22 @@ export interface Author {
  */
 export const authors: Record<string, Author> = {
   default: {
-    name: "Moon River Team",
-    position: "Coffee Enthusiasts",
-    avatar: "/authors/default.png",
-    bio: "Passionate about coffee, community, and creating memorable experiences at Moon River.",
-  },
-  "Moon River": {
-    name: "Moon River",
-    position: "Coffee Shop",
-    avatar: "/authors/moonriver.png",
+    name: "Moon River Café",
+    position: "Stories from the café",
+    avatar: "/moonriver_logo.png",
     bio: "Your local coffee sanctuary, where every cup tells a story and every visit feels like home.",
   },
-  admin: {
-    name: "Moon River Admin",
-    position: "Community Manager",
-    avatar: "/authors/admin.png",
-    bio: "Managing the Moon River community and keeping you updated with the latest from our café.",
+  "Moon River": {
+    name: "Moon River Café",
+    position: "Stories from the café",
+    avatar: "/moonriver_logo.png",
+    bio: "Your local coffee sanctuary, where every cup tells a story and every visit feels like home.",
   },
-  barista: {
-    name: "Head Barista",
-    position: "Coffee Artisan",
-    avatar: "/authors/barista.png",
-    bio: "Crafting the perfect cup, one brew at a time. Passionate about coffee education and exploration.",
+  "Moon River Blog": {
+    name: "Moon River Café",
+    position: "Stories from the café",
+    avatar: "/moonriver_logo.png",
+    bio: "Your local coffee sanctuary, where every cup tells a story and every visit feels like home.",
   },
 } as const;
 
@@ -89,11 +83,11 @@ export function getAuthorFromBlogger(bloggerAuthor?: {
     };
   }
 
-  // Create a new author from Blogger data
+  // Default to Moon River Café for any author
   return {
-    name: bloggerAuthor.displayName,
-    position: "Contributor",
-    avatar: bloggerAuthor.image?.url || "/authors/default.png",
+    name: "Moon River Café",
+    position: "Stories from the café",
+    avatar: "/moonriver_logo.png",
   };
 }
 

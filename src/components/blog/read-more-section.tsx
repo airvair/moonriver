@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import type { BloggerPost } from "@/lib/types/blogger";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,8 +21,16 @@ export function ReadMoreSection({
 }: ReadMoreSectionProps) {
   const [relatedPosts, setRelatedPosts] = useState<PostWithRelevance[]>([]);
   const [loading, setLoading] = useState(true);
+  const hasFetched = useRef(false);
+
+  // Stringify tags for stable dependency comparison
+  const tagsKey = currentTags.join(",");
 
   useEffect(() => {
+    // Prevent duplicate fetches
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
     const fetchRelatedPosts = async () => {
       try {
         const response = await fetch("/api/blog");
@@ -32,10 +40,11 @@ export function ReadMoreSection({
         if (!data.items) return;
 
         // Filter out current post and sort by tag relevance
+        const tags = tagsKey.split(",").filter(Boolean);
         const otherPosts = data.items
           .filter((post: BloggerPost) => post.id !== currentPostId)
           .map((post: BloggerPost): PostWithRelevance => {
-            const tagOverlap = currentTags.filter((tag) =>
+            const tagOverlap = tags.filter((tag) =>
               post.labels?.includes(tag)
             ).length;
 
@@ -62,7 +71,7 @@ export function ReadMoreSection({
     };
 
     fetchRelatedPosts();
-  }, [currentPostId, currentTags]);
+  }, [currentPostId, tagsKey]);
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -112,9 +121,9 @@ export function ReadMoreSection({
   }
 
   return (
-    <section className="border-t border-border p-0">
+    <section className="border-t border-[#D2AC47]/20 p-0">
       <div className="p-6 lg:p-10">
-        <h2 className="text-2xl font-medium mb-8">Read more</h2>
+        <h2 className="text-2xl font-medium mb-8 text-[#faf6f0]" style={{ fontFamily: 'TanNimbus, sans-serif' }}>Read more</h2>
 
         <div className="flex flex-col gap-8">
           {relatedPosts.map((post) => {
@@ -143,13 +152,13 @@ export function ReadMoreSection({
                   "space-y-2 flex-1 col-span-1",
                   thumbnail ? "lg:col-span-8" : "lg:col-span-12"
                 )}>
-                  <h3 className="text-lg group-hover:underline underline-offset-4 font-semibold text-card-foreground group-hover:text-[#AE8625] transition-colors line-clamp-2">
+                  <h3 className="text-lg group-hover:underline underline-offset-4 font-semibold text-[#faf6f0] group-hover:text-[#F7EF8A] transition-colors line-clamp-2">
                     {post.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm line-clamp-3">
+                  <p className="text-[#d4c9b8] text-sm line-clamp-3">
                     {getExcerpt(post.content)}
                   </p>
-                  <time className="block text-xs font-medium text-muted-foreground">
+                  <time className="block text-xs font-medium text-[#D2AC47]">
                     {formattedDate}
                   </time>
                 </div>

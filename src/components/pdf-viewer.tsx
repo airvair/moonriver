@@ -23,15 +23,28 @@ export default function PDFViewer({ file, className }: PDFViewerProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [loadedPages, setLoadedPages] = useState<Set<number>>(new Set());
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
+  const [maxPdfWidth, setMaxPdfWidth] = useState(800);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Measure container width for responsive PDF rendering
+  // Measure container width and calculate responsive max width
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
         // Account for padding
         const width = containerRef.current.clientWidth - 48;
         setContainerWidth(width);
+      }
+
+      // Calculate max width based on screen size
+      const windowWidth = window.innerWidth;
+      if (windowWidth >= 1280) {
+        setMaxPdfWidth(800); // xl screens
+      } else if (windowWidth >= 1024) {
+        setMaxPdfWidth(720); // lg screens
+      } else if (windowWidth >= 768) {
+        setMaxPdfWidth(650); // md screens
+      } else {
+        setMaxPdfWidth(595); // sm screens and below
       }
     };
 
@@ -40,8 +53,8 @@ export default function PDFViewer({ file, className }: PDFViewerProps) {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // Calculate the PDF width - max 595px (standard PDF width) or container width
-  const pdfWidth = containerWidth ? Math.min(containerWidth, 595) : undefined;
+  // Calculate the PDF width - responsive max based on screen size
+  const pdfWidth = containerWidth ? Math.min(containerWidth, maxPdfWidth) : undefined;
 
   const onDocumentLoadSuccess = useCallback(
     ({ numPages }: { numPages: number }) => {
@@ -80,7 +93,7 @@ export default function PDFViewer({ file, className }: PDFViewerProps) {
             {[1, 2].map((i) => (
               <div
                 key={i}
-                className="w-full max-w-[680px] mx-auto"
+                className="w-full max-w-[680px] md:max-w-[750px] lg:max-w-[820px] xl:max-w-[900px] mx-auto"
               >
                 {/* Page label skeleton */}
                 <div className="flex items-center justify-center gap-3 mb-4">
@@ -93,7 +106,6 @@ export default function PDFViewer({ file, className }: PDFViewerProps) {
                   <Skeleton
                     className="rounded-lg mx-auto w-full"
                     style={{
-                      maxWidth: "595px",
                       aspectRatio: "595 / 842",
                     }}
                   />
@@ -115,7 +127,7 @@ export default function PDFViewer({ file, className }: PDFViewerProps) {
           {pageNumbers.map((pageNum) => (
             <div
               key={pageNum}
-              className="w-full max-w-[680px] mx-auto"
+              className="w-full max-w-[680px] md:max-w-[750px] lg:max-w-[820px] xl:max-w-[900px] mx-auto"
             >
               {/* Elegant page label */}
               <div className="flex items-center justify-center gap-3 mb-4 sm:mb-5">
