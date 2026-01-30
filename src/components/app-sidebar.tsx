@@ -15,6 +15,7 @@ import {
   Youtube,
   Sparkles,
   Feather,
+  PenLine,
 } from "lucide-react"
 
 import {
@@ -47,6 +48,7 @@ const discoverNavItems = [
   { title: "The Journal", href: "/blog", icon: BookOpen },
   { title: "Podcast", href: "/podcast", icon: Mic },
   { title: "Poetry Anthology", href: "/poetry-anthology", icon: Feather },
+  { title: "Literary Journal", href: "/submissions", icon: PenLine },
   { title: "Our Story", href: "/story", icon: Heart },
 ]
 

@@ -61,11 +61,11 @@ export function SiteFooter() {
                 </a>
 
                 <a
-                  href="mailto:contact@themoonriver.com"
+                  href="mailto:contact@themoonrivercafe.com"
                   className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px]"
                 >
                   <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span>contact@themoonriver.com</span>
+                  <span>contact@themoonrivercafe.com</span>
                 </a>
 
                 <div className="flex items-center gap-2 text-muted-foreground">
@@ -170,9 +170,6 @@ export function SiteFooter() {
                 <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Blog
                 </Link>
-                <Link href="https://www.toasttab.com/moon-river-cafe-728-e-new-haven-ave/giftcards" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
-                  Gift Cards
-                </Link>
               </div>
 
               <div className="mt-4 pt-4 border-t border-primary/10">
@@ -183,54 +180,28 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Personal Message */}
-          <div className="text-center mb-6 sm:mb-8">
-            <div className="coffee-divider mb-4"></div>
-            <p className="font-handwritten text-xl sm:text-2xl text-primary/80 italic px-2">
-              &ldquo;Thank you for being part of our coffee family!&rdquo;
-            </p>
-          </div>
-
           {/* Bottom Section - Copyright and Credits */}
           <div className="pt-6 sm:pt-8 border-t border-primary/20">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-              <p className="text-xs sm:text-sm text-muted-foreground text-center md:text-left">
-                © {new Date().getFullYear()} Moon River Café & Curiosities. Made with love in Melbourne, FL.
+            <div className="flex flex-wrap justify-center sm:justify-between items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-muted-foreground">
+              <p className="text-center sm:text-left">
+                © {new Date().getFullYear()} Moon River Café & Curiosities
               </p>
-              {/* Legal links - Coming soon
-              <div className="flex gap-4 text-xs text-muted-foreground">
-                <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
-                <span className="text-primary/30">•</span>
-                <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
-                <span className="text-primary/30">•</span>
-                <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
-              </div>
-              */}
-            </div>
-
-            {/* Creative credit for Preston - Now warmer and simpler */}
-            <div className="mt-6 flex flex-col items-center">
-              <div className="group relative">
-                <div className="text-sm flex items-center gap-2">
-                  <span className="text-muted-foreground/60 font-casual">Website crafted with</span>
-                  <span className="relative inline-block">
-                    <span className="text-xl transition-transform duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-12 inline-block">
-                      ☕
-                    </span>
-                    {/* Simple steam effect */}
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <span className="text-primary/30 text-xs">♨</span>
-                    </div>
+              <span className="hidden sm:inline text-primary/30">•</span>
+              <p className="group flex items-center gap-1.5">
+                <span className="text-muted-foreground/60 font-casual">Crafted with</span>
+                <span className="relative inline-block">
+                  <span className="text-sm sm:text-base transition-transform duration-300 ease-in-out group-hover:scale-110 group-hover:rotate-12 inline-block">
+                    ☕
                   </span>
-                  <span className="text-muted-foreground/60 font-casual">by</span>
-                  <a
-                    href="mailto:preston.malmquist@gmail.com"
-                    className="font-handwritten text-primary hover:text-primary/80 transition-colors text-lg"
-                  >
-                    Preston Malmquist
-                  </a>
-                </div>
-              </div>
+                </span>
+                <span className="text-muted-foreground/60 font-casual">by</span>
+                <a
+                  href="mailto:preston.malmquist@gmail.com"
+                  className="font-handwritten text-primary hover:text-primary/80 transition-colors text-sm sm:text-base"
+                >
+                  Preston
+                </a>
+              </p>
             </div>
           </div>
         </div>

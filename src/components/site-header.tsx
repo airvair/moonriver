@@ -111,6 +111,9 @@ export function SiteHeader() {
                     <ListItem href="/poetry-anthology" title="Poetry Anthology">
                       Submit your poetry for our upcoming anthology.
                     </ListItem>
+                    <ListItem href="/submissions" title="Literary Journal">
+                      Submit fiction, nonfiction, or poetry to our inaugural issue.
+                    </ListItem>
                     <ListItem href="/story" title="Our Story">
                       The journey behind Moon River — a mother-daughter dream.
                     </ListItem>
