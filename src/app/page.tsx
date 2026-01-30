@@ -7,30 +7,101 @@ import { StoreHours } from "@/components/ui/store-hours";
 import { cn } from "@/lib/utils";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
 import { useState, useEffect } from "react";
-import { getOpenStatus } from "@/lib/hours";
+import { getOpenStatus, fetchStoreHours, HOURS, type DayHours } from "@/lib/hours";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/section-header";
 import { MagicCard } from "@/components/ui/magic-card";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, Calendar, Mic, Coffee, ArrowRight } from "lucide-react";
+import { getSignatureItems, urlFor, type SanitySignatureItem } from "@/lib/sanity";
+
+// Default signature items (fallback if Sanity fetch fails)
+const DEFAULT_SIGNATURE_ITEMS = [
+  {
+    name: "Bella Capri",
+    description: "A delightful Italian-inspired creation that captures the essence of the Mediterranean",
+    image: "/images_videos/food/Moon River_Food Pics_Jan 2026/Bella Capri.png",
+    badge: "Best Seller",
+  },
+  {
+    name: "Regency Toast",
+    description: "Thick-cut brioche French toast with seasonal toppings, made fresh every morning",
+    image: "/images_videos/food/Moon River_Food Pics_Jan 2026/Regency Toast-2.png",
+    badge: "Fresh",
+  },
+  {
+    name: "Belgian Waffle & Baron",
+    description: "Crispy Belgian waffle paired with our signature Baron coffee — the perfect brunch combo",
+    image: "/images_videos/food/Moon River_Food Pics_Jan 2026/Belgian Waffle and Baron.png",
+    badge: "Local Favorite",
+  },
+];
+
+interface SignatureItem {
+  name: string;
+  description: string;
+  image: string;
+  badge?: string;
+}
 
 export default function Home() {
   const [openStatus, setOpenStatus] = useState<{ isOpen: boolean; closesSoon?: boolean; message: string } | null>(null);
+  const [hours, setHours] = useState<DayHours[]>(HOURS);
+  const [timezone, setTimezone] = useState("America/New_York");
+  const [signatureItems, setSignatureItems] = useState<SignatureItem[]>(DEFAULT_SIGNATURE_ITEMS);
+  const [isLoadingItems, setIsLoadingItems] = useState(true);
 
+  // Fetch store hours from Sanity
   useEffect(() => {
-    // Check if cafe is open using the same logic as StoreHours
+    async function loadHours() {
+      try {
+        const data = await fetchStoreHours();
+        setHours(data.hours);
+        setTimezone(data.timezone);
+      } catch (error) {
+        console.error("Failed to fetch hours:", error);
+      }
+    }
+
+    loadHours();
+  }, []);
+
+  // Fetch signature items from Sanity
+  useEffect(() => {
+    async function loadSignatureItems() {
+      try {
+        const items = await getSignatureItems();
+        if (items && items.length > 0) {
+          setSignatureItems(items.map((item: SanitySignatureItem) => ({
+            name: item.name,
+            description: item.description,
+            image: item.image ? urlFor(item.image).width(800).height(800).url() : DEFAULT_SIGNATURE_ITEMS[0].image,
+            badge: item.badge,
+          })));
+        }
+      } catch (error) {
+        console.error("Failed to fetch signature items:", error);
+      } finally {
+        setIsLoadingItems(false);
+      }
+    }
+
+    loadSignatureItems();
+  }, []);
+
+  // Check open status periodically
+  useEffect(() => {
     const checkStatus = () => {
-      setOpenStatus(getOpenStatus());
+      setOpenStatus(getOpenStatus(hours, timezone));
     };
 
     checkStatus();
-    // Update every minute
     const interval = setInterval(checkStatus, 60000);
-
     return () => clearInterval(interval);
-  }, []);
+  }, [hours, timezone]);
 
   return (
     <>
@@ -188,71 +259,51 @@ export default function Home() {
               </BlurFade>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
-                {/* Bella Capri */}
-                <BlurFade delay={0.15} inView>
-                  <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                    <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
-                      <Image
-                        src="/images_videos/food/Moon River_Food Pics_Jan 2026/Bella Capri.png"
-                        alt="Bella Capri - Italian-inspired dish at Moon River Café"
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                    <span className="stamp stamp-fresh text-xs">Best Seller</span>
-                    <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
-                      Bella Capri
-                    </h3>
-                    <p className="text-sm sm:text-base text-muted-foreground font-casual">
-                      A delightful Italian-inspired creation that captures the essence of the Mediterranean
-                    </p>
-                  </div>
-                </BlurFade>
-
-                {/* Regency Toast */}
-                <BlurFade delay={0.2} inView>
-                  <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
-                    <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
-                      <Image
-                        src="/images_videos/food/Moon River_Food Pics_Jan 2026/Regency Toast-2.png"
-                        alt="Regency Toast - thick-cut brioche French toast with seasonal toppings"
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                    <span className="stamp stamp-fresh stamp-tilted text-xs">Fresh</span>
-                    <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
-                      Regency Toast
-                    </h3>
-                    <p className="text-sm sm:text-base text-muted-foreground font-casual">
-                      Thick-cut brioche French toast with seasonal toppings, made fresh every morning
-                    </p>
-                  </div>
-                </BlurFade>
-
-                {/* Belgian Waffle and Baron */}
-                <BlurFade delay={0.25} inView>
-                  <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card sm:col-span-2 md:col-span-1">
-                    <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
-                      <Image
-                        src="/images_videos/food/Moon River_Food Pics_Jan 2026/Belgian Waffle and Baron.png"
-                        alt="Belgian Waffle and Baron - crispy Belgian waffle paired with signature Baron coffee"
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                    <span className="stamp stamp-fresh text-xs">Local Favorite</span>
-                    <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
-                      Belgian Waffle & Baron
-                    </h3>
-                    <p className="text-sm sm:text-base text-muted-foreground font-casual">
-                      Crispy Belgian waffle paired with our signature Baron coffee — the perfect brunch combo
-                    </p>
-                  </div>
-                </BlurFade>
+                {isLoadingItems ? (
+                  // Loading skeletons
+                  [...Array(3)].map((_, index) => (
+                    <BlurFade key={index} delay={0.15 + index * 0.05} inView>
+                      <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
+                        <Skeleton className="aspect-square rounded-xl sm:rounded-2xl mb-4 sm:mb-6" />
+                        <Skeleton className="h-6 w-24 mb-3" />
+                        <Skeleton className="h-7 w-32 mb-2" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-3/4 mt-1" />
+                      </div>
+                    </BlurFade>
+                  ))
+                ) : (
+                  signatureItems.map((item, index) => (
+                    <BlurFade key={item.name} delay={0.15 + index * 0.05} inView>
+                      <div className={cn(
+                        "bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card",
+                        index === 2 && "sm:col-span-2 md:col-span-1"
+                      )}>
+                        <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
+                          <Image
+                            src={item.image}
+                            alt={`${item.name} at Moon River Café`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        </div>
+                        {item.badge && (
+                          <span className={cn(
+                            "stamp stamp-fresh text-xs",
+                            index === 1 && "stamp-tilted"
+                          )}>{item.badge}</span>
+                        )}
+                        <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm sm:text-base text-muted-foreground font-casual">
+                          {item.description}
+                        </p>
+                      </div>
+                    </BlurFade>
+                  ))
+                )}
               </div>
 
               {/* See Full Menu CTA */}

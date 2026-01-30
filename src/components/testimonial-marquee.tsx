@@ -2,17 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/ui/marquee";
-import { TESTIMONIALS } from "@/lib/testimonials";
+import { TESTIMONIALS, fetchTestimonials } from "@/lib/testimonials";
 import { Star } from "lucide-react";
-
-// Duplicate testimonials for better marquee flow
-const reviews = [
-  ...TESTIMONIALS,
-  ...TESTIMONIALS, // Duplicate to ensure smooth scrolling
-];
-
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
+import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { Testimonial } from "@/lib/types/testimonials";
 
 const ReviewCard = ({
   name,
@@ -77,7 +71,77 @@ const ReviewCard = ({
   );
 };
 
+const ReviewCardSkeleton = () => (
+  <div className="relative h-full w-80 overflow-hidden rounded-xl border p-6 border-[#926F34]/20 bg-gradient-to-br from-[#F5EBD7]/40 to-[#E8D4B0]/30">
+    <div className="flex flex-row items-start gap-4">
+      <Skeleton className="h-12 w-12 rounded-full" />
+      <div className="flex flex-col flex-1 gap-2">
+        <Skeleton className="h-5 w-24" />
+        <Skeleton className="h-4 w-20" />
+        <div className="flex gap-0.5 mt-1">
+          {[...Array(5)].map((_, i) => (
+            <Skeleton key={i} className="h-4 w-4" />
+          ))}
+        </div>
+      </div>
+    </div>
+    <div className="mt-4 space-y-2">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-3/4" />
+    </div>
+  </div>
+);
+
 export function TestimonialMarquee() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(TESTIMONIALS);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const data = await fetchTestimonials();
+        setTestimonials(data);
+      } catch (error) {
+        console.error("Failed to fetch testimonials:", error);
+        // Keep default TESTIMONIALS as fallback
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadTestimonials();
+  }, []);
+
+  // Duplicate testimonials for better marquee flow
+  const reviews = [
+    ...testimonials,
+    ...testimonials, // Duplicate to ensure smooth scrolling
+  ];
+
+  const firstRow = reviews.slice(0, reviews.length / 2);
+  const secondRow = reviews.slice(reviews.length / 2);
+
+  if (isLoading) {
+    return (
+      <div className="relative flex w-full max-w-full flex-col items-center justify-center overflow-hidden">
+        <div className="flex gap-4 py-4">
+          {[...Array(4)].map((_, i) => (
+            <ReviewCardSkeleton key={i} />
+          ))}
+        </div>
+        <div className="flex gap-4 py-4 mt-6">
+          {[...Array(4)].map((_, i) => (
+            <ReviewCardSkeleton key={i} />
+          ))}
+        </div>
+        {/* Gradient edges for fade effect */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/5 bg-gradient-to-r from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/5 bg-gradient-to-l from-background to-transparent" />
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex w-full max-w-full flex-col items-center justify-center overflow-hidden">
       <Marquee pauseOnHover className="[--duration:80s]">

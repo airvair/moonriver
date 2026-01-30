@@ -2,23 +2,88 @@
 
 import Link from "next/link"
 import { Mail, MapPin, Phone, Clock } from "lucide-react"
-import { getOpenStatus } from "@/lib/hours"
+import { getOpenStatus, fetchStoreHours, HOURS, type DayHours } from "@/lib/hours"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { getSiteSettings } from "@/lib/sanity"
+
+// Default contact info (fallback if Sanity fetch fails)
+const DEFAULT_SETTINGS = {
+  contactEmail: "contact@themoonrivercafe.com",
+  contactPhone: "(321) 210-9704",
+  address: "728 E. New Haven Avenue\nMelbourne, FL 32901",
+  socialLinks: {
+    facebook: "https://www.facebook.com/profile.php?id=61557348156870",
+    instagram: "https://www.instagram.com/themoonrivercafe/",
+    youtube: "https://www.youtube.com/@themoonrivercafe",
+  },
+};
 
 export function SiteFooter() {
   const [openStatus, setOpenStatus] = useState<{ isOpen: boolean; message: string } | null>(null);
+  const [hours, setHours] = useState<DayHours[]>(HOURS);
+  const [timezone, setTimezone] = useState("America/New_York");
+  const [settings, setSettings] = useState<typeof DEFAULT_SETTINGS>(DEFAULT_SETTINGS);
 
+  // Fetch site settings from Sanity
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const sanitySettings = await getSiteSettings();
+        if (sanitySettings) {
+          setSettings({
+            contactEmail: sanitySettings.contactEmail || DEFAULT_SETTINGS.contactEmail,
+            contactPhone: sanitySettings.contactPhone || DEFAULT_SETTINGS.contactPhone,
+            address: sanitySettings.address || DEFAULT_SETTINGS.address,
+            socialLinks: {
+              facebook: sanitySettings.socialLinks?.facebook || DEFAULT_SETTINGS.socialLinks.facebook,
+              instagram: sanitySettings.socialLinks?.instagram || DEFAULT_SETTINGS.socialLinks.instagram,
+              youtube: DEFAULT_SETTINGS.socialLinks.youtube, // YouTube not in schema, keep default
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch site settings:", error);
+      }
+    }
+
+    loadSettings();
+  }, []);
+
+  // Fetch store hours from Sanity
+  useEffect(() => {
+    async function loadHours() {
+      try {
+        const data = await fetchStoreHours();
+        setHours(data.hours);
+        setTimezone(data.timezone);
+      } catch (error) {
+        console.error("Failed to fetch hours:", error);
+      }
+    }
+
+    loadHours();
+  }, []);
+
+  // Check open status periodically
   useEffect(() => {
     const checkStatus = () => {
-      setOpenStatus(getOpenStatus());
+      setOpenStatus(getOpenStatus(hours, timezone));
     };
 
     checkStatus();
     const interval = setInterval(checkStatus, 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, [hours, timezone]);
+
+  // Format hours for display
+  const hoursDisplay = hours.length > 0
+    ? `Mon: ${hours[1]?.hours || 'Closed'} | Tue-Thu: ${hours[2]?.hours || '9-3'} | Fri-Sat: ${hours[5]?.hours || '9-8'} | Sun: ${hours[0]?.hours || '9-3'}`
+    : "Mon: Closed | Tue-Thu: 9-3 | Fri-Sat: 9-8 | Sun: 9-3";
+
+  // Format address for display (replace \n with <br />)
+  const addressParts = settings.address.split('\n');
 
   return (
     <footer className="bg-gradient-to-b from-primary/10 to-primary/20 border-t-2 border-primary/20 relative z-10 paper-texture">
@@ -43,35 +108,37 @@ export function SiteFooter() {
 
               <div className="space-y-2 sm:space-y-3">
                 <a
-                  href="https://maps.google.com/?q=728+E+New+Haven+Avenue+Melbourne+FL+32901"
+                  href={`https://maps.google.com/?q=${encodeURIComponent(settings.address.replace('\n', ' '))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px] py-1"
                 >
                   <MapPin className="h-4 w-4 mt-1 text-primary flex-shrink-0" />
-                  <span>728 E. New Haven Avenue<br />Melbourne, FL 32901</span>
+                  <span>{addressParts.map((part, i) => (
+                    <span key={i}>{part}{i < addressParts.length - 1 && <br />}</span>
+                  ))}</span>
                 </a>
 
                 <a
-                  href="tel:+13212109704"
+                  href={`tel:${settings.contactPhone.replace(/[^0-9+]/g, '')}`}
                   className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px]"
                 >
                   <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span>(321) 210-9704</span>
+                  <span>{settings.contactPhone}</span>
                 </a>
 
                 <a
-                  href="mailto:contact@themoonrivercafe.com"
+                  href={`mailto:${settings.contactEmail}`}
                   className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px]"
                 >
                   <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span>contact@themoonrivercafe.com</span>
+                  <span>{settings.contactEmail}</span>
                 </a>
 
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Clock className="h-4 w-4 text-primary flex-shrink-0" />
                   <span className="text-xs sm:text-sm">
-                    Mon: Closed | Tue-Thu: 9-3 | Fri-Sat: 9-8 | Sun: 9-3
+                    {hoursDisplay}
                   </span>
                 </div>
               </div>
@@ -112,7 +179,7 @@ export function SiteFooter() {
               {/* Social Media Links */}
               <div className="flex gap-2 sm:gap-3 justify-center pt-3 border-t border-primary/10">
                 <a
-                  href="https://www.facebook.com/profile.php?id=61557348156870"
+                  href={settings.socialLinks.facebook}
                   className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Facebook"
                 >
@@ -121,7 +188,7 @@ export function SiteFooter() {
                   </svg>
                 </a>
                 <a
-                  href="https://www.instagram.com/themoonrivercafe/"
+                  href={settings.socialLinks.instagram}
                   className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Instagram"
                 >
@@ -130,7 +197,7 @@ export function SiteFooter() {
                   </svg>
                 </a>
                 <a
-                  href="https://www.youtube.com/@themoonrivercafe"
+                  href={settings.socialLinks.youtube}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
@@ -141,7 +208,7 @@ export function SiteFooter() {
                   </svg>
                 </a>
                 <a
-                  href="mailto:contact@themoonrivercafe.com"
+                  href={`mailto:${settings.contactEmail}`}
                   className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Email"
                 >

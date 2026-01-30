@@ -1,7 +1,29 @@
 import { Testimonial } from "./types/testimonials";
+import { getTestimonials as fetchSanityTestimonials, urlFor, type SanityTestimonial } from "./sanity";
 
-// Sample testimonials data
-// Replace with real customer reviews as needed
+// Fetch testimonials from Sanity CMS
+export async function fetchTestimonials(): Promise<Testimonial[]> {
+  try {
+    const sanityTestimonials = await fetchSanityTestimonials();
+    if (sanityTestimonials && sanityTestimonials.length > 0) {
+      return sanityTestimonials.map((t: SanityTestimonial) => ({
+        id: t._id,
+        name: t.name,
+        role: t.role || "",
+        rating: (t.rating as 1 | 2 | 3 | 4 | 5) || 5,
+        review: t.review,
+        initials: t.initials || t.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2),
+        avatar: t.avatar ? urlFor(t.avatar).width(96).height(96).url() : undefined,
+      }));
+    }
+  } catch (error) {
+    console.error("Failed to fetch testimonials from Sanity:", error);
+  }
+  // Fallback to default testimonials
+  return TESTIMONIALS;
+}
+
+// Default testimonials data (fallback if Sanity fetch fails)
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: 1,

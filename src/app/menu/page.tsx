@@ -5,6 +5,11 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { useState, useEffect } from "react";
+import { getMenuPdfUrl } from "@/lib/sanity";
+
+// Default menu PDF path (fallback)
+const DEFAULT_MENU_PDF = "/menu10-25.pdf";
 
 const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
   ssr: false,
@@ -32,6 +37,23 @@ const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
 });
 
 export default function MenuPage() {
+  const [menuPdfUrl, setMenuPdfUrl] = useState<string>(DEFAULT_MENU_PDF);
+
+  useEffect(() => {
+    async function loadMenuUrl() {
+      try {
+        const url = await getMenuPdfUrl();
+        if (url) {
+          setMenuPdfUrl(url);
+        }
+      } catch (error) {
+        console.error("Failed to fetch menu PDF URL:", error);
+        // Keep default URL as fallback
+      }
+    }
+
+    loadMenuUrl();
+  }, []);
   return (
     <>
       <style jsx global>{`
@@ -90,7 +112,7 @@ export default function MenuPage() {
           <section className="pb-16 sm:pb-24 relative">
             <div className="container mx-auto px-3 sm:px-4">
               <div className="max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto">
-                <PDFViewer file="/menu10-25.pdf" />
+                <PDFViewer file={menuPdfUrl} />
               </div>
             </div>
           </section>
