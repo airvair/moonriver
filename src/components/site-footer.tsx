@@ -53,11 +53,11 @@ export function SiteFooter() {
                 </a>
 
                 <a
-                  href="tel:+13213456789"
+                  href="tel:+13212109704"
                   className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base min-h-[44px]"
                 >
                   <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span>Coming Soon!</span>
+                  <span>(321) 210-9704</span>
                 </a>
 
                 <div className="flex items-center gap-2 text-muted-foreground">
@@ -74,25 +74,31 @@ export function SiteFooter() {
               <h3 className="font-handwritten text-xl sm:text-2xl text-primary mb-2 sm:mb-3">Join Our Coffee Family</h3>
 
               <p className="text-muted-foreground mb-3 sm:mb-4 text-xs sm:text-sm">
-                Weekly updates on new menu items, special events, and heartwarming stories.
+                Sign up for weekly updates on new menu items, special events, and heartwarming stories.
               </p>
 
-              {/* Newsletter Form */}
+              {/* Newsletter Form - Coming Soon */}
               <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-background/50 border-primary/20 focus:border-primary/40 transition-all duration-300 text-sm min-h-[44px]"
+                  aria-label="Email address for newsletter subscription"
+                  disabled
+                  className="bg-background/50 border-primary/20 focus:border-primary/40 transition-all duration-300 text-sm min-h-[44px] opacity-60"
                 />
-                <Button size="sm" className="w-full bg-primary hover:bg-primary/90 transform transition-all duration-300 hover:scale-[1.02] warm-shadow min-h-[44px]">
-                  Subscribe
+                <Button
+                  size="sm"
+                  disabled
+                  className="w-full bg-primary/60 cursor-not-allowed transform transition-all duration-300 warm-shadow min-h-[44px]"
+                >
+                  Coming Soon
                   <Mail className="ml-2 h-3 w-3" />
                 </Button>
               </div>
 
               {/* Social proof */}
               <p className="text-xs text-muted-foreground text-center mb-3 sm:mb-4 font-casual">
-                ✨ Join 500+ coffee lovers • One email per week
+                Newsletter launching soon - Follow us on social media
               </p>
 
               {/* Social Media Links */}
@@ -116,7 +122,9 @@ export function SiteFooter() {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://www.youtube.com/@themoonrivercafe"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="YouTube"
                 >
@@ -139,7 +147,7 @@ export function SiteFooter() {
               <h3 className="font-handwritten text-xl sm:text-2xl text-primary mb-3 sm:mb-4">Explore</h3>
 
               <div className="grid grid-cols-2 gap-x-4 gap-y-2 sm:gap-y-2">
-                <Link href="/menu10-25.pdf" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
+                <Link href="/menu" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Menu
                 </Link>
                 <Link href="/calendar" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
@@ -181,13 +189,15 @@ export function SiteFooter() {
               <p className="text-xs sm:text-sm text-muted-foreground text-center md:text-left">
                 © {new Date().getFullYear()} Moon River Café & Curiosities. Made with love in Melbourne, FL.
               </p>
+              {/* Legal links - Coming soon
               <div className="flex gap-4 text-xs text-muted-foreground">
-                <Link href="#" className="hover:text-primary transition-colors">Privacy</Link>
+                <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
                 <span className="text-primary/30">•</span>
-                <Link href="#" className="hover:text-primary transition-colors">Terms</Link>
+                <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
                 <span className="text-primary/30">•</span>
-                <Link href="#" className="hover:text-primary transition-colors">Cookies</Link>
+                <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
               </div>
+              */}
             </div>
 
             {/* Creative credit for Preston - Now warmer and simpler */}

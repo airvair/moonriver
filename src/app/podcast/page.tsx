@@ -68,7 +68,7 @@ export default function PodcastPage() {
         @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Kalam:wght@300;400;700&display=swap');
       `}</style>
       <SiteHeader />
-      <main className="min-h-screen unified-background relative overflow-x-hidden">
+      <main id="main-content" className="min-h-screen unified-background relative overflow-x-hidden">
         {/* Hero Section */}
         <div className="relative z-10 bg-gradient-to-b from-background to-secondary/20">
           <div className="p-4 sm:p-6 pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12">

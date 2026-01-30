@@ -216,7 +216,7 @@ export default function BlogPostPage() {
       `}</style>
 
       <SiteHeader />
-      <main className="min-h-screen bg-background relative">
+      <main id="main-content" className="min-h-screen bg-background relative">
         {/* Flickering Grid Background */}
         <div className="absolute top-20 left-0 z-0 w-full h-[250px] [mask-image:linear-gradient(to_top,transparent_25%,black_95%)]">
           <FlickeringGrid

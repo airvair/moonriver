@@ -108,6 +108,9 @@ export function SiteHeader() {
                     <ListItem href="/podcast" title="Podcast">
                       Conversations with local creatives and community voices.
                     </ListItem>
+                    <ListItem href="/poetry-anthology" title="Poetry Anthology">
+                      Submit your poetry for our upcoming anthology.
+                    </ListItem>
                     <ListItem href="/story" title="Our Story">
                       The journey behind Moon River — a mother-daughter dream.
                     </ListItem>
@@ -122,7 +125,7 @@ export function SiteHeader() {
                     <ListItem href="/live-music/apply" title="Perform at Moon River">
                       Apply to perform at the café.
                     </ListItem>
-                    <ListItem href="#" title="Watch Performances">
+                    <ListItem href="https://www.youtube.com/@themoonrivercafe" title="Watch Performances">
                       Watch live music videos on YouTube.
                     </ListItem>
                   </ul>

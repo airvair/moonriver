@@ -162,7 +162,7 @@ export default function OurStory() {
     <>
       <SiteHeader />
 
-      <main className="flex flex-col unified-background">
+      <main id="main-content" className="flex flex-col unified-background">
         {/* Hero Section - Image Background */}
         <BlurFade delay={0} duration={0.6}>
           <section className="relative min-h-[70vh] flex flex-col items-center justify-center text-center overflow-hidden">

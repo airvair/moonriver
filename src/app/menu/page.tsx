@@ -44,7 +44,7 @@ export default function MenuPage() {
         }
       `}</style>
       <SiteHeader />
-      <main className="flex flex-col relative unified-background overflow-x-hidden">
+      <main id="main-content" className="flex flex-col relative unified-background overflow-x-hidden">
         {/* Hero Section */}
         <BlurFade delay={0} duration={0.6}>
           <section className="relative pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12">

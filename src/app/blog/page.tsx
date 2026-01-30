@@ -139,7 +139,7 @@ export default function BlogPage() {
         }
       `}</style>
       <SiteHeader />
-      <main className="min-h-screen bg-background relative">
+      <main id="main-content" className="min-h-screen bg-background relative">
 
         {/* Hero Section with Tags */}
         <div className="relative z-10 bg-gradient-to-b from-background to-secondary/20">

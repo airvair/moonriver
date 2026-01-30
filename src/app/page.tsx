@@ -13,6 +13,7 @@ import { SectionHeader } from "@/components/section-header";
 import { MagicCard } from "@/components/ui/magic-card";
 import { BlurFade } from "@/components/ui/blur-fade";
 import Link from "next/link";
+import Image from "next/image";
 import { BookOpen, Calendar, Mic, Coffee, ArrowRight } from "lucide-react";
 
 export default function Home() {
@@ -34,15 +35,18 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="flex flex-col relative unified-background overflow-x-hidden">
+      <main id="main-content" className="flex flex-col relative unified-background overflow-x-hidden">
         {/* Hero Section */}
         <BlurFade delay={0} duration={0.6}>
           <section className="relative h-screen min-h-[600px] max-h-[1200px] flex flex-col items-center justify-center text-center overflow-hidden">
             {/* Background Image */}
-            <img
-              src="/images_videos/Cafe%20Pics/Reading%20Room.png"
-              alt="Moon River Café interior"
-              className="absolute inset-0 w-full h-full object-cover z-0"
+            <Image
+              src="/images_videos/Cafe Pics/Reading Room.png"
+              alt="Moon River Café interior - cozy reading room with warm lighting"
+              fill
+              className="object-cover z-0"
+              priority
+              sizes="100vw"
             />
 
             {/* Warm Overlay for Text Readability with golden hour effect */}
@@ -188,10 +192,12 @@ export default function Home() {
                 <BlurFade delay={0.15} inView>
                   <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
                     <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
-                      <img
-                        src="/images_videos/food/Moon%20River_Food%20Pics_Jan%202026/Bella%20Capri.png"
-                        alt="Bella Capri"
-                        className="absolute inset-0 w-full h-full object-cover"
+                      <Image
+                        src="/images_videos/food/Moon River_Food Pics_Jan 2026/Bella Capri.png"
+                        alt="Bella Capri - Italian-inspired dish at Moon River Café"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     </div>
                     <span className="stamp stamp-fresh text-xs">Best Seller</span>
@@ -208,10 +214,12 @@ export default function Home() {
                 <BlurFade delay={0.2} inView>
                   <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
                     <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
-                      <img
-                        src="/images_videos/food/Moon%20River_Food%20Pics_Jan%202026/Regency%20Toast-2.png"
-                        alt="Regency Toast"
-                        className="absolute inset-0 w-full h-full object-cover"
+                      <Image
+                        src="/images_videos/food/Moon River_Food Pics_Jan 2026/Regency Toast-2.png"
+                        alt="Regency Toast - thick-cut brioche French toast with seasonal toppings"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     </div>
                     <span className="stamp stamp-fresh stamp-tilted text-xs">Fresh</span>
@@ -228,10 +236,12 @@ export default function Home() {
                 <BlurFade delay={0.25} inView>
                   <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card sm:col-span-2 md:col-span-1">
                     <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
-                      <img
-                        src="/images_videos/food/Moon%20River_Food%20Pics_Jan%202026/Belgian%20Waffle%20and%20Baron.png"
-                        alt="Belgian Waffle and Baron"
-                        className="absolute inset-0 w-full h-full object-cover"
+                      <Image
+                        src="/images_videos/food/Moon River_Food Pics_Jan 2026/Belgian Waffle and Baron.png"
+                        alt="Belgian Waffle and Baron - crispy Belgian waffle paired with signature Baron coffee"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     </div>
                     <span className="stamp stamp-fresh text-xs">Local Favorite</span>

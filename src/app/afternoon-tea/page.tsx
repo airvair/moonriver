@@ -52,7 +52,7 @@ export default function AfternoonTea() {
         }
       `}</style>
       <SiteHeader />
-      <main className="flex flex-col relative unified-background overflow-hidden min-h-screen">
+      <main id="main-content" className="flex flex-col relative unified-background overflow-hidden min-h-screen">
         {/* Single Viewport Layout */}
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20 sm:py-8" role="main" aria-label="Afternoon Tea Service Information">
 

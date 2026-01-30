@@ -17,7 +17,7 @@ export default function CalendarPage() {
         }
       `}</style>
       <SiteHeader />
-      <main className="flex flex-col min-h-screen unified-background overflow-x-hidden">
+      <main id="main-content" className="flex flex-col min-h-screen unified-background overflow-x-hidden">
         <div className="container mx-auto px-4 py-20 sm:py-28 md:py-32 flex-1">
           <div className="max-w-6xl mx-auto">
             {/* Header Section */}
@@ -46,9 +46,8 @@ export default function CalendarPage() {
                   <iframe
                     src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FNew_York&showTz=0&showCalendars=0&showTabs=0&showTitle=0&title=Moon%20River%20Public%20Calendar&src=Y18zMDFiOWU4YTJiZmQzYWNkYmYxOGI2NTY3NWQ4YWNlNGMwNjk2ZmQ5YmQ4ODFlNDc3ZDA5OTFhZGI5MDcxNGM3QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23b39ddb&color=%230b8043"
                     className="w-full h-full"
+                    title="Moon River Café Events Calendar"
                     style={{ border: 0 }}
-                    frameBorder="0"
-                    scrolling="no"
                   />
                 </div>
 

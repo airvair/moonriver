@@ -19,7 +19,7 @@ export default function ApplyToPerformPage() {
 
       <SiteHeader />
 
-      <main className="flex flex-col unified-background">
+      <main id="main-content" className="flex flex-col unified-background">
         {/* Hero Section */}
         <BlurFade delay={0} duration={0.6}>
           <section className="relative min-h-[35vh] sm:min-h-[40vh] flex flex-col items-center justify-center text-center overflow-hidden">
@@ -68,40 +68,20 @@ export default function ApplyToPerformPage() {
                     </p>
                   </div>
 
-                  {/* Google Form Embed Placeholder */}
+                  {/* Google Form Embed */}
                   <div className="p-4 sm:p-6 md:p-8">
-                    {/*
-                      TODO: Replace this placeholder with your actual Google Form embed.
-
-                      To get the embed URL:
-                      1. Open your Google Form
-                      2. Click "Send" button
-                      3. Click the embed icon (<>)
-                      4. Copy the src URL from the iframe code
-                      5. Replace the placeholder below with:
-
-                      <iframe
-                        src="YOUR_GOOGLE_FORM_EMBED_URL"
-                        width="100%"
-                        height="800"
-                        frameBorder="0"
-                        marginHeight={0}
-                        marginWidth={0}
-                        title="Musician Application Form"
-                        className="rounded-lg"
-                      >
-                        Loading...
-                      </iframe>
-                    */}
-                    <div className="bg-muted/50 rounded-lg sm:rounded-xl p-8 sm:p-12 text-center border-2 border-dashed border-muted-foreground/20 min-h-[300px] sm:min-h-[400px] flex flex-col items-center justify-center">
-                      <p className="text-base sm:text-lg text-muted-foreground font-casual mb-4">
-                        Application Form Coming Soon
-                      </p>
-                      <p className="text-sm text-muted-foreground/70 max-w-md">
-                        We&apos;re setting up our musician application form. In the meantime, feel free
-                        to reach out to us directly at the cafe or through our social media channels.
-                      </p>
-                    </div>
+                    <iframe
+                      src="https://docs.google.com/forms/d/e/1FAIpQLSedOpH9eTGHWAerw212aQ0C54yHcOb6WOd8loO7W-6WnS3FQQ/viewform?embedded=true"
+                      width="100%"
+                      height="872"
+                      frameBorder="0"
+                      marginHeight={0}
+                      marginWidth={0}
+                      title="Musician Application Form"
+                      className="rounded-lg"
+                    >
+                      Loading…
+                    </iframe>
                   </div>
                 </div>
               </BlurFade>
