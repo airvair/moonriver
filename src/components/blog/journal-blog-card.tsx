@@ -2,6 +2,7 @@
 
 import { Coffee, Heart, MapPin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import type { BloggerPost } from "@/lib/types/blogger";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
@@ -158,9 +159,11 @@ export function JournalBlogCard({
                 <div className="relative">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#926F34] to-[#AE8625] p-0.5">
                     <div className="w-full h-full rounded-full bg-[#fdfbf7] flex items-center justify-center overflow-hidden">
-                      <img
+                      <Image
                         src={author.avatar}
                         alt={author.name}
+                        width={32}
+                        height={32}
                         className="w-8 h-8 object-contain"
                       />
                     </div>
@@ -181,11 +184,13 @@ export function JournalBlogCard({
               {/* Image as Polaroid if present */}
               {firstImage && (
                 <div className="mb-5 -mx-2">
-                  <div className="bg-white p-1.5 shadow-md rotate-1 group-hover:rotate-0 transition-transform duration-300">
-                    <img
+                  <div className="bg-white p-1.5 shadow-md rotate-1 group-hover:rotate-0 transition-transform duration-300 relative h-48 sm:h-52">
+                    <Image
                       src={firstImage}
                       alt={post.title}
-                      className="w-full h-48 sm:h-52 object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                     />
                   </div>
                 </div>
@@ -237,7 +242,7 @@ export function JournalBlogCard({
             </div>
 
             {/* Handwritten note decoration */}
-            <div className="absolute bottom-2 left-6 text-xs text-[#926F34]/40 italic font-handwritten">
+            <div className="absolute bottom-2 left-6 text-xs text-[#926F34]/40 italic font-handwritten z-10">
               &ldquo;A story worth sharing...&rdquo;
             </div>
           </div>

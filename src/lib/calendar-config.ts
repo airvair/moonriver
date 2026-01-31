@@ -79,7 +79,7 @@ export function getCalendarId(calendarType: CalendarType = "primary"): string | 
  */
 export function getConfiguredCalendars(): CalendarType[] {
   return Object.entries(CALENDAR_CONFIGS)
-    .filter(([_, config]) => process.env[config.envKey])
+    .filter(([, config]) => process.env[config.envKey])
     .map(([type]) => type as CalendarType);
 }
 

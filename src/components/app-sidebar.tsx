@@ -41,7 +41,7 @@ const mainNavItems = [
 
 const eventsNavItems = [
   { title: "Calendar", href: "/calendar", icon: Calendar },
-  { title: "Afternoon Tea", href: "/afternoon-tea", icon: Coffee },
+  { title: "Private Events", href: "/private-events", icon: Sparkles },
 ]
 
 const discoverNavItems = [

@@ -371,9 +371,9 @@ export default function Home() {
                     </Link>
                   </BlurFade>
 
-                  {/* Afternoon Tea - Featured */}
+                  {/* Private Events - Featured */}
                   <BlurFade delay={0.2} inView>
-                    <Link href="/afternoon-tea" className="group block">
+                    <Link href="/private-events" className="group block">
                       <MagicCard
                         className="h-full rounded-2xl sm:rounded-3xl overflow-hidden"
                         gradientColor="#926F34"
@@ -390,15 +390,15 @@ export default function Home() {
                               <Coffee className="w-6 h-6 sm:w-7 sm:h-7" />
                             </div>
                             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 group-hover:text-primary transition-colors" style={{ fontFamily: 'TanNimbus, sans-serif' }}>
-                              Afternoon Tea
+                              Private Events
                             </h3>
                             <p className="text-sm sm:text-base text-muted-foreground font-casual leading-relaxed max-w-sm">
-                              A classic tiered tea service with fresh pastries, savories, and premium teas
+                              Host your next gathering in our cozy, curated space
                             </p>
                           </div>
 
                           <div className="relative z-10 flex items-center gap-2 text-primary font-medium text-sm sm:text-base group-hover:gap-3 transition-all duration-300">
-                            Reserve Now
+                            Get in Touch
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </div>

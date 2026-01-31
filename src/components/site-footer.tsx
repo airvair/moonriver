@@ -231,8 +231,8 @@ export function SiteFooter() {
                 <Link href="/story" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Our Story
                 </Link>
-                <Link href="/afternoon-tea" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
-                  Afternoon Tea
+                <Link href="/private-events" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
+                  Private Events
                 </Link>
                 <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors text-sm py-1 min-h-[36px] flex items-center">
                   Blog

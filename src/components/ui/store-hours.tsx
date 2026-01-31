@@ -28,16 +28,18 @@ export function StoreHours() {
         const data = await fetchStoreHours();
         setHours(data.hours);
         setTimezone(data.timezone);
+        setCurrentDay(getStoreDay(data.timezone));
       } catch (error) {
         console.error("Failed to fetch hours:", error);
         // Keep default HOURS as fallback
+        setCurrentDay(getStoreDay(timezone));
       } finally {
         setIsLoading(false);
-        setCurrentDay(getStoreDay(timezone));
       }
     }
 
     loadHours();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -109,7 +109,7 @@ export default function BlogPostPage() {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (err) {
+      } catch {
         // User cancelled or error - fall back to clipboard
         await navigator.clipboard.writeText(window.location.href);
         setCopied(true);

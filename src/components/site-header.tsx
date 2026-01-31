@@ -90,8 +90,8 @@ export function SiteHeader() {
                     <ListItem href="/calendar" title="Calendar">
                         Browse all upcoming events.
                     </ListItem>
-                    <ListItem href="/afternoon-tea" title="Afternoon Tea">
-                        Reserve a classic tiered tea service with fresh pastries and savories.
+                    <ListItem href="/private-events" title="Private Events">
+                        Host your next gathering in our curated space.
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>

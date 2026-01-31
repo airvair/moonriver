@@ -8,6 +8,7 @@ import { Calendar, Clock, Play } from "lucide-react";
 import { useState } from "react";
 import { EpisodePlayer } from "./episode-player";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface EpisodeCardProps {
   episode: PodcastEpisode;
@@ -31,10 +32,12 @@ export function EpisodeCard({ episode, className }: EpisodeCardProps) {
           <div className="relative aspect-video rounded-2xl overflow-hidden warm-shadow group cursor-pointer flex-shrink-0"
             onClick={() => setIsPlaying(true)}
           >
-            <img
+            <Image
               src={episode.thumbnailUrl}
               alt={episode.title}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              unoptimized
             />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <div className="bg-primary/90 rounded-full p-6 transform group-hover:scale-110 transition-transform duration-300">
