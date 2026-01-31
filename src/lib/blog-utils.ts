@@ -61,7 +61,15 @@ export function getFirstImage(html: string): string | null {
  * Extract excerpt from HTML content
  */
 export function getExcerpt(html: string, maxLength = 200): string {
-  const text = html.replace(/<[^>]*>/g, "").trim();
+  const text = html
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .trim();
 
   if (text.length <= maxLength) {
     return text;

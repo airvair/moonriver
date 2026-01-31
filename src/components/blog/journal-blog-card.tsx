@@ -35,7 +35,15 @@ export function JournalBlogCard({
 }: JournalBlogCardProps) {
   // Helper to extract excerpt from HTML content
   const getExcerpt = (html: string, maxLength = 180): string => {
-    const text = html.replace(/<[^>]*>/g, "");
+    const text = html
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .trim();
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
 
@@ -73,7 +81,7 @@ export function JournalBlogCard({
 
   // Paper texture styles based on variant
   const paperStyles = {
-    notebook: "bg-gradient-to-br from-white to-[#faf8f3] before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-full before:bg-[repeating-linear-gradient(transparent,transparent_27px,#e5d5c7_27px,#e5d5c7_28px)] before:pointer-events-none",
+    notebook: "bg-gradient-to-br from-white to-[#faf8f3] before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-full before:bg-[repeating-linear-gradient(transparent,transparent_27px,#e5d5c7_27px,#e5d5c7_28px)] before:pointer-events-none before:z-0",
     journal: "bg-gradient-to-br from-[#fdfbf7] to-[#f5f1e8]",
     recipe: "bg-gradient-to-br from-[#fffdf5] to-[#faf6e9] before:content-[''] before:absolute before:inset-0 before:bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(174,134,37,0.03)_10px,rgba(174,134,37,0.03)_20px)] before:pointer-events-none",
     polaroid: "bg-gradient-to-b from-white to-[#fafafa]",
@@ -144,7 +152,7 @@ export function JournalBlogCard({
             </div>
 
             {/* Main Content Area */}
-            <div className="p-7 sm:p-8 flex flex-col flex-grow">
+            <div className="p-7 sm:p-8 flex flex-col flex-grow relative z-10">
               {/* Author Section */}
               <div className="flex items-center gap-3 mb-5">
                 <div className="relative">

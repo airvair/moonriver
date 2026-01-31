@@ -42,3 +42,6 @@ next-env.d.ts
 
 # large video files
 public/images_videos/home/coffee.mp4
+
+CLAUDE.md
+.mcp.json
