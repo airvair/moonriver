@@ -49,7 +49,7 @@ export const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     review: "The most beautiful place Brevard has to offer.\n" +
         "Moon River is a cozy, European-inspired café that perfectly blends great food, an extensive drink selection, and a warm, creative atmosphere.\n" +
-        "More than a café, it’s a true third space—ideal for meeting friends, working, creating, or just unwinding. The real magic? It’s support for local artists.\n" +
+        "More than a café, it's a true third space - ideal for meeting friends, working, creating, or just unwinding. The real magic? It's support for local artists.\n" +
         "The owners’ dedication to curating an enchanting space is evident in every detail.",
     initials: "S",
     // avatar: "/images/testimonials/jane-smith.jpg", // Uncomment when image available

@@ -119,25 +119,6 @@ export default function BlogPage() {
 
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Kalam:wght@300;400;700&display=swap');
-
-        .font-handwriting {
-          font-family: 'Caveat', cursive;
-        }
-
-        .font-journal {
-          font-family: 'Kalam', cursive;
-        }
-      `}</style>
       <SiteHeader />
       <main id="main-content" className="min-h-screen bg-background relative">
 

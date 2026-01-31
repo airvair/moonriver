@@ -214,7 +214,7 @@ export default function OurStory() {
 
               <BlurFade delay={0.15} inView>
                 <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-casual leading-relaxed mb-6 sm:mb-8">
-                  She staged lavish childhood tea parties for me—not the polite sort, but the kind where
+                  She staged lavish childhood tea parties for me - not the polite sort, but the kind where
                   the mismatched china seemed enchanted, the stuffed animals held complicated political
                   alliances, and every cup poured was an invitation to dream a little bigger than the world allowed.
                 </p>
@@ -330,7 +330,7 @@ export default function OurStory() {
                     Step inside. Take a seat.
                   </p>
                   <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground font-casual">
-                    Magic—of the everyday, extraordinary sort—lives here.
+                    Magic - of the everyday, extraordinary sort - lives here.
                   </p>
                 </div>
               </BlurFade>

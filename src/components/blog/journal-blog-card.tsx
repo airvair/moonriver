@@ -137,7 +137,7 @@ export function JournalBlogCard({
             {/* Date Stamp */}
             <div className="absolute top-4 right-4 z-10">
               <div className="bg-[#926F34]/10 backdrop-blur-sm px-3 py-1 rounded-full border border-[#926F34]/20">
-                <span className="text-xs text-[#926F34] font-handwriting">
+                <span className="text-xs text-[#926F34] font-handwritten">
                   {formatDate(post.published)}
                 </span>
               </div>
@@ -229,7 +229,7 @@ export function JournalBlogCard({
             </div>
 
             {/* Handwritten note decoration */}
-            <div className="absolute bottom-2 left-6 text-xs text-[#926F34]/40 italic font-handwriting">
+            <div className="absolute bottom-2 left-6 text-xs text-[#926F34]/40 italic font-handwritten">
               &ldquo;A story worth sharing...&rdquo;
             </div>
           </div>

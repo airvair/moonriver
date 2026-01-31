@@ -20,14 +20,6 @@ export default function AfternoonTea() {
   return (
     <>
       <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
         @keyframes pulse-glow {
           0%, 100% {
             opacity: 0.5;

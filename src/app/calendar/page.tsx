@@ -7,15 +7,6 @@ import { BlurFade } from "@/components/ui/blur-fade";
 export default function CalendarPage() {
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
       <SiteHeader />
       <main id="main-content" className="flex flex-col min-h-screen unified-background overflow-x-hidden">
         <div className="container mx-auto px-4 py-20 sm:py-28 md:py-32 flex-1">

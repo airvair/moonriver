@@ -115,7 +115,7 @@ export function SiteHeader() {
                       Submit fiction, nonfiction, or poetry to our inaugural issue.
                     </ListItem>
                     <ListItem href="/story" title="Our Story">
-                      The journey behind Moon River — a mother-daughter dream.
+                      The journey behind Moon River - a mother-daughter dream.
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>

@@ -34,7 +34,7 @@ const DEFAULT_SIGNATURE_ITEMS = [
   },
   {
     name: "Belgian Waffle & Baron",
-    description: "Crispy Belgian waffle paired with our signature Baron coffee — the perfect brunch combo",
+    description: "Crispy Belgian waffle paired with our signature Baron coffee - the perfect brunch combo",
     image: "/images_videos/food/Moon River_Food Pics_Jan 2026/Belgian Waffle and Baron.png",
     badge: "Local Favorite",
   },
@@ -140,7 +140,7 @@ export default function Home() {
                         rel="noopener noreferrer"
                         className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm lg:text-lg font-medium border border-primary/20 transition-all duration-300 hover:bg-primary/20 hover:scale-105 warm-glow"
                       >
-                        ☕ Best Café in Brevard — Florida Today
+                        ☕ Best Café in Brevard - Florida Today
                       </a>
                       {/* Open/Closed Indicator */}
                       {openStatus && (
@@ -228,7 +228,7 @@ export default function Home() {
                 </BlurFade>
                 <BlurFade delay={0.15} inView>
                   <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground font-casual leading-relaxed mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
-                    Born from a mother-daughter dream and inspired by European cafés, Moon River is more than a coffee shop —
+                    Born from a mother-daughter dream and inspired by European cafés, Moon River is more than a coffee shop -
                     it&apos;s a gathering place for artists, writers, dreamers, and neighbors. A home away from home where
                     every cup poured is an invitation to connect.
                   </p>
@@ -262,21 +262,21 @@ export default function Home() {
                 {isLoadingItems ? (
                   // Loading skeletons
                   [...Array(3)].map((_, index) => (
-                    <BlurFade key={index} delay={0.15 + index * 0.05} inView>
-                      <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card">
+                    <BlurFade key={index} delay={0.15 + index * 0.05} inView className="h-full">
+                      <div className="bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card h-full flex flex-col">
                         <Skeleton className="aspect-square rounded-xl sm:rounded-2xl mb-4 sm:mb-6" />
                         <Skeleton className="h-6 w-24 mb-3" />
                         <Skeleton className="h-7 w-32 mb-2" />
                         <Skeleton className="h-4 w-full" />
-                        <Skeleton className="h-4 w-3/4 mt-1" />
+                        <Skeleton className="h-4 w-3/4 mt-1 flex-1" />
                       </div>
                     </BlurFade>
                   ))
                 ) : (
                   signatureItems.map((item, index) => (
-                    <BlurFade key={item.name} delay={0.15 + index * 0.05} inView>
+                    <BlurFade key={item.name} delay={0.15 + index * 0.05} inView className="h-full">
                       <div className={cn(
-                        "bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card",
+                        "bg-card/95 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 warm-shadow-enhanced vintage-paper cozy-card h-full flex flex-col",
                         index === 2 && "sm:col-span-2 md:col-span-1"
                       )}>
                         <div className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-6">
@@ -297,7 +297,7 @@ export default function Home() {
                         <h3 className="text-xl sm:text-2xl font-handwritten text-primary mt-3 sm:mt-4 mb-2">
                           {item.name}
                         </h3>
-                        <p className="text-sm sm:text-base text-muted-foreground font-casual">
+                        <p className="text-sm sm:text-base text-muted-foreground font-casual flex-1">
                           {item.description}
                         </p>
                       </div>

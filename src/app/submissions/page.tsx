@@ -8,16 +8,6 @@ import { BookOpen, ExternalLink, Feather, FileText, Heart, PenLine, ScrollText, 
 export default function SubmissionsPage() {
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
-
       <SiteHeader />
 
       <main id="main-content" className="flex flex-col unified-background">
@@ -326,7 +316,7 @@ export default function SubmissionsPage() {
                   &ldquo;A word after a word after a word is power.&rdquo;
                 </p>
                 <p className="text-muted-foreground font-casual mt-4 text-sm">
-                  — Margaret Atwood
+                  - Margaret Atwood
                 </p>
               </div>
             </div>

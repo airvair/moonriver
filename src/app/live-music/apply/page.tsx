@@ -7,16 +7,6 @@ import { BlurFade } from "@/components/ui/blur-fade";
 export default function ApplyToPerformPage() {
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
-
       <SiteHeader />
 
       <main id="main-content" className="flex flex-col unified-background">

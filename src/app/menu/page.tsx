@@ -56,15 +56,6 @@ export default function MenuPage() {
   }, []);
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
       <SiteHeader />
       <main id="main-content" className="flex flex-col relative unified-background overflow-x-hidden">
         {/* Hero Section */}

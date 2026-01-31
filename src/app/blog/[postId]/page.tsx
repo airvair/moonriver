@@ -126,14 +126,6 @@ export default function BlogPostPage() {
   return (
     <>
       <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-
         /* Blog content styling - optimized for dark brown background */
         .blog-content {
           line-height: 1.8;

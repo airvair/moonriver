@@ -8,16 +8,6 @@ import { BookOpen, ExternalLink, Feather, FileText, Heart, PenLine, ScrollText }
 export default function PoetryAnthologyPage() {
   return (
     <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'TanNimbus';
-          src: url('/fonts/tan-nimbus.otf') format('opentype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
-
       <SiteHeader />
 
       <main id="main-content" className="flex flex-col unified-background">
@@ -315,7 +305,7 @@ export default function PoetryAnthologyPage() {
                   &ldquo;Poetry is the rhythmical creation of beauty in words.&rdquo;
                 </p>
                 <p className="text-muted-foreground font-casual mt-4 text-sm">
-                  — Edgar Allan Poe
+                  - Edgar Allan Poe
                 </p>
               </div>
             </div>
